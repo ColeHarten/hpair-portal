@@ -9,11 +9,11 @@ import { Link, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import React from "react";
 import firebase from 'firebase/compat/app';
-import { SignInScreen } from './utils/firebase';
 import './App.css';
 import Home from "./Routes/Home";
 import { syncUsers } from "./utils/mutations";
 import AccountMenu from "./components/AccountMenu";
+import SignInScreen from './Routes/SignInScreen';
 import MENU_ITEMS from './constants'
 
 
@@ -24,10 +24,37 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: '#ffffff',
+      main: '#A51C30', // A blue primary color
     },
     secondary: {
-      main: '#A51C30',
+      main: '#000000', // A pink secondary color
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, sans-serif', // Use the Roboto font family
+    h5: {
+      fontSize: '1.5rem', // Customize the font size for h5 typography
+    },
+  },
+  shape: {
+    borderRadius: 10, // Adjust the global border radius
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        textTransform: 'none', // Disable uppercase text transform for buttons
+      },
+    },
+    MuiTextField: {
+      root: {
+        marginBottom: '16px', // Add margin between text fields
+      },
+    },
+    MuiLink: {
+      root: {
+        textDecoration: 'none', // Remove underline from links
+        color: '#1976D2', // Customize link color
+      },
     },
   },
 });

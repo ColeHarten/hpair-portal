@@ -33,7 +33,7 @@ export default function AccountMenu({user, onMenuButtonClick}) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            {!!user?.DisplayName ? 
+            {!!user?.firstName ? 
               <Avatar sx={{ width: 32, height: 32 }}></Avatar> :
               <Avatar sx={{ width: 32, height: 32 }}>{user.displayName[0].toUpperCase()}</Avatar>
             }
