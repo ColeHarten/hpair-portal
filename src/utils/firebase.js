@@ -25,10 +25,10 @@ const uiConfig = {
 	// Popup signin flow rather than redirect flow.
 	signInFlow: 'popup',
 	signInOptions: [
-		// {
-		// 	provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+		{
+			provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
 
-		// },
+		},
       {
          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
          customParameters: {

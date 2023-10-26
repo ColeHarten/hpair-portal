@@ -13,6 +13,9 @@ import { SignInScreen } from './utils/firebase';
 import './App.css';
 import Home from "./Routes/Home";
 import { syncUsers } from "./utils/mutations";
+import AccountMenu from "./components/AccountMenu";
+import MENU_ITEMS from './constants'
+
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1
@@ -29,22 +32,41 @@ const mdTheme = createTheme({
   },
 });
 
+
 export default function App() {
-    // User authentication functionality.
-    const [isSignedIn, setIsSignedIn] = React.useState(false);
-    const [currentUser, setCurrentUser] = React.useState(null);
-    // Listen to the Firebase Auth state and set the local state.
-    React.useEffect(() => {
-      const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-        setIsSignedIn(!!user);
-        if (!!user) {
-          setCurrentUser(user);
-          syncUsers(user);
-        }
-      });
-      return () => unregisterAuthObserver();
-      // Make sure we un-register Firebase observers when the component unmounts.
-    }, []);
+  // User authentication functionality.
+  const [isSignedIn, setIsSignedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState(null);
+  // Listen to the Firebase Auth state and set the local state.
+  React.useEffect(() => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      setIsSignedIn(!!user);
+      if (!!user) {
+        setCurrentUser(user);
+        syncUsers(user);
+      }
+    });
+    return () => unregisterAuthObserver();
+    // Make sure we un-register Firebase observers when the component unmounts.
+  }, []);
+  
+  const handleMenuButtonClick = (buttonCode) => {
+    // Handle button clicks within the menu here
+    switch(buttonCode) {
+      case MENU_ITEMS.PROFILE:
+        console.log("Profile clicked");
+        break;
+      case MENU_ITEMS.ACCOUNT:
+        console.log("Account clicked");
+        break;
+      case MENU_ITEMS.SETTINGS:
+        console.log("Settings clicked");
+        break;
+      case MENU_ITEMS.LOGOUT:
+        firebase.auth().signOut();
+        break;
+    }
+  }
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -74,23 +96,7 @@ export default function App() {
             <Button component={Link} to="/about" color="inherit" style={{ textDecoration: 'none' }}>Board of Advisors</Button>
             <Button component={Link} to="/apply" color="inherit" style={{ textDecoration: 'none' }}>Apply</Button>
               </> : <>
-            <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              Signed in as {currentUser.displayName}!
-            </Typography>
-            <Button
-                variant='text'
-                size='small'
-                color='inherit'
-                sx={{
-                  marginTop: '5px',
-                  marginBottom: '5px',
-                }}
-                onClick={() => {
-                  firebase.auth().signOut()
-                }}
-            >
-              Log out
-            </Button>
+            <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
             </>}
 
           </Toolbar>
