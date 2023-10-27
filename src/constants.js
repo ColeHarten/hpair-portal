@@ -1,8 +1,7 @@
 const MENU_ITEMS = {
-    PROFILE: 1,
-    ACCOUNT: 2,
-    SETTINGS: 3,
-    LOGOUT: 4,
+    SUPPORT: 1,
+    SETTINGS: 2,
+    LOGOUT: 3,
 }
 
 export default MENU_ITEMS;

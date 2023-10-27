@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MENU_ITEMS from '../constants'
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 export default function AccountMenu({user, onMenuButtonClick}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -75,19 +76,15 @@ export default function AccountMenu({user, onMenuButtonClick}) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={(event) => {
-          handleClose();
-          onMenuButtonClick(MENU_ITEMS.PROFILE); // Pass the event to the callback
-        }}>
-          <Avatar /> Profile
-        </MenuItem>
+
         <MenuItem onClick={(event) => {
           handleClose();
           onMenuButtonClick(MENU_ITEMS.ACCOUNT); // Pass the event to the callback
         }}>
-          <Avatar /> My account
+          <ListItemIcon>
+            <SupportAgentIcon />
+          </ListItemIcon> Support
         </MenuItem>
-        <Divider />
         <MenuItem onClick={(event) => {
           handleClose();
           onMenuButtonClick(MENU_ITEMS.SETTINGS); // Pass the event to the callback

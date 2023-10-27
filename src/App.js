@@ -9,14 +9,14 @@ import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
 import firebase from 'firebase/compat/app';
 import './App.css';
-import JoinConf from './Pages/JoinConf';
+import JoinConf from './components/Pages/JoinConf';
 import { getUserData } from "./utils/mutations";
 import AccountMenu from "./components/AccountMenu";
-import SignInScreen from './Pages/SignInScreen';
+import SignInScreen from './components/Pages/SignInScreen';
 import MENU_ITEMS from './constants'
-import ConfPage from './Pages/ConfPage';
+import ConfPage from './components/Pages/ConfPage';
 import { addConferenceCode } from "./utils/mutations";
-import {sha1} from 'crypto-hash';
+
 
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
@@ -94,33 +94,7 @@ export default function App() {
     return () => unregisterAuthObserver();
   }, [navigate]);
 
-  // validate conference codes
-  const validateConferenceCode = async (conferenceCode, email) => {
-    // check if conference code is valid
-    let result = await sha1(email);
-    // if the user input matches the last 6 characters of the sha1 hash of their email
-    // then it is valid
-    console.log(result.slice(-6))
 
-    // This is not deterministic but the probability of collision is ~1/(16^6)
-    // ! WE MAY WANT TO CHECK THAT THIS IS NOT VISIBLE TO USER
-    return (result.slice(-6) === conferenceCode.slice(-6)) && 
-            conferenceCode.slice(0, 6) === "CONF24";
-  }
-
-  // on submit click
-  const handleJoinConf = async (conferenceCode) => {
-    // add conference code to user doc
-    let isValid = await validateConferenceCode(conferenceCode, currentUser.email)
-    if(isValid){
-      // add conference code to user doc
-      addConferenceCode(currentUser, conferenceCode);
-      // redirect to the conference page
-      setConferenceID(conferenceCode);
-    } else{
-      alert("Invalid Conference Code. Please verify code entered and remember that you must use the same email you used to register for the conference. If you are still having issues, please reach out to conference support.")
-    }
-  }
 
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
@@ -144,7 +118,7 @@ export default function App() {
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
-        <AppBar position="fixed"> {/* Use "fixed" for a fixed app bar */}
+        <AppBar position="fixed">
           <Toolbar>
             <Typography
               component={Link}
@@ -172,6 +146,8 @@ export default function App() {
                   Apply
                 </Button>
               </>
+            ) : !conferenceID ? (
+              <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
             ) : (
               <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
             )}
@@ -180,7 +156,7 @@ export default function App() {
         <Box sx={{ marginTop: '64px' }}>
           <Routes>
             <Route path="/signin" element={!isSignedIn ? <SignInScreen /> : <Navigate to="/join-conference" />} />
-            <Route path="/join-conference" element={isSignedIn && !conferenceID ? <JoinConf handleJoinConf={handleJoinConf} /> : <Navigate to={`/conference/${conferenceID}`} />} />
+            <Route path="/join-conference" element={isSignedIn && !conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />} />
             <Route path="/conference/:confID" element={isSignedIn && !!conferenceID ? <ConfPage user={currentUser}/> : <Navigate to="/join-conference" />} />
             <Route path="/" element={<Navigate to="/signin" />} />
           </Routes>
