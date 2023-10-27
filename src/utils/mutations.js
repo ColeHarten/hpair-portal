@@ -1,10 +1,21 @@
-import { addDoc, arrayRemove, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where, arrayUnion, serverTimestamp, increment } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from './firebase';
 
-export async function syncUsers(user) {
+// mutation to add conference code to user doc
+export async function addConferenceCode(user, conferenceCode) {
    const userRef = doc(db, 'users', user.uid);
-   const data = {
-      email: user.email
+   await updateDoc(userRef, {
+      conferenceCode: conferenceCode
+   });
+}
+
+// mutation to get user data
+export async function getUserData(user) {
+   const userRef = doc(db, 'users', user.uid);
+   const userDoc = await getDoc(userRef);
+   if (userDoc.exists()) {
+      return userDoc.data();
+   } else {
+      return null;
    }
-   await setDoc(userRef, data, { merge: true });
 }

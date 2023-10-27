@@ -5,16 +5,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
 import firebase from 'firebase/compat/app';
 import './App.css';
-import Home from "./Routes/Home";
-import { syncUsers } from "./utils/mutations";
+import JoinConf from './Pages/JoinConf';
+import { getUserData } from "./utils/mutations";
 import AccountMenu from "./components/AccountMenu";
-import SignInScreen from './Routes/SignInScreen';
+import SignInScreen from './Pages/SignInScreen';
 import MENU_ITEMS from './constants'
+import ConfPage from './Pages/ConfPage';
+import { addConferenceCode } from "./utils/mutations";
+import {sha1} from 'crypto-hash';
 
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
@@ -64,19 +66,62 @@ export default function App() {
   // User authentication functionality.
   const [isSignedIn, setIsSignedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState(null);
+
+  const [conferenceID, setConferenceID] = React.useState(null);
+
+  const navigate = useNavigate();
+
   // Listen to the Firebase Auth state and set the local state.
+  // This is called on sign in and sign out.
+  // If the user is already in a conference, redirect them to the conference page
   React.useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
       setIsSignedIn(!!user);
-      if (!!user) {
+      if (user) {
         setCurrentUser(user);
-        syncUsers(user);
+        const data = await getUserData(user);
+        if (data?.conferenceCode) {
+          const conferenceCode = data.conferenceCode.slice(0, 6);
+          setConferenceID(conferenceCode);
+          navigate(`/conference/${conferenceCode}`);
+        }
+      } else {
+        setCurrentUser(null);
+        setConferenceID(null);
+        navigate('/signin');
       }
     });
     return () => unregisterAuthObserver();
-    // Make sure we un-register Firebase observers when the component unmounts.
-  }, []);
-  
+  }, [navigate]);
+
+  // validate conference codes
+  const validateConferenceCode = async (conferenceCode, email) => {
+    // check if conference code is valid
+    let result = await sha1(email);
+    // if the user input matches the last 6 characters of the sha1 hash of their email
+    // then it is valid
+    console.log(result.slice(-6))
+
+    // This is not deterministic but the probability of collision is ~1/(16^6)
+    // ! WE MAY WANT TO CHECK THAT THIS IS NOT VISIBLE TO USER
+    return (result.slice(-6) === conferenceCode.slice(-6)) && 
+            conferenceCode.slice(0, 6) === "CONF24";
+  }
+
+  // on submit click
+  const handleJoinConf = async (conferenceCode) => {
+    // add conference code to user doc
+    let isValid = await validateConferenceCode(conferenceCode, currentUser.email)
+    if(isValid){
+      // add conference code to user doc
+      addConferenceCode(currentUser, conferenceCode);
+      // redirect to the conference page
+      setConferenceID(conferenceCode);
+    } else{
+      alert("Invalid Conference Code. Please verify code entered and remember that you must use the same email you used to register for the conference. If you are still having issues, please reach out to conference support.")
+    }
+  }
+
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
     switch(buttonCode) {
@@ -91,21 +136,16 @@ export default function App() {
         break;
       case MENU_ITEMS.LOGOUT:
         firebase.auth().signOut();
+        navigate('/signin')
         break;
     }
   }
 
   return (
     <ThemeProvider theme={mdTheme}>
-    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Router>
-        <AppBar position="absolute">
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
+        <AppBar position="fixed"> {/* Use "fixed" for a fixed app bar */}
+          <Toolbar>
             <Typography
               component={Link}
               to="https://www.hpair.org"
@@ -117,22 +157,34 @@ export default function App() {
             >
               HPAIR
             </Typography>
-            {!isSignedIn ? <> 
-            <Button component={Link} to="https://www.hpair.org" color="inherit" style={{ textDecoration: 'none' }}>Home</Button>
-            <Button component={Link} to="/about" color="inherit" style={{ textDecoration: 'none' }}>About Us</Button>
-            <Button component={Link} to="/about" color="inherit" style={{ textDecoration: 'none' }}>Board of Advisors</Button>
-            <Button component={Link} to="/apply" color="inherit" style={{ textDecoration: 'none' }}>Apply</Button>
-              </> : <>
-            <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
-            </>}
-
+            {!isSignedIn ? (
+              <>
+                <Button component={Link} to="https://www.hpair.org" color="inherit" style={{ textDecoration: 'none' }}>
+                  Home
+                </Button>
+                <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
+                  About Us
+                </Button>
+                <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
+                  Board of Advisors
+                </Button>
+                <Button component={Link} to="https://www.hpair.org/apply" color="inherit" style={{ textDecoration: 'none' }}>
+                  Apply
+                </Button>
+              </>
+            ) : (
+              <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
+            )}
           </Toolbar>
         </AppBar>
-        {isSignedIn ?
-        (<Routes>
-          <Route path="/" element={<Home user={currentUser} />} />
-        </Routes>) : (<SignInScreen />)}
-      </Router>
-    </Box>
-  </ThemeProvider>);
+        <Box sx={{ marginTop: '64px' }}>
+          <Routes>
+            <Route path="/signin" element={!isSignedIn ? <SignInScreen /> : <Navigate to="/join-conference" />} />
+            <Route path="/join-conference" element={isSignedIn && !conferenceID ? <JoinConf handleJoinConf={handleJoinConf} /> : <Navigate to={`/conference/${conferenceID}`} />} />
+            <Route path="/conference/:confID" element={isSignedIn && !!conferenceID ? <ConfPage user={currentUser}/> : <Navigate to="/join-conference" />} />
+            <Route path="/" element={<Navigate to="/signin" />} />
+          </Routes>
+        </Box>
+    </ThemeProvider>
+  );
 }
