@@ -15,8 +15,6 @@ import AccountMenu from "./components/AccountMenu";
 import SignInScreen from './components/Pages/SignInScreen';
 import MENU_ITEMS from './constants'
 import ConfPage from './components/Pages/ConfPage';
-import { addConferenceCode } from "./utils/mutations";
-
 
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
@@ -99,12 +97,6 @@ export default function App() {
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
     switch(buttonCode) {
-      case MENU_ITEMS.PROFILE:
-        console.log("Profile clicked");
-        break;
-      case MENU_ITEMS.ACCOUNT:
-        console.log("Account clicked");
-        break;
       case MENU_ITEMS.SETTINGS:
         console.log("Settings clicked");
         break;
