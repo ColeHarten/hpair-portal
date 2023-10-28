@@ -79,7 +79,7 @@ export default function AccountMenu({user, onMenuButtonClick}) {
 
         <MenuItem onClick={(event) => {
           handleClose();
-          onMenuButtonClick(MENU_ITEMS.ACCOUNT); // Pass the event to the callback
+          onMenuButtonClick(MENU_ITEMS.SUPPORT); // Pass the event to the callback
         }}>
           <ListItemIcon>
             <SupportAgentIcon />

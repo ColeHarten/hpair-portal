@@ -9,13 +9,13 @@ import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
 import firebase from 'firebase/compat/app';
 import './App.css';
-import JoinConf from './components/Pages/JoinConf';
+import JoinConf from './Pages/JoinConf';
 import { getUserData } from "./utils/mutations";
 import AccountMenu from "./components/AccountMenu";
-import SignInScreen from './components/Pages/SignInScreen';
+import SignInScreen from './Pages/SignInScreen';
 import MENU_ITEMS from './constants'
-import ConfPage from './components/Pages/ConfPage';
-
+import ConfPage from './Pages/ConfPage';
+import SupportModal from './components/SupportModal';
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1
@@ -67,6 +67,8 @@ export default function App() {
 
   const [conferenceID, setConferenceID] = React.useState(null);
 
+  const [supportOpen, setSupportOpen] = React.useState(false);
+
   const navigate = useNavigate();
 
   // Listen to the Firebase Auth state and set the local state.
@@ -92,11 +94,13 @@ export default function App() {
     return () => unregisterAuthObserver();
   }, [navigate]);
 
-
-
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
     switch(buttonCode) {
+      case MENU_ITEMS.SUPPORT:
+        console.log("Support clicked");
+        setSupportOpen(true);
+        break;
       case MENU_ITEMS.SETTINGS:
         console.log("Settings clicked");
         break;
@@ -146,6 +150,7 @@ export default function App() {
           </Toolbar>
         </AppBar>
         <Box sx={{ marginTop: '64px' }}>
+          <SupportModal open={supportOpen} onClose={()=>{setSupportOpen(false)}} />
           <Routes>
             <Route path="/signin" element={!isSignedIn ? <SignInScreen /> : <Navigate to="/join-conference" />} />
             <Route path="/join-conference" element={isSignedIn && !conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />} />
