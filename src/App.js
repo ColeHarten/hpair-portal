@@ -11,7 +11,7 @@ import React from "react";
 import './App.css';
 import JoinConf from './Pages/JoinConf';
 import { getUserData } from "./utils/mutations";
-import AccountMenu from "./components/AccountMenu";
+import MenuBar from './components/MenuBar';
 import SignInScreen from './Pages/SignInScreen';
 import MENU_ITEMS from './constants'
 import ConfPage from './Pages/ConfPage';
@@ -99,7 +99,6 @@ export default function App() {
     // Handle button clicks within the menu here
     switch(buttonCode) {
       case MENU_ITEMS.SUPPORT:
-        console.log("Support clicked");
         setSupportOpen(true);
         break;
       case MENU_ITEMS.SETTINGS:
@@ -115,41 +114,7 @@ export default function App() {
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
-        <AppBar position="fixed">
-          <Toolbar>
-            <Typography
-              component={Link}
-              to="https://www.hpair.org"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-              style={{ textDecoration: 'none' }}
-            >
-              HPAIR
-            </Typography>
-            {!isSignedIn ? (
-              <>
-                <Button component={Link} to="https://www.hpair.org" color="inherit" style={{ textDecoration: 'none' }}>
-                  Home
-                </Button>
-                <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
-                  About Us
-                </Button>
-                <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
-                  Board of Advisors
-                </Button>
-                <Button component={Link} to="https://www.hpair.org/apply" color="inherit" style={{ textDecoration: 'none' }}>
-                  Apply
-                </Button>
-              </>
-            ) : !conferenceID ? (
-              <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
-            ) : (
-              <AccountMenu user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
-            )}
-          </Toolbar>
-        </AppBar>
+        <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={isSignedIn}/>
         <Box sx={{ marginTop: '64px' }}>
           <SupportModal open={supportOpen} onClose={()=>{setSupportOpen(false)}} />
           <Routes>
