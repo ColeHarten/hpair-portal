@@ -1,5 +1,5 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from './firebase';
+import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
 
 // mutation to add conference code to user doc
 export async function addConferenceCode(user, conferenceCode) {
@@ -8,6 +8,13 @@ export async function addConferenceCode(user, conferenceCode) {
       conferenceCode: conferenceCode
    });
 }
+
+
+// Define a function to check if a document exists
+export async function isValidConfCode(conferenceCode) {
+   const validCodes = ["CONF24"]
+   return validCodes.includes(conferenceCode);
+ }
 
 // mutation to get user data
 export async function getUserData(user) {
