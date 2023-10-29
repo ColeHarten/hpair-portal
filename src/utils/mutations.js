@@ -12,8 +12,9 @@ export async function addConferenceCode(user, conferenceCode) {
 
 // Define a function to check if a document exists
 export async function isValidConfCode(conferenceCode) {
-   const validCodes = ["CONF24"]
-   return validCodes.includes(conferenceCode);
+   const confRef = doc(db, 'conferences', conferenceCode);
+   const confDoc = await getDoc(confRef);
+   return confDoc.exists();
  }
 
 // mutation to get user data
