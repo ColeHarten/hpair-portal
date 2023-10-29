@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import AccountMenu from "./AccountMenu";
 import { styled } from '@mui/material/styles';
 
+// Description: This component is the menu bar that is displayed at the top of the page.
+//              It is used in the App component.
+// Props: user, isSignedIn, onMenuButtonClick
+//        user is the current user
+//        isSignedIn is a boolean that determines whether the user is signed in or not
+//        onMenuButtonClick is a function that is called when the menu button is clicked
+
 export default function MenuBar({ user, isSignedIn, onMenuButtonClick }) {
   const CustomAppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
