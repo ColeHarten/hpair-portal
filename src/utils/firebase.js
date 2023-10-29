@@ -1,7 +1,5 @@
-// Import the functions you need from the SDKs
-import { initializeApp } from 'firebase/app';
-import { getAuth, EmailAuthProvider } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,10 +12,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
 // Export Firestore database
-export const db = getFirestore(app);
+export const db = firebase.getFirestore(app);
+export const auth = firebase.getAuth(app);
 
 // Configure FirebaseUI (if needed)
 const uiConfig = {
@@ -25,7 +24,7 @@ const uiConfig = {
   signInFlow: 'popup',
   signInOptions: [
     {
-      provider: EmailAuthProvider.PROVIDER_ID,
+      provider: firebase.EmailAuthProvider.PROVIDER_ID,
     },
   ],
 };

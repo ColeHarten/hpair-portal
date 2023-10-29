@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
-import firebase from 'firebase/compat/app';
+// import firebase from 'firebase/compat/app';
 import './App.css';
 import JoinConf from './Pages/JoinConf';
 import { getUserData } from "./utils/mutations";
@@ -16,6 +16,7 @@ import SignInScreen from './Pages/SignInScreen';
 import MENU_ITEMS from './constants'
 import ConfPage from './Pages/ConfPage';
 import SupportModal from './components/SupportModal';
+import { auth } from './utils/firebase';
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1
@@ -75,7 +76,7 @@ export default function App() {
   // This is called on sign in and sign out.
   // If the user is already in a conference, redirect them to the conference page
   React.useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+    const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsSignedIn(!!user);
       if (user) {
         setCurrentUser(user);
@@ -105,7 +106,7 @@ export default function App() {
         console.log("Settings clicked");
         break;
       case MENU_ITEMS.LOGOUT:
-        firebase.auth().signOut();
+        auth.signOut();
         navigate('/signin')
         break;
     }
