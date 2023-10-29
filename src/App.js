@@ -17,7 +17,7 @@ import MENU_ITEMS from './constants'
 import ConfPage from './Pages/ConfPage';
 import SupportModal from './components/SupportModal';
 import { auth } from './utils/firebase';
-
+import { syncUsers } from './utils/mutations';
 
 
 const mdTheme = createTheme({
@@ -78,6 +78,7 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
+        syncUsers(user);
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {

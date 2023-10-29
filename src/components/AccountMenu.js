@@ -36,7 +36,7 @@ export default function AccountMenu({user, onMenuButtonClick}) {
           >
             {!!user?.firstName ? 
               <Avatar sx={{ width: 32, height: 32 }}></Avatar> :
-              <Avatar sx={{ width: 32, height: 32 }}>{user.displayName[0].toUpperCase()}</Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}>{user.displayName.slice(0,1).toUpperCase()}</Avatar>
             }
           </IconButton>
         </Tooltip>

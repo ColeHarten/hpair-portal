@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 
 // mutation to add conference code to user doc
 export async function addConferenceCode(user, conferenceCode) {
@@ -9,6 +9,18 @@ export async function addConferenceCode(user, conferenceCode) {
    });
 }
 
+// Synchronize users table upon login
+export async function syncUsers(user) {
+	const userRef = doc(db, 'users', user.uid)
+	// If the user does not have an existing entry in the users table, then create it
+   const userDoc = await getDoc(userRef)
+   if (!userDoc.exists()) {
+      await setDoc(userRef, {
+         email: user.email,
+         displayName: user.displayName,
+      })
+   }
+}
 
 // Define a function to check if a document exists
 export async function isValidConfCode(conferenceCode) {
