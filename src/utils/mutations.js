@@ -1,11 +1,16 @@
 import { db } from './firebase';
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, getDocs, setDoc, serverTimestamp } from 'firebase/firestore';
+import { arrayUnion } from 'firebase/firestore';
 
 // mutation to add conference code to user doc
 export async function addConferenceCode(user, conferenceCode) {
    const userRef = doc(db, 'users', user.uid);
    await updateDoc(userRef, {
-      conferenceCode: conferenceCode
+      conferenceCode: conferenceCode,
+      paymentTime: serverTimestamp(),
+   });
+   await updateDoc(doc(db, 'conferences', conferenceCode), {
+      attendees: arrayUnion(user.uid),
    });
 }
 
@@ -19,7 +24,7 @@ export async function syncUsers(user) {
          email: user.email,
          displayName: user.displayName,
       })
-   }
+   } 
 }
 
 // Define a function to check if a document exists

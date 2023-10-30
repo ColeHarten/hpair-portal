@@ -18,6 +18,7 @@ import ConfPage from './Pages/ConfPage';
 import SupportModal from './components/SupportModal';
 import { auth } from './utils/firebase';
 import { syncUsers } from './utils/mutations';
+import SettingsPage from './Pages/Settings';
 
 
 const mdTheme = createTheme({
@@ -77,14 +78,18 @@ export default function App() {
   React.useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
-      if (user) {
+      if (!!user) {
         syncUsers(user);
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
-          navigate(`/conference/${conferenceCode}`);
+      
+          // Check if the current location is not a conference page to avoid redirection
+          if (window.location.pathname.startsWith('/join-conference') || window.location.pathname.startsWith('/signin')) {
+            navigate(`/conference/${conferenceCode}`);
+          }
         }
       } else {
         setCurrentUser(null);
@@ -103,7 +108,7 @@ export default function App() {
         setSupportOpen(true);
         break;
       case MENU_ITEMS.SETTINGS:
-        console.log("Settings clicked");
+        navigate('/settings');
         break;
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
@@ -123,6 +128,7 @@ export default function App() {
             <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
             <Route path="/join-conference" element={!!currentUser && !conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />} />
             <Route path="/conference/:confID" element={!!currentUser && !!conferenceID ? <ConfPage user={currentUser}/> : <Navigate to="/join-conference" />} />
+            <Route path='/settings' element={!!currentUser && !!conferenceID ? <SettingsPage user={currentUser}/> : <Navigate to="/join-conference" />} />
             <Route path="/" element={<Navigate to="/signin" />} />
           </Routes>
           )}

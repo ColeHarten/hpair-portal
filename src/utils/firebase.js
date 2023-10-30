@@ -20,6 +20,23 @@ const app = firebase.initializeApp(firebaseConfig);
 export const db = app.firestore();
 export const auth = app.auth();
 
+
+// Reauthentication function
+async function reauthenticateWithPassword(user, oldPassword) {
+  const credentials = EmailAuthProvider.credential(user.email, oldPassword); // Corrected usage
+  await user.reauthenticateWithCredential(credentials);
+  return credentials;
+}
+
+// Password update function
+async function updatePassword(user, newPassword) {
+  await user.updatePassword(newPassword);
+}
+
+export const useAuth = () => {
+  return { reauthenticateWithPassword, updatePassword };
+}
+
 // Configure FirebaseUI (if needed)
 const uiConfig = {
   // Popup signin flow rather than redirect flow.

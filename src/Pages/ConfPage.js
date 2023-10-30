@@ -20,7 +20,7 @@ export default function ConfPage({user}) {
         // set up home screen
         <Box>
           <Typography variant="h1">Welcome to HPAIR</Typography>
-          <Typography variant="h3">Please scan your QR code to sign in</Typography>
+          <Typography variant="h3">Here is your QR code!</Typography>
           <Box>{qrcode}</Box>
         </Box>
       );
