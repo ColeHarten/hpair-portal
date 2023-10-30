@@ -62,10 +62,14 @@ function SignIn({ onSignUpClick }) {
         />
         <Button variant="contained" onClick={handleSignIn}>Sign In</Button>
         <Typography>
-          <a href="#" onClick={onSignUpClick}>Sign Up</a> | 
-          <Link component="button" variant="body2" onClick={handleForgotPassword}>
-            Forgot Password?
-          </Link>
+        <Box>
+            <Link component="button" variant="body2" onClick={onSignUpClick}>
+              Sign Up
+            </Link>{" | "}
+            <Link component="button" variant="body2" onClick={handleForgotPassword}>
+              Forgot Password?
+            </Link>
+          </Box>
         </Typography>
       </Box>
     );

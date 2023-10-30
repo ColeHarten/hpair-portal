@@ -19,7 +19,7 @@ import SupportModal from './components/SupportModal';
 import { auth } from './utils/firebase';
 import { syncUsers } from './utils/mutations';
 import SettingsPage from './Pages/Settings';
-
+import { useEffect } from 'react';
 
 const mdTheme = createTheme({
   palette: {
@@ -74,8 +74,7 @@ export default function App() {
 
   // Listen to the Firebase Auth state and set the local state.
   // This is called on sign in and sign out.
-  // If the user is already in a conference, redirect them to the conference page
-  React.useEffect(() => {
+  useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (!!user) {
@@ -85,21 +84,53 @@ export default function App() {
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
-      
-          // Check if the current location is not a conference page to avoid redirection
-          if (window.location.pathname.startsWith('/join-conference') || window.location.pathname.startsWith('/signin')) {
-            navigate(`/conference/${conferenceCode}`);
           }
-        }
       } else {
         setCurrentUser(null);
         setConferenceID(null);
-        navigate('/signin');
       }
       setIsLoading(false);
     });
     return () => unregisterAuthObserver();
+  }, []);
+
+  
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Store the current route in localStorage
+      localStorage.setItem('lastRoute', window.location.pathname);
+    };
+
+    // Attach the beforeunload event listener
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    // Check if there's a stored route in localStorage
+    const lastRoute = localStorage.getItem('lastRoute');
+
+    if (lastRoute) {
+      // Navigate to the last visited route when the component mounts
+      navigate(lastRoute);
+    }
   }, [navigate]);
+
+  useEffect(() => {
+    // Update the stored route in localStorage when the user navigates to a new route
+    const unlisten = navigate((location) => {
+      localStorage.setItem('lastRoute', location.pathname);
+    });
+
+    return unlisten;
+  }, [navigate]);
+
+
 
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
@@ -120,19 +151,22 @@ export default function App() {
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
-        <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser}/>
-        <Box sx={{ marginTop: '64px' }}>
-          <SupportModal open={supportOpen} onClose={()=>{setSupportOpen(false)}} />
-          {isLoading ? <Typography>Loading...</Typography> : (
+      <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
+      <Box sx={{ marginTop: '64px' }}>
+        <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
+        {isLoading ? <Typography>Loading...</Typography> : (
           <Routes>
             <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
-            <Route path="/join-conference" element={!!currentUser && !conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />} />
-            <Route path="/conference/:confID" element={!!currentUser && !!conferenceID ? <ConfPage user={currentUser}/> : <Navigate to="/join-conference" />} />
-            <Route path='/settings' element={!!currentUser && !!conferenceID ? <SettingsPage user={currentUser}/> : <Navigate to="/join-conference" />} />
-            <Route path="/" element={<Navigate to="/signin" />} />
+            <Route path="/join-conference" element={currentUser ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to="/signin" />} />
+            <Route
+              path="/conference/:confID"
+              element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
+            />
+            <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} />
+            <Route index element={<Navigate to="/signin" />} />
           </Routes>
-          )}
-        </Box>
+        )}
+      </Box>
     </ThemeProvider>
   );
 }

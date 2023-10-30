@@ -1,6 +1,31 @@
 import React, { useState } from "react";
 import { Typography, Paper, TextField, Button, FormControl } from "@mui/material";
-import { useAuth } from '../utils/firebase'; // Import the auth functions from your Firebase module
+import { useAuth } from '../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { getUserData } from "../utils/mutations";
+
+const styles = {
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    maxWidth: "400px",
+    margin: "auto",
+  },
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  submitButton: {
+    marginTop: "20px",
+  },
+  backButton: {
+    marginTop: "10px",
+    backgroundColor: "lightgray", // Customize the background color
+  },
+};
 
 export default function SettingsPage({ user }) {
   const [oldPassword, setOldPassword] = useState("");
@@ -8,26 +33,36 @@ export default function SettingsPage({ user }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const { reauthenticateWithPassword, updatePassword } = useAuth(); // Use the auth functions from your Firebase module
+  const { reauthenticateWithPassword, updatePassword } = useAuth();
+  const navigate = useNavigate();
 
   const handleChangePassword = async () => {
     try {
       if (newPassword === confirmPassword) {
-        const credentials = await reauthenticateWithPassword(user, oldPassword); // Reauthenticate the user
-        await updatePassword(user, newPassword); // Update the password
-        // Password changed successfully
+        const credentials = await reauthenticateWithPassword(user, oldPassword);
+        await updatePassword(user, newPassword);
         console.log("Password changed successfully");
         setError(null);
       } else {
         alert("New passwords do not match.");
       }
     } catch (error) {
-      alert("Please verify your old password is correct.")
+      alert("Please verify your old password is correct.");
     }
   };
 
+  const onBack = async () => {
+  //  if use is in a confernece redirec to their conference pagez
+    const data = await getUserData(user);
+    if (!!data.conferenceCode) {
+      navigate(`/conference/${data.conferenceCode}`);
+    } else {
+      navigate(`/join-conference`);
+    }
+  }
+
   return (
-    <Paper elevation={3} style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+    <Paper elevation={3} style={styles.paper}>
       <Typography variant="h4">Change Password</Typography>
       <FormControl>
         <TextField
@@ -58,14 +93,24 @@ export default function SettingsPage({ user }) {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         {error && <Typography variant="body2" color="error">{error}</Typography>}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleChangePassword}
-          style={{ marginTop: "20px" }}
-        >
-          Change Password
-        </Button>
+        <div style={styles.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleChangePassword}
+            style={styles.submitButton}
+          >
+            Change Password
+          </Button>
+          <Button
+            variant="contained"
+            color="primary" // Customize the background color
+            style={styles.backButton}
+            onClick={onBack}
+          >
+            Return to Sign In
+          </Button>
+        </div>
       </FormControl>
     </Paper>
   );

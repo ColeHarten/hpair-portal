@@ -4,7 +4,7 @@ import QRCodeCanvas from "qrcode.react";
 
 
 export default function ConfPage({user}) {
-    const confId = useParams().confID;
+    const confID = useParams().confID;
 
     const qrcode = (
         <QRCodeCanvas
@@ -19,7 +19,7 @@ export default function ConfPage({user}) {
       return (
         // set up home screen
         <Box>
-          <Typography variant="h1">Welcome to HPAIR</Typography>
+          <Typography variant="h1">Welcome to HPAIR {confID} conference</Typography>
           <Typography variant="h3">Here is your QR code!</Typography>
           <Box>{qrcode}</Box>
         </Box>
