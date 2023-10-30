@@ -84,7 +84,12 @@ export default function App() {
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
+          
+          // Redirect to the conference page unless on the settings page
+          if (window.location.pathname !== '/settings') {
+            navigate(`/conference/${conferenceCode}`);
           }
+        } 
       } else {
         setCurrentUser(null);
         setConferenceID(null);
@@ -93,6 +98,7 @@ export default function App() {
     });
     return () => unregisterAuthObserver();
   }, []);
+  
 
   
   useEffect(() => {
@@ -157,7 +163,7 @@ export default function App() {
         {isLoading ? <Typography>Loading...</Typography> : (
           <Routes>
             <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
-            <Route path="/join-conference" element={currentUser ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to="/signin" />} />
+            <Route path="/join-conference" element={currentUser ? (!conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />) : <Navigate to="/signin" />} />
             <Route
               path="/conference/:confID"
               element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
