@@ -34,9 +34,9 @@ export default function AccountMenu({user, onMenuButtonClick}) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            {!!user?.firstName ? 
+            {!user?.displayName ? 
               <Avatar sx={{ width: 32, height: 32 }}></Avatar> :
-              <Avatar sx={{ width: 32, height: 32 }}>{user.displayName.slice(0,1).toUpperCase()}</Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}>{user?.displayName.slice(0,1).toUpperCase()}</Avatar>
             }
           </IconButton>
         </Tooltip>

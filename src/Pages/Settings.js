@@ -108,7 +108,7 @@ export default function SettingsPage({ user }) {
             style={styles.backButton}
             onClick={onBack}
           >
-            Return to Sign In
+            Return
           </Button>
         </div>
       </FormControl>

@@ -20,6 +20,7 @@ import { auth } from './utils/firebase';
 import { syncUsers } from './utils/mutations';
 import SettingsPage from './Pages/Settings';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const mdTheme = createTheme({
   palette: {
@@ -63,11 +64,8 @@ const mdTheme = createTheme({
 export default function App() {
   // User authentication functionality.
   const [currentUser, setCurrentUser] = React.useState(null);
-
   const [conferenceID, setConferenceID] = React.useState(null);
-
   const [supportOpen, setSupportOpen] = React.useState(false);
-
   const [isLoading, setIsLoading] = React.useState(false);
 
   const navigate = useNavigate();
@@ -77,66 +75,29 @@ export default function App() {
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
-      if (!!user) {
+      if (user) {
         syncUsers(user);
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
-          
-          // Redirect to the conference page unless on the settings page
-          if (window.location.pathname !== '/settings') {
-            navigate(`/conference/${conferenceCode}`);
-          }
-        } 
+          // Redirect to the conference page upon successful sign-up
+          navigate(`/conference/${conferenceCode}`);
+        } else {
+          // Redirect to the join-conference page upon successful sign-up
+          navigate('/join-conference');
+        }
       } else {
         setCurrentUser(null);
         setConferenceID(null);
+        navigate('/signin');
       }
       setIsLoading(false);
     });
     return () => unregisterAuthObserver();
   }, []);
   
-
-  
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      // Store the current route in localStorage
-      localStorage.setItem('lastRoute', window.location.pathname);
-    };
-
-    // Attach the beforeunload event listener
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      // Clean up the event listener when the component unmounts
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-
-  useEffect(() => {
-    // Check if there's a stored route in localStorage
-    const lastRoute = localStorage.getItem('lastRoute');
-
-    if (lastRoute) {
-      // Navigate to the last visited route when the component mounts
-      navigate(lastRoute);
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-    // Update the stored route in localStorage when the user navigates to a new route
-    const unlisten = navigate((location) => {
-      localStorage.setItem('lastRoute', location.pathname);
-    });
-
-    return unlisten;
-  }, [navigate]);
-
-
 
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
@@ -169,7 +130,7 @@ export default function App() {
               element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
             />
             <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} />
-            <Route index element={<Navigate to="/signin" />} />
+            <Route exact index element={<Navigate to="/signin" />} />
           </Routes>
         )}
       </Box>
