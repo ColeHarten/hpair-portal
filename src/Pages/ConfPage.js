@@ -1,4 +1,5 @@
-import { Typography, Box } from "@mui/material";
+import React from 'react';
+import { Typography, Box, Paper, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import QRCodeCanvas from "qrcode.react";
 
@@ -16,11 +17,27 @@ export default function ConfPage({ user }) {
   );
 
   return (
-    <Box>
-      <Typography variant="h1">Welcome to HPAIR {confID} conference</Typography>
-      <Typography variant="h3">Here is your QR code!</Typography>
-      <Box>{qrcode}</Box>
-      <img src="../../../HCONF-2024-Banner.png" alt="Your Image Description" />
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      padding={2}
+    >
+      <Paper elevation={3}>
+        <Box p={3}>
+          <Typography variant="h4" align="center">
+            Welcome to HPAIR {confID} Conference
+          </Typography>
+          <Typography variant="h6" align="center">
+            Here is your QR code!
+          </Typography>
+          <Box display="flex" justifyContent="center" mt={3}>
+            {qrcode}
+          </Box>
+        </Box>
+      </Paper>
     </Box>
   );
 }
