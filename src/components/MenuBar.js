@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom';
 import AccountMenu from "./AccountMenu";
 import { styled } from '@mui/material/styles';
 
-// Description: This component is the menu bar that is displayed at the top of the page.
-//              It is used in the App component.
-// Props: user, isSignedIn, onMenuButtonClick
-//        user is the current user
-//        isSignedIn is a boolean that determines whether the user is signed in or not
-//        onMenuButtonClick is a function that is called when the menu button is clicked
+function ExternalLink({ to, children }) {
+  const handleLinkClick = () => {
+    const confirmed = window.confirm('You are about to leave this page. Do you want to continue?');
+    if (confirmed) {
+      window.location.href = to;
+    }
+  };
 
-export default function MenuBar({ user, isSignedIn, onMenuButtonClick }) {
+  return (
+    <Button color="inherit" style={{ textDecoration: 'none' }} onClick={handleLinkClick}>
+      {children}
+    </Button>
+  );
+}
+
+export default function MenuBar({ user, isSignedIn, isInConf, onMenuButtonClick }) {
   const CustomAppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
   }));
@@ -31,22 +39,17 @@ export default function MenuBar({ user, isSignedIn, onMenuButtonClick }) {
         </Typography>
         {!isSignedIn ? (
           <>
-            <Button component={Link} to="https://www.hpair.org" color="inherit" style={{ textDecoration: 'none' }}>
+            <ExternalLink component={Link} to="https://www.hpair.org" color="inherit" style={{ textDecoration: 'none' }}>
               Home
-            </Button>
-            <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
+            </ExternalLink>
+            <ExternalLink component={Link} to="https://www.hpair.org/about-us-1" color="inherit" style={{ textDecoration: 'none' }}>
               About Us
-            </Button>
-            <Button component={Link} to="https://www.hpair.org/about" color="inherit" style={{ textDecoration: 'none' }}>
-              Board of Advisors
-            </Button>
-            <Button component={Link} to="https://www.hpair.org/apply" color="inherit" style={{ textDecoration: 'none' }}>
-              Apply
-            </Button>
+            </ExternalLink>
+            <ExternalLink to="https://www.hpair.org/board-of-advisors">Board of Advisors</ExternalLink>
           </>
-        ) : (
+        ) : 
           <AccountMenu user={user} onMenuButtonClick={onMenuButtonClick} />
-        )}
+        }
       </Toolbar>
     </CustomAppBar>
   );
