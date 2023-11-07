@@ -1,14 +1,9 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { useState } from 'react';
 import { CLIENT_ID } from '../config/Config';
 import { addConferenceCode, addPaymentInfo } from '../utils/mutations';
 
-export default function PaymentWidget({user, joinCode, navigate}){
-    const [success, setSuccess] = useState(false);
-    const [ErrorMessage, setErrorMessage] = useState("");
-    const [orderID, setOrderID] = useState(false);
-
-    // creates a paypal order
+export default function PaymentWidget({user, joinCode}){
+     // creates a paypal order
     const createOrder = (data, actions) => {
         return actions.order.create({
             purchase_units: [
@@ -21,7 +16,6 @@ export default function PaymentWidget({user, joinCode, navigate}){
                 },
             ],
         }).then((orderID) => {
-            setOrderID(orderID);
             return orderID;
         });
     };
@@ -38,20 +32,17 @@ export default function PaymentWidget({user, joinCode, navigate}){
                 currency: "USD",
                 joinCode: joinCode,
                 payerID: payer.payer_id,
+                orderID: details.id,
             });
-            console.log(payer);
-            setSuccess(true);
-            // redirect to conference page
-            // refresh page
+            // refresh page to redirect to conference page
             window.location.reload();
         });
     };
 
     //capture likely error
     const onError = (data, actions) => {
-        setErrorMessage("An Error occured with your payment ");
+        alert("Payment failed. Please contact HPAIR suppor for assistance.");
     };
-
 
     return (
         <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>

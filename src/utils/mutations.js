@@ -1,4 +1,4 @@
-import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, updateDoc, setDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Synchronize users table upon login
@@ -52,15 +52,12 @@ export async function addConferenceCode(user, conferenceCode) {
 // mutation to add payment info to new payments collection 
 export async function addPaymentInfo(user, paymentInfo) {
    try{
-      await addDoc(collection(db, 'payments'), {
-         user: user.uid,
-         amount: paymentInfo.amount,
-         currency: paymentInfo.currency,
-         joinCode: paymentInfo.joinCode,
-         payerID: paymentInfo.payerID,
+      await setDoc(doc(db, 'payments', paymentInfo.orderID), {
+         uid: user.uid,
+         ...paymentInfo,
          paymentTime: serverTimestamp(),
       });
-   } catch(error){
+   } catch (error) {
       console.error(error);
    }
 }

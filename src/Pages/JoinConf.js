@@ -82,7 +82,7 @@ export default function JoinConf ({ user, navigate}) {
             <Typography variant="H6" style={{ margin: '8px 0' }}>
             Please complete payment to join conference.
             </Typography>
-                <PaymentWidget user={user} joinCode={joinCode} navigate={navigate}/>
+                <PaymentWidget user={user} joinCode={joinCode} />
                   <Button variant="contained" onClick={() => setShowPayment(false)}>Return</Button>
               </Box>) :(<>
           <Typography variant="H6" style={{ margin: '8px 0' }}>

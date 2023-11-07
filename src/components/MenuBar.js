@@ -1,22 +1,9 @@
-import { Button, Typography, AppBar as MuiAppBar, Toolbar } from '@mui/material';
+import { Typography, AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AccountMenu from "./AccountMenu";
 import { styled } from '@mui/material/styles';
+import ExternalLink from './ExternalLink';
 
-function ExternalLink({ to, children }) {
-  const handleLinkClick = () => {
-    const confirmed = window.confirm('You are about to leave this page. Do you want to continue?');
-    if (confirmed) {
-      window.location.href = to;
-    }
-  };
-
-  return (
-    <Button color="inherit" style={{ textDecoration: 'none' }} onClick={handleLinkClick}>
-      {children}
-    </Button>
-  );
-}
 
 export default function MenuBar({ user, isSignedIn, isInConf, onMenuButtonClick }) {
   const CustomAppBar = styled(MuiAppBar)(({ theme }) => ({

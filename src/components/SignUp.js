@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import { useState } from 'react';
 import { auth } from '../utils/firebase';
 
@@ -36,11 +36,11 @@ export default function SignUp({ onSignInClick }) {
    
   return (
     <Box style={{
-      display: 'flex',           // Use flex display
-      flexDirection: 'column',    // Stack items vertically
-      alignItems: 'center',       // Align items horizontally to the center
-      justifyContent: 'center',   // Align items vertically to the center
-      minHeight: '100vh',         // Full viewport height
+      display: 'flex',           
+      flexDirection: 'column',    
+      alignItems: 'center',  
+      justifyContent: 'center', 
+      minHeight: '100vh',
     }}>
       <Typography variant="h5">Sign Up</Typography>
       <TextField
@@ -76,7 +76,9 @@ export default function SignUp({ onSignInClick }) {
         required
       />
       <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
-      <Typography component={"span"}>Already have an account? <a href="#" onClick={onSignInClick}>Sign In</a></Typography>
+      <Typography component={"span"}>
+        Already signed up? <Link component="button" variant="body1" onClick={onSignInClick}>Sign In</Link>
+      </Typography>
     </Box>
 
   );

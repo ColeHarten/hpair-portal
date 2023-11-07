@@ -1,26 +1,22 @@
-import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
-import Toolbar from '@mui/material/Toolbar';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 // import firebase from 'firebase/compat/app';
-import './App.css';
-import JoinConf from './Pages/JoinConf';
-import { getUserData } from "./utils/mutations";
-import MenuBar from './components/MenuBar';
-import SignInScreen from './Pages/SignInScreen';
-import MENU_ITEMS from './constants'
-import ConfPage from './Pages/ConfPage';
-import SupportModal from './components/SupportModal';
-import { auth } from './utils/firebase';
-import { syncUsers } from './utils/mutations';
-import SettingsPage from './Pages/Settings';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import './App.css';
+import MenuBar from './components/MenuBar';
+import SupportModal from './components/SupportModal';
+import MENU_ITEMS from './constants';
+import ConfPage from './Pages/ConfPage';
+import JoinConf from './Pages/JoinConf';
+import SettingsPage from './Pages/Settings';
+import SignInScreen from './Pages/SignInScreen';
+import { auth } from './utils/firebase';
+import { getUserData, syncUsers } from "./utils/mutations";
+import ExternalLink from './components/ExternalLink';
 
 const mdTheme = createTheme({
   palette: {
