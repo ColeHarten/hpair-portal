@@ -1,31 +1,8 @@
 import React, { useState } from "react";
-import { Typography, Paper, TextField, Button, FormControl } from "@mui/material";
+import { Typography, Paper, TextField, Button, Box } from "@mui/material";
 import { useAuth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { getUserData } from "../utils/mutations";
-
-const styles = {
-  paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
-    maxWidth: "400px",
-    margin: "auto",
-  },
-  buttonContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  submitButton: {
-    marginTop: "20px",
-  },
-  backButton: {
-    marginTop: "10px",
-    backgroundColor: "lightgray", // Customize the background color
-  },
-};
 
 export default function SettingsPage({ user }) {
   const [oldPassword, setOldPassword] = useState("");
@@ -39,9 +16,8 @@ export default function SettingsPage({ user }) {
   const handleChangePassword = async () => {
     try {
       if (newPassword === confirmPassword) {
-        const credentials = await reauthenticateWithPassword(user, oldPassword);
+        await reauthenticateWithPassword(user, oldPassword);
         await updatePassword(user, newPassword);
-        console.log("Password changed successfully");
         setError(null);
       } else {
         alert("New passwords do not match.");
@@ -62,13 +38,41 @@ export default function SettingsPage({ user }) {
   }
 
   return (
-    <Paper elevation={3} style={styles.paper}>
-      <Typography variant="h4">Change Password</Typography>
-      <FormControl>
+    <Box
+      component="main"
+      sx={{
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'light'
+            ? theme.palette.grey[100]
+            : theme.palette.grey[900],
+        flexGrow: 1,
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'auto',
+      }}
+    >
+      <Paper
+        sx={{
+          width: '100%',
+          maxWidth: 400,
+          p: 2,
+          height: '100vh',
+        }}
+      >
+       <Box style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+        }}>
+      <Typography variant="h5">Change Password</Typography>
         <TextField
           label="Old Password"
           type="password"
-          fullWidth
           margin="normal"
           variant="outlined"
           value={oldPassword}
@@ -77,7 +81,6 @@ export default function SettingsPage({ user }) {
         <TextField
           label="New Password"
           type="password"
-          fullWidth
           margin="normal"
           variant="outlined"
           value={newPassword}
@@ -86,32 +89,35 @@ export default function SettingsPage({ user }) {
         <TextField
           label="Confirm New Password"
           type="password"
-          fullWidth
           margin="normal"
           variant="outlined"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         {error && <Typography variant="body2" color="error">{error}</Typography>}
-        <div style={styles.buttonContainer}>
           <Button
             variant="contained"
             color="primary"
             onClick={handleChangePassword}
-            style={styles.submitButton}
+            sx={{
+              marginTop: "20px",
+            }}
           >
             Change Password
           </Button>
           <Button
             variant="contained"
             color="primary" // Customize the background color
-            style={styles.backButton}
             onClick={onBack}
+            sx={{
+              marginTop: "10px",
+              backgroundColor: "lightgray", // Customize the background color
+            }}
           >
             Return
           </Button>
-        </div>
-      </FormControl>
-    </Paper>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
