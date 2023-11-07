@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { auth } from '../utils/firebase';
 
@@ -15,13 +15,11 @@ export default function SignUp({ onSignInClick }) {
     }
     try {
       // Create the user with email and password
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-  
-      // Update the user object with the display name (both first and last name)
-      await user.updateProfile({
-        displayName: name,
-      });
+      auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
+        userCredential.user.updateProfile({
+            displayName: name,
+        });
+      })
       // User is signed up with the name added to their profile and Firestore document.
       // You can handle redirection or any other logic here.
     } catch (error) {
@@ -51,6 +49,7 @@ export default function SignUp({ onSignInClick }) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         style={{ margin: '8px 0' }} 
+        required
       />
       <TextField
         label="Name"
@@ -58,6 +57,7 @@ export default function SignUp({ onSignInClick }) {
         value={name}
         onChange={(e) => setName(e.target.value)}
         style={{ margin: '8px 0' }}
+        required
       />
       <TextField
         label="Password"
@@ -65,15 +65,18 @@ export default function SignUp({ onSignInClick }) {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         style={{ margin: '8px 0' }}
+        required
       />
       <TextField
         label="Confirm Password"
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        style={{ margin: '8px 0' }} />
+        style={{ margin: '8px 0' }}
+        required
+      />
       <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
-      <Typography>Already have an account? <a href="#" onClick={onSignInClick}>Sign In</a></Typography>
+      <Typography component={"span"}>Already have an account? <a href="#" onClick={onSignInClick}>Sign In</a></Typography>
     </Box>
 
   );

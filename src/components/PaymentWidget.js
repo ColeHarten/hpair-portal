@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { CLIENT_ID } from '../config/Config'
-import { addConferenceCode, addPaymentInfo } from '../utils/mutations';
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useState } from 'react';
+import { CLIENT_ID } from '../config/Config';
+import { addConferenceCode, addPaymentInfo } from '../utils/mutations';
 
 export default function PaymentWidget({user, joinCode, navigate}){
     const [success, setSuccess] = useState(false);
@@ -22,16 +21,29 @@ export default function PaymentWidget({user, joinCode, navigate}){
                 },
             ],
         }).then((orderID) => {
-                setOrderID(orderID);
-                return orderID;
-            });
+            setOrderID(orderID);
+            return orderID;
+        });
     };
 
     // check Approval
     const onApprove = (data, actions) => {
-        return actions.order.capture().then(function (details) {
+        return actions.order.capture().then(async (details) => {
             const { payer } = details;
+            // add user to conference
+            await addConferenceCode(user, joinCode.slice(0,6));
+            // add payment info to payments collection
+            await addPaymentInfo(user, {
+                amount: 5,
+                currency: "USD",
+                joinCode: joinCode,
+                payerID: payer.payer_id,
+            });
+            console.log(payer);
             setSuccess(true);
+            // redirect to conference page
+            // refresh page
+            window.location.reload();
         });
     };
 
@@ -40,22 +52,6 @@ export default function PaymentWidget({user, joinCode, navigate}){
         setErrorMessage("An Error occured with your payment ");
     };
 
-    useEffect(() => {
-        if (success) {
-            console.log("Payment Successful!");
-            // add user to conference
-            addConferenceCode(user, joinCode.slice(0,6));
-            // add payment info to payments collection
-            addPaymentInfo(user, {
-                amount: 5,
-                currency: "USD",
-                joinCode: joinCode,
-            });
-            // redirect to conference page
-            // refresh page
-            window.location.reload();
-        }
-    },[success]);
 
     return (
         <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>

@@ -1,18 +1,5 @@
+import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc, serverTimestamp, addDoc } from 'firebase/firestore';
-import { arrayUnion } from 'firebase/firestore';
-
-// mutation to add conference code to user doc
-export async function addConferenceCode(user, conferenceCode) {
-   const userRef = doc(db, 'users', user.uid);
-   await updateDoc(userRef, {
-      conferenceCode: conferenceCode,
-      paymentTime: serverTimestamp(),
-   });
-   await updateDoc(doc(db, 'conferences', conferenceCode), {
-      attendees: arrayUnion(user.uid),
-   });
-}
 
 // Synchronize users table upon login
 export async function syncUsers(user) {
@@ -45,13 +32,35 @@ export async function getUserData(user) {
    }
 }
 
+// mutation to add conference code to user doc
+export async function addConferenceCode(user, conferenceCode) {
+   try{
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+         conferenceCode: conferenceCode,
+         paymentTime: serverTimestamp(),
+      });
+      await updateDoc(doc(db, 'conferences', conferenceCode), {
+         attendees: arrayUnion(user.uid),
+      });
+   } catch (error)
+   {
+      console.error(error);
+   }
+}
+
 // mutation to add payment info to new payments collection 
 export async function addPaymentInfo(user, paymentInfo) {
-   addDoc(collection(db, 'payments'), {
-      user: user.uid,
-      amount: paymentInfo.amount,
-      currency: paymentInfo.currency,
-      joinCode: paymentInfo.joinCode,
-      paymentTime: serverTimestamp(),
-   });
+   try{
+      await addDoc(collection(db, 'payments'), {
+         user: user.uid,
+         amount: paymentInfo.amount,
+         currency: paymentInfo.currency,
+         joinCode: paymentInfo.joinCode,
+         payerID: paymentInfo.payerID,
+         paymentTime: serverTimestamp(),
+      });
+   } catch(error){
+      console.error(error);
+   }
 }

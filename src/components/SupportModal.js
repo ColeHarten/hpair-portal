@@ -8,7 +8,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
 import * as React from 'react';
 
-
 export default function SupportModal({ onClose, open }) {
   return (
     <Dialog onClose={onClose} open={open} style={{overflow: 'hidden'}}>
@@ -31,7 +30,7 @@ export default function SupportModal({ onClose, open }) {
               If you need assistance, please reach out to our support team.
             </Typography>
           </DialogContentText>
-          <Typography variant="body1">
+          <Typography variant="body1" component={"span"}>
             <strong>Contact Information:</strong>
           </Typography>
           <Typography variant="body1">Email: support@example.com</Typography>

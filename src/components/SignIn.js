@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../utils/firebase';
@@ -43,7 +43,7 @@ export default function SignIn({ onSignUpClick }) {
         justifyContent: 'center',
         minHeight: '100vh',
       }}>
-        <Typography variant="h5">Sign In</Typography>
+        <Typography variant="h5" >Sign In</Typography>
         <TextField
           label="Email"
           type="email"
@@ -51,6 +51,7 @@ export default function SignIn({ onSignUpClick }) {
           variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
           style={{ margin: '8px 0' }}
+          required
         />
         <TextField
           label="Password"
@@ -58,9 +59,12 @@ export default function SignIn({ onSignUpClick }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{ margin: '8px 0' }}
+          required
         />
-        <Button variant="contained" onClick={handleSignIn}>Sign In</Button>
-        <Typography>
+        <Button variant="contained" onClick={handleSignIn}>
+          Sign In
+        </Button>
+        <Typography component={"span"}>
         <Box>
             <Link component="button" variant="body2" onClick={onSignUpClick}>
               Sign Up
@@ -81,7 +85,7 @@ export default function SignIn({ onSignUpClick }) {
         justifyContent: 'center',
         minHeight: '100vh',
       }}>
-        <Typography variant="h5">Forgot Password</Typography>
+      <Typography variant="h5">Forgot Password</Typography>
         <TextField
           label="Email"
           type="email"
@@ -89,6 +93,7 @@ export default function SignIn({ onSignUpClick }) {
           variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
           style={{ margin: '8px 0' }}
+          required
         />
         <Button
           variant="contained"
