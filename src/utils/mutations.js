@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, getDocs, setDoc, serverTimestamp, addDoc } from 'firebase/firestore';
 import { arrayUnion } from 'firebase/firestore';
 
 // mutation to add conference code to user doc
@@ -43,4 +43,15 @@ export async function getUserData(user) {
    } else {
       return null;
    }
+}
+
+// mutation to add payment info to new payments collection 
+export async function addPaymentInfo(user, paymentInfo) {
+   addDoc(collection(db, 'payments'), {
+      user: user.uid,
+      amount: paymentInfo.amount,
+      currency: paymentInfo.currency,
+      joinCode: paymentInfo.joinCode,
+      paymentTime: serverTimestamp(),
+   });
 }

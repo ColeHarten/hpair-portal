@@ -76,7 +76,8 @@ export default function AccountMenu({user, onMenuButtonClick}) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-
+        {/* add menu item for user name that does not change color on hover*/}
+        <MenuItem sx={{color: 'black', fontWeight: 'bold'}}>{user?.displayName}</MenuItem>
         <MenuItem onClick={(event) => {
           handleClose();
           onMenuButtonClick(MENU_ITEMS.SUPPORT); // Pass the event to the callback

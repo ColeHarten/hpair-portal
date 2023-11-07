@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { CLIENT_ID } from '../config/Config'
-import { addConferenceCode } from '../utils/mutations';
+import { addConferenceCode, addPaymentInfo } from '../utils/mutations';
 import { useState } from 'react';
 
 export default function PaymentWidget({user, joinCode, navigate}){
@@ -14,10 +14,10 @@ export default function PaymentWidget({user, joinCode, navigate}){
         return actions.order.create({
             purchase_units: [
                 {
-                    description: `Conference Code: ${joinCode}`,
+                    description: `Conference Code: ${joinCode}`, 
                     amount: {
                         currency_code: "USD",
-                        value: 20,
+                        value: 5,
                     },
                 },
             ],
@@ -32,10 +32,6 @@ export default function PaymentWidget({user, joinCode, navigate}){
         return actions.order.capture().then(function (details) {
             const { payer } = details;
             setSuccess(true);
-            // add user to conference
-            addConferenceCode(user, joinCode.slice(0,6));
-            // redirect to conference page
-            navigate(`/conference/${joinCode.slice(0,6)}`); // the first 6 characters of the join code are the conference code
         });
     };
 
@@ -46,8 +42,18 @@ export default function PaymentWidget({user, joinCode, navigate}){
 
     useEffect(() => {
         if (success) {
-            alert("Payment successful!!");
-            console.log('Order successful . Your order id is--', orderID);
+            console.log("Payment Successful!");
+            // add user to conference
+            addConferenceCode(user, joinCode.slice(0,6));
+            // add payment info to payments collection
+            addPaymentInfo(user, {
+                amount: 5,
+                currency: "USD",
+                joinCode: joinCode,
+            });
+            // redirect to conference page
+            // refresh page
+            window.location.reload();
         }
     },[success]);
 

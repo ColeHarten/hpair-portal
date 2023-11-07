@@ -1,2 +1,7 @@
-export const CLIENT_ID = process.env.CLIENT_ID || "ASXDeQyVPYJhPYTIC_E4Oc7JyqND1i4fVThpNTGdmC0Gjc7ZWLI5z5oPfX_AQ1TWzBlDz4ClTBcbNbgr"
-export const APP_SECRET = process.env.APP_SECRET || "EM4Bn25ELvXwSdE7E2X_IY1OoxUU7bTef9NvpALNkFqpOlUZNSyyjTwesjeV7opE3rE07WvBPDdd5zgN"
+// TODO: SECURE THESE KEYS!
+export const CLIENT_ID = "Ad1TLtgzVXT63b98Sf0sdwSTTF7o11uFw_jLplNEQNYdzVlyGC6-liUaPy2D85Aie2WKxr-BrzNCBmFn"
+export const APP_SECRET = "EFvbe7j6LL90bc0TpJlmEcyDY6eETquP4WskPPzeJ1tDdQh5jaWXBZF_6MEbbQ1SDH64m_JJ6AIrs8Z_"
+
+// get keys from environment variables
+// export const CLIENT_ID = process.env.CLIENT_ID;
+// export const CLIENT_SECRET = process.env.CLIENT_SECRET;
