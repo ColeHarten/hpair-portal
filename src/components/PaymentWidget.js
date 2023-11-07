@@ -15,6 +15,9 @@ export default function PaymentWidget({user, joinCode}){
                     },
                 },
             ],
+            application_context: {
+                shipping_preference: "NO_SHIPPING"
+            }
         }).then((orderID) => {
             return orderID;
         });
@@ -34,7 +37,7 @@ export default function PaymentWidget({user, joinCode}){
                 payerID: payer.payer_id,
                 orderID: details.id,
             });
-            // refresh page to redirect to conference page
+            // refresh page to update user info
             window.location.reload();
         });
     };
@@ -51,6 +54,7 @@ export default function PaymentWidget({user, joinCode}){
                 createOrder={createOrder}
                 onApprove={onApprove}
                 onError={onError}
+                shipping_preference="NO_SHIPPING"
             />
         </PayPalScriptProvider>
     )
