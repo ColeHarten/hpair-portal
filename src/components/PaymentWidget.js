@@ -44,7 +44,7 @@ export default function PaymentWidget({user, joinCode}){
 
     //capture likely error
     const onError = (data, actions) => {
-        alert("Payment failed. Please contact HPAIR suppor for assistance.");
+        console.error(data, actions)
     };
 
     return (
@@ -57,5 +57,5 @@ export default function PaymentWidget({user, joinCode}){
                 shipping_preference="NO_SHIPPING"
             />
         </PayPalScriptProvider>
-    )
+    );
 }
