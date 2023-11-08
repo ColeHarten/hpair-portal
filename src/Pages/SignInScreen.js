@@ -14,37 +14,39 @@ export default function SignInScreen() {
     setIsSignUp(false);
   };
 
-   return (
-    <Box
-      component="main"
+  return (
+  <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',  // Stack contents vertically
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'auto',
+    }}
+  >
+    <Paper
       sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[100]
-            : theme.palette.grey[900],
-        flexGrow: 1,
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',  // Stack contents vertically
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'auto',
+        width: '100%',     // Take up the full width
+        maxWidth: 400,     // Limit the maximum width
+        p: 2,              // Add some padding
       }}
     >
-      <Paper
-        sx={{
-          width: '100%',     // Take up the full width
-          maxWidth: 400,     // Limit the maximum width
-          p: 2,              // Add some padding
-          height: 'auto',    // Allow the height to adjust to content
-        }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <img src="/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} />
         {isSignUp ? (
           <SignUp onSignInClick={handleSignInClick} />
         ) : (
           <SignIn onSignUpClick={handleSignUpClick} />
         )}
-      </Paper>
-    </Box>
-   );
+      </Box>
+    </Paper>
+  </Box>
+  );
 }

@@ -13,6 +13,10 @@ export default function SignUp({ onSignInClick }) {
       alert("Passwords do not match. Please try again.");
       return;
     }
+    if(email === '' || name === '' || password === '' || confirmPassword === '') {
+      alert("Please fill out all fields.");
+      return;
+    }
     try {
       // Create the user with email and password
       auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
