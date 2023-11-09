@@ -1,16 +1,15 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import Logout from '@mui/icons-material/Logout';
+import Settings from '@mui/icons-material/Settings';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import MENU_ITEMS from '../constants'
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import * as React from 'react';
+import MENU_ITEMS from '../constants';
 
 export default function AccountMenu({user, onMenuButtonClick}) {
   const [anchorEl, setAnchorEl] = React.useState(null);

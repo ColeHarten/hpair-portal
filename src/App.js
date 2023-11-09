@@ -16,7 +16,6 @@ import SettingsPage from './Pages/Settings';
 import SignInScreen from './Pages/SignInScreen';
 import { auth } from './utils/firebase';
 import { getUserData, syncUsers } from "./utils/mutations";
-import ExternalLink from './components/ExternalLink';
 
 const mdTheme = createTheme({
   palette: {
@@ -72,7 +71,10 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
-        syncUsers(user);
+        if(!user.displayName)
+        {
+          await syncUsers(user);
+        }
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {
@@ -92,7 +94,7 @@ export default function App() {
       setIsLoading(false);
     });
     return () => unregisterAuthObserver();
-  }, []);
+  }, [navigate]);
   
 
   const handleMenuButtonClick = (buttonCode) => {
@@ -108,6 +110,8 @@ export default function App() {
         auth.signOut();
         navigate('/signin')
         break;
+      default:
+        break;
     }
   }
 
@@ -120,7 +124,7 @@ export default function App() {
         {isLoading ? <Typography>Loading...</Typography> : (
           <Routes>
             <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
-            <Route path="/join-conference" element={currentUser ? (!conferenceID ? <JoinConf user={currentUser} navigate={navigate} /> : <Navigate to={`/conference/${conferenceID}`} />) : <Navigate to="/signin" />} />
+            <Route path="/join-conference" element={currentUser ? (!conferenceID ? <JoinConf user={currentUser} /> : <Navigate to={`/conference/${conferenceID}`} />) : <Navigate to="/signin" />} />
             <Route
               path="/conference/:confID"
               element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}

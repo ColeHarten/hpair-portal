@@ -32,6 +32,17 @@ export async function getUserData(user) {
    }
 }
 
+// mutation to get conference data
+export async function getConferenceData(conferenceCode) {
+   const confRef = doc(db, 'conferences', conferenceCode);
+   const confDoc = await getDoc(confRef);
+   if (confDoc.exists()) {
+      return confDoc.data();
+   } else {
+      return null;
+   }
+}
+
 // mutation to add conference code to user doc
 export async function addConferenceCode(user, conferenceCode) {
    try{

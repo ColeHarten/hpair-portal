@@ -1,10 +1,20 @@
-import React from 'react';
-import { Typography, Box, Paper, Grid } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Paper, Typography } from "@mui/material";
 import QRCodeCanvas from "qrcode.react";
+import React, { useState } from 'react';
+import { useParams } from "react-router-dom";
+import { getConferenceData } from '../utils/mutations';
 
 export default function ConfPage({ user }) {
   const confID = useParams().confID;
+  const [confName, setConfName] = useState(null);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const data = await getConferenceData(confID);
+      setConfName(data.conferenceName);
+    }
+    fetchData();
+  }, [confID]);
 
   const qrcode = (
     <QRCodeCanvas
@@ -28,7 +38,7 @@ export default function ConfPage({ user }) {
       <Paper elevation={3}>
         <Box p={3}>
           <Typography variant="h4" align="center">
-            Welcome to HPAIR {confID} Conference
+            Welcome to {confName} Conference
           </Typography>
           <Typography variant="h6" align="center">
             Here is your QR code!

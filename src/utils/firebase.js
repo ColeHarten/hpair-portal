@@ -35,14 +35,3 @@ async function updatePassword(user, newPassword) {
 export const useAuth = () => {
   return { reauthenticateWithPassword, updatePassword };
 }
-
-// Configure FirebaseUI (if needed)
-const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
-  signInOptions: [
-    {
-      provider: EmailAuthProvider.PROVIDER_ID,
-    },
-  ],
-};

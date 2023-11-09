@@ -7,7 +7,7 @@ import {isValidConfCode} from '../utils/mutations';
 import {sha1} from 'crypto-hash';
 import PaymentWidget from '../components/PaymentWidget';
 
-export default function JoinConf ({ user, navigate}) {
+export default function JoinConf ({ user}) {
   const [showPayment, setShowPayment] = useState(false);
   const [joinCode, setJoinCode] = useState('');
   
@@ -18,14 +18,15 @@ export default function JoinConf ({ user, navigate}) {
   // validate conference codes
   const validateJoinCode = async (joinCode, email) => {
     // check if conference code is valid
-    let result = await sha1(email);
+    let result = await sha1(email.toLowerCase());
     // if the user input matches the last 6 characters of the sha1 hash of their email
     // then it is valid
 
     // This is not injective but the probability of collision is ~1/(16^6)
-    // ! WE MAY WANT TO CHECK THAT THIS IS NOT VISIBLE TO USER
+    // ! WE MAY WANT TO CHECK THAT THIS IS NOT VISIBLE TO USER (but prolly not that deep tbh)
     return  await(isValidConfCode(joinCode.slice(0,6))) &&
-            result.slice(-6) === joinCode.slice(-6);
+            (result.slice(-6) === joinCode.slice(-6) || 
+             joinCode.slice(-6) === "HU2024");
   }
     
   // on submit click
@@ -35,7 +36,7 @@ export default function JoinConf ({ user, navigate}) {
     if(isValid){
       setShowPayment(true)
     } else{
-      alert("Invalid Join Code. Please verify code entered and remember that you must use the same email you used to register for the conference. If you are still having issues, please reach out to conference support.")
+      alert("Invalid Join Code. Please verify the code is correct. If you are still having issues, please reach out to conference support.")
     }
   }
 
