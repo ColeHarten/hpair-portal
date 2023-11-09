@@ -33,9 +33,7 @@ export default function SupportModal({ onClose, open }) {
           <Typography variant="body1" component={"span"}>
             <strong>Contact Information:</strong>
           </Typography>
-          <Typography variant="body1">Email: support@example.com</Typography>
-          <Typography variant="body1">Phone: +1 (123) 456-7890</Typography>
-          <Typography variant="body1">Operating Hours: Monday to Friday, 9:00 AM - 5:00 PM (EST)</Typography>
+          <Typography variant="body1">Email: <a href="mailto:support@hpair.org">support@hpair.org</a></Typography>
         </DialogContent>
       </Box>
     </Dialog>

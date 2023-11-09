@@ -71,7 +71,7 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
-        if(!user.displayName)
+        if(user.displayName)
         {
           await syncUsers(user);
         }
@@ -81,10 +81,10 @@ export default function App() {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
           // Redirect to the conference page upon successful sign-up
-          navigate(`/conference/${conferenceCode}`);
+          // navigate(`/conference/${conferenceCode}`);
         } else {
           // Redirect to the join-conference page upon successful sign-up
-          navigate('/join-conference');
+          navigate('/join-conference'); 
         }
       } else {
         setCurrentUser(null);
