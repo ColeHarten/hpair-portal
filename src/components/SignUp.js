@@ -19,11 +19,12 @@ export default function SignUp({ onSignInClick }) {
     }
     try {
       // Create the user with email and password
-      auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
-        userCredential.user.updateProfile({
-            displayName: name,
-        });
-      })
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+      userCredential.user.updateProfile({
+          displayName: name,
+      });
+
       // User is signed up with the name added to their profile and Firestore document.
       // You can handle redirection or any other logic here.
     } catch (error) {
