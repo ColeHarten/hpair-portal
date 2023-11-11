@@ -21,7 +21,7 @@ export default function SignUp({ onSignInClick }) {
       // Create the user with email and password
       const userCredential = await auth.createUserWithEmailAndPassword(email, password);
 
-      userCredential.user.updateProfile({
+      await userCredential.user.updateProfile({
           displayName: name,
       });
 

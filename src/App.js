@@ -71,30 +71,22 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
-        if(user.displayName)
-        {
-          await syncUsers(user);
-        }
+        await syncUsers(user);
+        
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 6);
           setConferenceID(conferenceCode);
-          // Redirect to the conference page upon successful sign-up
-          // navigate(`/conference/${conferenceCode}`);
-        } else {
-          // Redirect to the join-conference page upon successful sign-up
-          navigate('/join-conference'); 
-        }
+        } 
       } else {
         setCurrentUser(null);
         setConferenceID(null);
-        navigate('/signin');
       }
       setIsLoading(false);
     });
     return () => unregisterAuthObserver();
-  }, [navigate]);
+  }, []);
   
 
   const handleMenuButtonClick = (buttonCode) => {
@@ -103,12 +95,11 @@ export default function App() {
       case MENU_ITEMS.SUPPORT:
         setSupportOpen(true);
         break;
-      case MENU_ITEMS.SETTINGS:
-        navigate('/settings');
-        break;
+      // case MENU_ITEMS.SETTINGS:
+      //   navigate('/settings');
+      //   break;
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
-        navigate('/signin')
         break;
       default:
         break;
@@ -121,18 +112,18 @@ export default function App() {
       <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
       <Box sx={{ marginTop: '64px' }}>
         <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
-        {isLoading ? <Typography>Loading...</Typography> : (
-          <Routes>
-            <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
-            <Route path="/join-conference" element={currentUser ? (!conferenceID ? <JoinConf user={currentUser} /> : <Navigate to={`/conference/${conferenceID}`} />) : <Navigate to="/signin" />} />
-            <Route
-              path="/conference/:confID"
-              element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
-            />
-            {/* <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} /> */}
-            <Route exact index element={<Navigate to="/signin" />} />
-          </Routes>
-        )}
+        {isLoading ? <Typography>Loading...</Typography> : 
+          // <Routes>
+          //   <Route path="/signin" element={!currentUser ? <SignInScreen /> : <Navigate to="/join-conference" />} />
+          //   <Route path="/join-conference" element={currentUser ? (!conferenceID ? <JoinConf user={currentUser} /> : <Navigate to={`/conference/${conferenceID}`} />) : <Navigate to="/signin" />} />
+          //   <Route
+          //     path="/conference/:confID"
+          //     element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
+          //   />
+          //   {/* <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} /> */}
+          //   <Route exact index element={<Navigate to="/signin" />} />
+          // </Routes
+        (!currentUser ? <SignInScreen /> : (!conferenceID ? <JoinConf user={currentUser} /> : <ConfPage user={currentUser} />))}
       </Box>
     </ThemeProvider>
   );

@@ -1,20 +1,21 @@
 import { Box, Paper, Typography } from "@mui/material";
 import QRCodeCanvas from "qrcode.react";
 import React, { useState } from 'react';
-import { useParams } from "react-router-dom";
-import { getConferenceData } from '../utils/mutations';
+import { getConferenceData, getUserData } from '../utils/mutations';
 
 export default function ConfPage({ user }) {
-  const confID = useParams().confID;
   const [confName, setConfName] = useState(null);
 
   React.useEffect(() => {
     async function fetchData() {
-      const data = await getConferenceData(confID);
+      const userData = await getUserData(user);
+      const data = await getConferenceData(userData.conferenceCode);
       setConfName(data.conferenceName);
     }
     fetchData();
-  }, [confID]);
+  }, [user]);
+
+
 
   const qrcode = (
     <QRCodeCanvas
