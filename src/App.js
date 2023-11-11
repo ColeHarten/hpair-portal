@@ -129,7 +129,7 @@ export default function App() {
               path="/conference/:confID"
               element={currentUser && conferenceID ? <ConfPage user={currentUser} /> : <Navigate to="/join-conference" />}
             />
-            <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} />
+            {/* <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} /> */}
             <Route exact index element={<Navigate to="/signin" />} />
           </Routes>
         )}

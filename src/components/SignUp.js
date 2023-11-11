@@ -45,7 +45,6 @@ export default function SignUp({ onSignInClick }) {
       flexDirection: 'column',    
       alignItems: 'center',  
       justifyContent: 'center', 
-      minHeight: '100vh',
     }}>
       <Typography variant="h5">Sign Up</Typography>
       <TextField
@@ -53,32 +52,36 @@ export default function SignUp({ onSignInClick }) {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ margin: '8px 0' }} 
         required
+        style={{ margin: '8px 0' }}
+
       />
       <TextField
         label="Name"
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{ margin: '8px 0' }}
         required
+        style={{ margin: '8px 0' }}
+
       />
       <TextField
         label="Password"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ margin: '8px 0' }}
         required
+        style={{ margin: '8px 0' }}
+
       />
       <TextField
         label="Confirm Password"
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        style={{ margin: '8px 0' }}
         required
+        style={{ margin: '8px 0' }}
+
       />
       <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
       <Typography component={"span"}>

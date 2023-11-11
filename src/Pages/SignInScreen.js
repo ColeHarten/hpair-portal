@@ -23,7 +23,7 @@ export default function SignInScreen() {
           ? theme.palette.grey[100]
           : theme.palette.grey[900],
       flexGrow: 1,
-      height: '100vh',
+      height: 'calc(100vh - 64px)', // subtract height of menu bar
       display: 'flex',
       flexDirection: 'column',  // Stack contents vertically
       alignItems: 'center',
@@ -33,13 +33,14 @@ export default function SignInScreen() {
   >
     <Paper
       sx={{
-        width: '100%',     // Take up the full width
-        maxWidth: 400,     // Limit the maximum width
+        width: '30%',     // Take up 1/3 of the width
+        minWidth: '350px', // But at least 300px
+        height: '100%',   // Take up the full height
         p: 2,              // Add some padding
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <img src="/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} />
+      <img src="/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width='100%'  />
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px 0'}}>
         {isSignUp ? (
           <SignUp onSignInClick={handleSignInClick} />
         ) : (

@@ -10,32 +10,34 @@ import * as React from 'react';
 
 export default function SupportModal({ onClose, open }) {
   return (
-    <Dialog onClose={onClose} open={open} style={{overflow: 'hidden'}}>
-      <Box style={{padding: '20px'}}>
-        <DialogTitle>
-          <Typography variant="h5">Contact Customer Support</Typography>
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={onClose}
-            aria-label="close"
-            style={{ position: 'absolute', top: '5px', right: '5px' }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent style={{ overflow: 'hidden' }}>
-          <DialogContentText>
-            <Typography variant="body1">
-              If you need assistance, please reach out to our support team.
-            </Typography>
-          </DialogContentText>
-          <Typography variant="body1" component={"span"}>
-            <strong>Contact Information:</strong>
-          </Typography>
-          <Typography variant="body1">Email: <a href="mailto:support@hpair.org">support@hpair.org</a></Typography>
-        </DialogContent>
-      </Box>
-    </Dialog>
+    <Dialog onClose={onClose} open={open}>
+  <Box style={{ padding: '10px' }}>
+    <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Typography variant="h5">Contact Customer Support</Typography>
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={onClose}
+        aria-label="close"
+      >
+        <CloseIcon />
+      </IconButton>
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        <Typography variant="body1">
+          If you need assistance, please reach out to our support team.
+        </Typography>
+      </DialogContentText>
+      <Typography variant="body1" component={'span'}>
+        <strong>Contact Information:</strong>
+      </Typography>
+      <Typography variant="body1">
+        Email: <a href="mailto:support@hpair.org">support@hpair.org</a>
+      </Typography>
+    </DialogContent>
+  </Box>
+</Dialog>
+
   );
 }

@@ -41,7 +41,6 @@ export default function SignIn({ onSignUpClick }) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100vh',
       }}>
         <Typography variant="h5" >Sign In</Typography>
         <TextField
@@ -83,7 +82,6 @@ export default function SignIn({ onSignUpClick }) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100vh',
       }}>
       <Typography variant="h5">Forgot Password</Typography>
         <TextField

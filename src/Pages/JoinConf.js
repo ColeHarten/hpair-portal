@@ -48,55 +48,107 @@ export default function JoinConf ({ user}) {
   }
 
   return (
+    // <Box
+    //   component="main"
+    //   sx={{
+    //     backgroundColor: (theme) =>
+    //       theme.palette.mode === 'light'
+    //         ? theme.palette.grey[100]
+    //         : theme.palette.grey[900],
+    //     flexGrow: 1,
+    //     height: 'calc(100vh - 64px)', // subtract height of menu bar
+    //     display: 'flex',
+    //     flexDirection: 'column', // Stack contents vertically
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     overflow: 'auto',
+    //   }}
+    // >
+    //   <Paper
+    //     sx={{
+    //       width: '30%',     // Take up 1/3 of the width
+    //       minWidth: '350px', // But at least 300px
+    //       p: 2,              // Add some padding
+    //       display: 'flex',   // Use Flexbox to center content
+    //       flexDirection: 'column',
+    //       alignItems: 'center',
+    //       justifyContent: 'center',
+    //       minHeight: 'calc(100vh - 64px)',
+    //     }}
+    //   >
+    //     <Box
+    //       style={{
+    //         display: 'flex',
+    //         flexDirection: 'column',
+    //         alignItems: 'center',
+    //         justifyContent: 'center',
+    //       }}
+    //     >
     <Box
-      component="main"
-      sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[100]
-            : theme.palette.grey[900],
-        flexGrow: 1,
-        height: '100vh',
+  component="main"
+  sx={{
+    backgroundColor: (theme) =>
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[100]
+        : theme.palette.grey[900],
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column', // Stack contents vertically
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'auto',
+  }}
+>
+  <Paper
+    sx={{
+      width: '30%',     // Take up 1/3 of the width
+      minWidth: '350px', // But at least 300px
+      p: 2,              // Add some padding
+      display: 'flex',   // Use Flexbox to center content
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: 'calc(100vh - 64px)',
+    }}
+  >
+    <Box
+      style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'auto',
       }}
     >
-      <Paper
-        sx={{
-          width: '100%',
-          maxWidth: 400,
-          p: 2,
-          height: 'auto',
-        }}
-      >
-        <Box style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}>
-          {showPayment ? (<Box>
-            <Typography variant="H6" style={{ margin: '8px 0' }}>
-            Please complete payment to join conference.
-            </Typography>
-                <PaymentWidget user={user} joinCode={joinCode} />
-                  <Button variant="contained" onClick={() => setShowPayment(false)}>Return</Button>
-              </Box>) :(<>
-          <Typography variant="H6" style={{ margin: '8px 0' }}>
-            Join Conference
-            <Tooltip title="Please enter join code sent in email." arrow>
-              <IconButton color="secondary" size="small">
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </Typography>
-          <TextField label="Conference Join Code" style={{ margin: '8px 0' }} onChange={(e) => setJoinCode(e.target.value)}/>
-          <Button variant="contained" style={{ margin: '8px 0' }} onClick={handleClickJoin}>To Payment</Button>
-          </>)}           
+          {showPayment ? (
+            <Box>
+              <Typography variant="h6" style={{ margin: '8px 0' }}>
+                Please complete payment to join the conference.
+              </Typography>
+              <PaymentWidget user={user} joinCode={joinCode} />
+              <Button variant="contained" onClick={() => setShowPayment(false)}>
+                Return
+              </Button>
+            </Box>
+          ) : (
+            <>
+              <Typography variant="h6" style={{ margin: '8px 0' }}>
+                Join Conference
+                <Tooltip title="Please enter join code sent in email." arrow>
+                  <IconButton color="secondary" size="small">
+                    <InfoOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
+              <TextField
+                label="Conference Join Code"
+                style={{ margin: '8px 0' }}
+                onChange={(e) => setJoinCode(e.target.value)}
+              />
+              <Button variant="contained" style={{ margin: '8px 0' }} onClick={handleClickJoin}>
+                To Payment
+              </Button>
+            </>
+          )}
         </Box>
       </Paper>
     </Box>

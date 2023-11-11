@@ -6,7 +6,7 @@ import ExternalLink from './ExternalLink';
 
 export default function MenuBar({ user, isSignedIn, isInConf, onMenuButtonClick }) {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{height: '64px'}}>
       <Toolbar sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
         <ExternalLink component={Link} to="https://www.hpair.org">
           <img src="/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
