@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-// import firebase from 'firebase/compat/app';
 import { useEffect } from 'react';
 import './App.css';
 import MenuBar from './components/MenuBar';
@@ -71,8 +70,6 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
-        await syncUsers(user);
-        
         setCurrentUser(user);
         const data = await getUserData(user);
         if (data?.conferenceCode) {

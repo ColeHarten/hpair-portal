@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import { useState } from 'react';
 import { auth } from '../utils/firebase';
+import { syncUsers } from '../utils/mutations';
 
 export default function SignUp({ onSignInClick }) {
   const [email, setEmail] = useState('');
@@ -24,6 +25,8 @@ export default function SignUp({ onSignInClick }) {
       await userCredential.user.updateProfile({
           displayName: name,
       });
+
+      await syncUsers(userCredential.user)
 
       // User is signed up with the name added to their profile and Firestore document.
       // You can handle redirection or any other logic here.
