@@ -119,7 +119,7 @@ export default function App() {
           //   />
           //   {/* <Route path="/settings" element={currentUser ? <SettingsPage user={currentUser} navigate={navigate}/> : <Navigate to="/signin" />} /> */}
           //   <Route exact index element={<Navigate to="/signin" />} />
-          // </Routes
+          // </Routes>
         (!currentUser ? <SignInScreen /> : (!conferenceID ? <JoinConf user={currentUser} /> : <ConfPage user={currentUser} />))}
       </Box>
     </ThemeProvider>
