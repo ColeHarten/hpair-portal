@@ -105,6 +105,7 @@ export default function App() {
       setCurrentPage(2);
     }
   }, [currentUser, conferenceID]);
+  // TODO: Check to see if I need to add currentPage to the dependency array (may  be causing infinite loop)
 
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
