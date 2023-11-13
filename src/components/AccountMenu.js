@@ -88,7 +88,7 @@ export default function AccountMenu({user, onMenuButtonClick}) {
             <SupportAgentIcon />
           </ListItemIcon> Support
         </MenuItem>
-        {/* <MenuItem onClick={(event) => {
+        <MenuItem onClick={(event) => {
           handleClose();
           onMenuButtonClick(MENU_ITEMS.SETTINGS); // Pass the event to the callback
         }}>
@@ -96,7 +96,7 @@ export default function AccountMenu({user, onMenuButtonClick}) {
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem> */}
+        </MenuItem>
         <MenuItem onClick={(event) => {
           handleClose();
           onMenuButtonClick(MENU_ITEMS.LOGOUT); // Pass the event to the callback

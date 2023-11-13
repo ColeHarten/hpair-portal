@@ -9,18 +9,16 @@ export default function ConfPage({ user }) {
   React.useEffect(() => {
     async function fetchData() {
       const userData = await getUserData(user);
-      const data = await getConferenceData(userData.conferenceCode);
+      const data = await getConferenceData(userData?.conferenceCode);
       setConfName(data.conferenceName);
     }
     fetchData();
   }, [user]);
 
-
-
   const qrcode = (
     <QRCodeCanvas
       id="qrCode"
-      value={user.uid}
+      value={user?.uid}
       size={300}
       bgColor={"#ffffff"}
       level={"H"}
@@ -33,7 +31,6 @@ export default function ConfPage({ user }) {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="100vh"
       padding={2}
     >
       <Paper elevation={3}>

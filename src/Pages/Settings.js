@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Typography, Paper, TextField, Button, Box } from "@mui/material";
 import { useAuth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
 import { getUserData } from "../utils/mutations";
 
-export default function SettingsPage({ user }) {
+export default function SettingsPage({ user, setCurrentPage }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
 
   const { reauthenticateWithPassword, updatePassword } = useAuth();
-  const navigate = useNavigate();
 
   const handleChangePassword = async () => {
     try {
@@ -30,45 +28,51 @@ export default function SettingsPage({ user }) {
   const onBack = async () => {
   //  if use is in a confernece redirec to their conference pagez
     const data = await getUserData(user);
-    if (!!data.conferenceCode) {
-      navigate(`/conference/${data.conferenceCode}`);
+    if (data?.conferenceCode) {
+      // if we have a conference code, go to the conference page
+      setCurrentPage(2);
     } else {
-      navigate(`/join-conference`);
+      // otherwise, go to the join conference page
+      setCurrentPage(1);
     }
   }
 
   return (
     <Box
-      component="main"
-      sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[100]
-            : theme.palette.grey[900],
-        flexGrow: 1,
-        height: '100vh',
+  component="main"
+  sx={{
+    backgroundColor: (theme) =>
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[100]
+        : theme.palette.grey[900],
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column', // Stack contents vertically
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'auto',
+  }}
+>
+  <Paper
+    sx={{
+      width: '30%',     // Take up 1/3 of the width
+      minWidth: '350px', // But at least 300px
+      p: 2,              // Add some padding
+      display: 'flex',   // Use Flexbox to center content
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: 'calc(100vh - 64px)',
+    }}
+  >
+    <Box
+      style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'auto',
       }}
     >
-      <Paper
-        sx={{
-          width: '100%',
-          maxWidth: 400,
-          p: 2,
-          height: '100vh',
-        }}
-      >
-       <Box style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}>
       <Typography variant="h5">Change Password</Typography>
         <TextField
           label="Old Password"
