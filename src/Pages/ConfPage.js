@@ -8,9 +8,11 @@ export default function ConfPage({ user }) {
 
   React.useEffect(() => {
     async function fetchData() {
-      const userData = await getUserData(user);
-      const data = await getConferenceData(userData?.conferenceCode);
-      setConfName(data.conferenceName);
+      if(user){
+        const userData = await getUserData(user);
+        const data = await getConferenceData(userData?.conferenceCode);
+        setConfName(data?.conferenceName);
+      }
     }
     fetchData();
   }, [user]);

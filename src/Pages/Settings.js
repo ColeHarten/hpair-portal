@@ -16,6 +16,7 @@ export default function SettingsPage({ user, setCurrentPage }) {
       if (newPassword === confirmPassword) {
         await reauthenticateWithPassword(user, oldPassword);
         await updatePassword(user, newPassword);
+        alert("Password successfully changed.");
         setError(null);
       } else {
         alert("New passwords do not match.");

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './App.css';
 import MenuBar from './components/MenuBar';
 import SupportModal from './components/SupportModal';
@@ -55,17 +55,17 @@ const mdTheme = createTheme({
 
 export default function App() {
   // User authentication functionality.
-  const [currentUser, setCurrentUser] = React.useState(null);
-  const [conferenceID, setConferenceID] = React.useState(null);
-  const [supportOpen, setSupportOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [conferenceID, setConferenceID] = useState(null);
+  const [supportOpen, setSupportOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Pages:
   // 0: SignInScreen
   // 1: JoinConf/Payment
   // 2: ConfPage
   // 3: SettingsPage
-  const [currentPage, setCurrentPage] = React.useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
 
   // Listen to the Firebase Auth state and set the local state.
@@ -91,21 +91,20 @@ export default function App() {
   
   // useEffect to control which page is displayed
   useEffect(() => {
-    if(!currentUser) {
+    if (!currentUser) {
       // if we are not signed in, go to sign in page
       setCurrentPage(0);
-    } else if(currentPage === 3){ 
+    } else if (currentPage === 3) {
       // if we are on the settings page, don't change the page
-      setCurrentPage(3);
-    } else if (!conferenceID) { 
+      return;
+    } else if (!conferenceID) {
       // if we don't have a conference ID, go to join conference
-      setCurrentPage(1);
+      setCurrentPage(prevPage => (prevPage !== 1 ? 1 : prevPage));
     } else {
       // otherwise, go to the conference page
-      setCurrentPage(2);
+      setCurrentPage(prevPage => (prevPage !== 2 ? 2 : prevPage));
     }
-  }, [currentUser, conferenceID]);
-  // TODO: Check to see if I need to add currentPage to the dependency array (may  be causing infinite loop)
+  }, [currentUser, conferenceID, currentPage]);
 
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
@@ -118,7 +117,6 @@ export default function App() {
         break;
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
-        setCurrentPage(0);
         break;
       default:
         break;
@@ -126,6 +124,10 @@ export default function App() {
   }
 
   const routerSwitch = () => {
+    if (!currentUser) {
+      return <SignInScreen />;
+    }
+  
     switch(currentPage) {
       case 0:
         return <SignInScreen />;
