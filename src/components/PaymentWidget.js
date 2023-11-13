@@ -1,17 +1,22 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { CLIENT_ID } from '../config/Config';
-import { addConferenceCode, addPaymentInfo } from '../utils/mutations';
+import { addConferenceCode, addPaymentInfo, getConferenceData } from '../utils/mutations';
+import React from 'react';
 
 export default function PaymentWidget({user, joinCode}){
      // creates a paypal order
-    const createOrder = (data, actions) => {
+    const createOrder = async (data, actions) => {
+        // get the price of the conference
+        const confData = await getConferenceData(joinCode.slice(0,6));
+        const price = confData.price;
+
         return actions.order.create({
             purchase_units: [
                 {
                     description: `Conference Code: ${joinCode}`, 
                     amount: {
                         currency_code: "USD",
-                        value: 5,
+                        value: price,
                     },
                 },
             ],
@@ -31,8 +36,8 @@ export default function PaymentWidget({user, joinCode}){
             await addConferenceCode(user, joinCode.slice(0,6));
             // add payment info to payments collection
             await addPaymentInfo(user, {
-                amount: 5,
-                currency: "USD",
+                amount: details.purchase_units[0].amount.value,
+                currency: details.purchase_units[0].amount.currency_code,
                 joinCode: joinCode,
                 payerID: payer.payer_id,
                 orderID: details.id,
