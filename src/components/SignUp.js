@@ -35,6 +35,9 @@ export default function SignUp({ onSignInClick }) {
         // The provided email is already in use.
         // Show an alert to the user.
         alert("Email is already in use. Please choose a different email or sign in.");
+      } else if (error.code === "auth/invalid-email"){
+        // The provided email is not valid.
+        alert("Please enter a valid email.");
       } else {
         // Handle other sign-up errors (e.g., display a general error message).
         console.error(error);
