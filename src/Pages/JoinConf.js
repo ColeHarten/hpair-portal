@@ -85,8 +85,9 @@ export default function JoinConf ({ user}) {
     >
           {showPayment ? (
             <Box>
+              <img src="/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width='100%'  />
               <Typography variant="h6" style={{ margin: '8px 0' }}>
-                Please complete payment to join the conference.
+                Please complete payment to join conference.
               </Typography>
               <PaymentWidget user={user} joinCode={joinCode} />
               <Button variant="contained" onClick={() => setShowPayment(false)}>
@@ -95,6 +96,7 @@ export default function JoinConf ({ user}) {
             </Box>
           ) : (
             <>
+            <img src="/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width='100%'  />
               <Typography variant="h6" style={{ margin: '8px 0' }}>
                 Join Conference
                 <Tooltip title="Please enter join code sent in email." arrow>
