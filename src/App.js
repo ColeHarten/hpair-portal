@@ -14,6 +14,7 @@ import SignInScreen from './Pages/SignInScreen';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
+// Create a theme instance for the entire app
 const mdTheme = createTheme({
   palette: {
     primary: {
@@ -54,11 +55,39 @@ const mdTheme = createTheme({
 
 
 export default function App() {
-  // User authentication functionality.
   const [currentUser, setCurrentUser] = useState(null);
   const [conferenceID, setConferenceID] = useState(null);
   const [supportOpen, setSupportOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCaching, setIsCaching] = useState(true);
+
+  // Preload images into the cache asynchronously
+  const cacheImages = async (srcArray) => {
+    const promises = await srcArray.map((src) => {
+      return new Promise(function (resolve, reject) {
+        const img = new Image();
+
+        img.src = src;
+        img.onload = () => resolve();
+        img.onerror = () => reject();
+      });
+    });
+
+    await Promise.all(promises);
+
+    setIsCaching(false);
+  }
+
+  // preload the images into the cache on first load
+  useEffect(() => {
+    const imgs = ["/HPAIR Logo Banner (Black).png",
+                  "/HPAIR Logo Banner (White).png",]
+    
+    // only preload images if we haven't already
+    if(isCaching){
+      cacheImages(imgs)
+    }
+  }, [isCaching])  
 
   // Pages:
   // 0: SignInScreen
@@ -66,7 +95,6 @@ export default function App() {
   // 2: ConfPage
   // 3: SettingsPage
   const [currentPage, setCurrentPage] = useState(0);
-
 
   // Listen to the Firebase Auth state and set the local state.
   // This is called on sign in and sign out.
@@ -106,6 +134,7 @@ export default function App() {
     }
   }, [currentUser, conferenceID, currentPage]);
 
+  // Handles button clicks within the menu
   const handleMenuButtonClick = (buttonCode) => {
     // Handle button clicks within the menu here
     switch(buttonCode) {
@@ -123,6 +152,7 @@ export default function App() {
     }
   }
 
+  // Switches between pages based on the current page and user authentication state
   const routerSwitch = () => {
     if (!currentUser) {
       return <SignInScreen />;
@@ -145,11 +175,17 @@ export default function App() {
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
+      {/* Don't show the screen before the images are preloaded into the cache */}
+      {isCaching ? null :  
+      (<>
       <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
       <Box sx={{ marginTop: '64px' }}>
         <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
+        {/* Don't show the main window if the window is loading (i.e. auth state is changine). Prevents flickering. */}
         {isLoading ? <Typography>Loading...</Typography> : routerSwitch()}
       </Box>
+      </>
+      )}
     </ThemeProvider>
   );
 }
