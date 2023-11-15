@@ -17,6 +17,7 @@
     "crypto-hash": "^3.0.0",
     "firebase": "^10.5.0",
     "firebase-admin": "^11.11.0",
+    "gsap": "^3.12.2",
     "path-browserify": "^1.0.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
@@ -26,6 +27,7 @@
     "react-paypal-button-v2": "^2.6.3",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
+    "typescript": "^5.2.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

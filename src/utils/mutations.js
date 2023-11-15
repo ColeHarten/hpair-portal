@@ -32,13 +32,13 @@ export async function isValidConfCode(conferenceCode) {
 // mutation to get user data
 export async function getUserData(user) {
    try{
-   const userRef = doc(db, 'users', user.uid);
-   const userDoc = await getDoc(userRef);
-   if (userDoc.exists()) {
-      return userDoc.data();
-   } else {
-      return null;
-   }
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+         return userDoc.data();
+      } else {
+         return null;
+      }
    } catch (error) {
       console.error(error);
    }
@@ -70,8 +70,7 @@ export async function addConferenceCode(user, conferenceCode) {
       await updateDoc(doc(db, 'conferences', conferenceCode), {
          attendees: arrayUnion(user.uid),
       });
-   } catch (error)
-   {
+   } catch (error) {
       console.error(error);
    }
 }
