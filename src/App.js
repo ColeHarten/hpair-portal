@@ -60,13 +60,36 @@ export default function App() {
   const [supportOpen, setSupportOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const cacheImages = async (srcArray) => {
+    setIsLoading(true);
+    const promises = await srcArray.map((src) => {
+      return new Promise(function (resolve, reject) {
+        const img = new Image();
+
+        img.src = src;
+        img.onload = resolve();
+        img.onerror = reject();
+      });
+    });
+
+    await Promise.all(promises);
+
+    setIsLoading(false);
+  }
+
+  // cache the images
+  useEffect(() => {
+    const imgs = ["/HPAIR Logo Banner (Black).png",
+                  "/HPAIR Logo Banner (White).png",]
+    cacheImages(imgs)
+  }, [])  
+
   // Pages:
   // 0: SignInScreen
   // 1: JoinConf/Payment
   // 2: ConfPage
   // 3: SettingsPage
   const [currentPage, setCurrentPage] = useState(0);
-
 
   // Listen to the Firebase Auth state and set the local state.
   // This is called on sign in and sign out.
