@@ -176,7 +176,7 @@ export default function App() {
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
       {/* Don't show the screen before the images are preloaded into the cache */}
-      {isCaching ? null :  
+      {isCaching ? <Typography>Loading...</Typography> :  
       (<>
       <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
       <Box sx={{ marginTop: '64px' }}>
