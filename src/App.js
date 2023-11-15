@@ -59,9 +59,9 @@ export default function App() {
   const [conferenceID, setConferenceID] = useState(null);
   const [supportOpen, setSupportOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCaching, setIsCaching] = useState(true);
 
   const cacheImages = async (srcArray) => {
-    setIsLoading(true);
     const promises = await srcArray.map((src) => {
       return new Promise(function (resolve, reject) {
         const img = new Image();
@@ -74,7 +74,7 @@ export default function App() {
 
     await Promise.all(promises);
 
-    setIsLoading(false);
+    setIsCaching(false);
   }
 
   // cache the images
@@ -168,11 +168,15 @@ export default function App() {
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
+      {isCaching ? <Typography>Caching...</Typography> :  
+      (<>
       <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
       <Box sx={{ marginTop: '64px' }}>
         <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
         {isLoading ? <Typography>Loading...</Typography> : routerSwitch()}
       </Box>
+      </>
+      )}
     </ThemeProvider>
   );
 }
