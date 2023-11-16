@@ -37,7 +37,7 @@ export default function Home({user, onMenuButtonClick}) {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,
-          '@media (min-width:600px)': {
+          '@media (min-width:500px)': {
             flexDirection: 'row',
           },
         }}
@@ -71,6 +71,8 @@ export default function Home({user, onMenuButtonClick}) {
             flexDirection: 'column',
             alignItems: 'center',
             width: '60%',
+            maxHeight: '80vh',
+            minWidth: '350px',
           }}
         >
           {!user ?
@@ -79,7 +81,7 @@ export default function Home({user, onMenuButtonClick}) {
             ) : (
               <SignIn onSignUpClick={handleSignUpClick} />
             )) : (
-            <Box>
+            <Box sx={{overflow: "auto"}}>
               <JoinConf user={user} onMenuButtonClick={onMenuButtonClick} />
             </Box>
           )}

@@ -7,7 +7,8 @@ export default function SettingsPage({ user, setCurrentPage }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(null);
+
+  const [error, setError] = useState(false);
 
   const { reauthenticateWithPassword, updatePassword } = useAuth();
 
@@ -17,12 +18,12 @@ export default function SettingsPage({ user, setCurrentPage }) {
         await reauthenticateWithPassword(user, oldPassword);
         await updatePassword(user, newPassword);
         alert("Password successfully changed.");
-        setError(null);
       } else {
         alert("New passwords do not match.");
       }
     } catch (error) {
       alert("Please verify your old password is correct.");
+      setError(true);
     }
   };
 
@@ -64,16 +65,14 @@ export default function SettingsPage({ user, setCurrentPage }) {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: 'calc(100vh - 64px)',
-    }}
-  >
+    }}>
     <Box
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-      }}
-    >
+      }}>
       <Typography variant="h5">Change Password</Typography>
         <TextField
           label="Old Password"

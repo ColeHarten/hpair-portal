@@ -8,9 +8,8 @@ import MenuBar from './components/MenuBar';
 import SupportModal from './components/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './pages/ConfPage';
-import JoinConf from './components/JoinConf';
-import SettingsPage from './pages/Settings';
 import Home from './pages/Home';
+import SettingsPage from './pages/Settings';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
