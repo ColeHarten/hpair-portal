@@ -1,8 +1,6 @@
 # HPAIR Delegate Portal
 
-This is the Harvard College Project for Asian and International Relations Delegate Portal for 2022 (and hopefully beyond), where delegates can apply to the HPAIR conferences.
-
-Also see the [docs](./docs/) and the [Notion onboarding page](https://www.notion.so/hpair-docs/HPAIR-Documentation-49b5e33481a94288bad010a6612dd16f) for more information.
+This is the Harvard College Project for Asian and International Relations Delegate Portal for 2023-2024 (and hopefully beyond), where delegates can apply to the HPAIR conferences.
 
 
 ## Tech stack
@@ -111,5 +109,4 @@ firebase deploy
 
 ## Workflow
 
-### dev branch
 We have divided the repository into two principal, permanent banches: `master` and `dev`. The branch `master` holds the current production repo, that is, the code for the app currently deployed to firebase. `master` can only be modified via a pull request, and it should only be modified by merging with `dev` after rigorous testing of all functionality. The other permanent branch, `dev`, holds the app next up for deployment. `dev` is hosted by a Vercel app, and it should only be pushed to with buildable code.
