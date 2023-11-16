@@ -4,12 +4,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from "react";
 import './App.css';
-import MenuBar from './components/MenuBar';
-import SupportModal from './components/SupportModal';
+import MenuBar from './components/menuBar/MenuBar';
+import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
-import ConfPage from './pages/ConfPage';
-import Home from './pages/Home';
-import SettingsPage from './pages/Settings';
+import ConfPage from './components/confPage/ConfPage';
+import Home from './components/home/Home'
+import SettingsPage from './components/settings/Settings';
+
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -174,14 +175,14 @@ export default function App() {
       case 2:
         return (
           <Box sx={{ marginTop: '64px' }}>
-            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
+            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
             <ConfPage user={currentUser} />
           </Box>
           );
       case 3:
         return (
           <Box sx={{ marginTop: '64px' }}>
-            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
+            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
             <SettingsPage user={currentUser} setCurrentPage={setCurrentPage}/>
           </Box>
           );
