@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import { useState } from 'react';
 import SignIn from '../components/SignIn.js';
 import SignUp from '../components/SignUp.js';
-
+import JoinConf from "../components/JoinConf.js";
 import Planet from '../components/planet/Planet.tsx';
 
-export default function SignInScreen() {
+export default function Home({user, onMenuButtonClick}) {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleSignUpClick = () => {
@@ -47,9 +47,6 @@ export default function SignInScreen() {
           flexDirection: 'column',
           alignItems: 'center',
           width: '50%', // Adjusted width to take the full width on smaller screens
-          // '@media (min-width:600px)': {
-          //   width: '50%', // Takes 50% width on larger screens
-          // },
         }}>
         <Planet />
       </Box>
@@ -59,11 +56,10 @@ export default function SignInScreen() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '50%', // Adjusted width to take the full width on smaller screens
+          width: '55%', // Adjusted width to take the full width on smaller screens
         }}
       >
         <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" />
-
         <Box
           sx={{
             p: 4,
@@ -74,15 +70,18 @@ export default function SignInScreen() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            // maxWidth: '100%',
             width: '60%',
           }}
-          component="div"
         >
-          {isSignUp ? (
-            <SignUp onSignInClick={handleSignInClick} />
-          ) : (
-            <SignIn onSignUpClick={handleSignUpClick} />
+          {!user ?
+           ( isSignUp ? (
+              <SignUp onSignInClick={handleSignInClick} />
+            ) : (
+              <SignIn onSignUpClick={handleSignUpClick} />
+            )) : (
+            <Box>
+              <JoinConf user={user} onMenuButtonClick={onMenuButtonClick} />
+            </Box>
           )}
         </Box>
       </Box>

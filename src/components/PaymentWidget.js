@@ -2,6 +2,7 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { CLIENT_ID } from '../config/Config';
 import { addConferenceCode, addPaymentInfo, getConferenceData } from '../utils/mutations';
 import React from 'react';
+import { Box } from "@mui/material";
 
 export default function PaymentWidget({user, joinCode}){
      // creates a paypal order
@@ -21,7 +22,7 @@ export default function PaymentWidget({user, joinCode}){
                 },
             ],
             application_context: {
-                shipping_preference: "NO_SHIPPING"
+                shipping_preference: "NO_SHIPPING",
             }
         }).then((orderID) => {
             return orderID;
@@ -53,13 +54,14 @@ export default function PaymentWidget({user, joinCode}){
     };
 
     return (
-        <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
+        <PayPalScriptProvider options={{ "client-id": CLIENT_ID, "vault":true }}>
             <PayPalButtons
                 style={{ layout: "vertical" }}
                 createOrder={createOrder}
                 onApprove={onApprove}
                 onError={onError}
-                shippingPreference="NO_SHIPPING"
+                vault="true"
+                // shippingPreference="NO_SHIPPING"
             />
         </PayPalScriptProvider>
     );

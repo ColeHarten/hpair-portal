@@ -8,9 +8,9 @@ import MenuBar from './components/MenuBar';
 import SupportModal from './components/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './pages/ConfPage';
-import JoinConf from './pages/JoinConf';
+import JoinConf from './components/JoinConf';
 import SettingsPage from './pages/Settings';
-import SignInScreen from './pages/Home';
+import Home from './pages/Home';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -160,25 +160,18 @@ export default function App() {
     if (!currentUser) {
       return (
         <Box>
-          <SignInScreen />
+          <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
         </Box>
       );
     }
-  
+
     switch(currentPage) {
       case 0:
         return (
           <Box>
-            <SignInScreen />
+            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
           </Box>
         );
-      case 1:
-        return (
-          <Box sx={{ marginTop: '64px' }}>
-            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
-            <JoinConf user={currentUser} />
-          </Box>
-          );
       case 2:
         return (
           <Box sx={{ marginTop: '64px' }}>
@@ -196,7 +189,7 @@ export default function App() {
       default:
         return (
           <Box>
-            <SignInScreen />
+            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
           </Box>
         );
     }
