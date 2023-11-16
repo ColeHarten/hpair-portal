@@ -9,7 +9,6 @@ export default function SignIn({ onSignUpClick }) {
   const [password, setPassword] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-
   const textFieldStyles = {
     container: {
       margin: '8px 0',
@@ -24,7 +23,6 @@ export default function SignIn({ onSignUpClick }) {
     },
   };
 
-
   const handleSignIn = async () => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
@@ -36,6 +34,8 @@ export default function SignIn({ onSignUpClick }) {
 
   const handleForgotPassword = () => {
     // Show the "Forgot Password" input fields
+    setEmail('');
+    setPassword('');
     setShowForgotPassword(true);
   };
 
@@ -70,7 +70,6 @@ export default function SignIn({ onSignUpClick }) {
         {/* TODO: The auto fill info from the browser breaks the styles. */}
         <TextField
           label="Email"
-          type="email"
           value={email}
           variant="standard"
           onChange={(e) => setEmail(e.target.value)}
@@ -83,7 +82,6 @@ export default function SignIn({ onSignUpClick }) {
           }}
           required
         />
-
         <TextField
           label="Password"
           type="password"
@@ -99,12 +97,9 @@ export default function SignIn({ onSignUpClick }) {
           }}
           required
         />
-
-        <Button variant="contained" onClick={handleSignIn} sx={{
-          outline: "white solid 2px",
-          marginTop: "10px",
-          background: "primary",
-        }}>
+        <Button variant="contained" onClick={handleSignIn} 
+          color="secondary"
+        >
           Sign In
         </Button>
         <Typography component={"span"} margin="8px 0">
@@ -152,9 +147,8 @@ export default function SignIn({ onSignUpClick }) {
           }} />
         <TextField
           label="Email"
-          type="email"
           variant="standard"
-          value={password}
+          value={email}
           onChange={(e) => setPassword(e.target.value)}
           style={textFieldStyles.container}
           InputProps={{
@@ -167,7 +161,6 @@ export default function SignIn({ onSignUpClick }) {
         />
         <Button
           variant="contained"
-          style={{outline: "white solid 2px",}}
           color="secondary"
           onClick={handleSendPasswordResetEmail}
         >
@@ -177,8 +170,7 @@ export default function SignIn({ onSignUpClick }) {
           variant="text"
           color="secondary"
           onClick={() => setShowForgotPassword(false)} // Go back to the sign-in form
-          style={{ marginTop: '8px' }}
-          
+          style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'white' }}
         >
           Back to Sign In
         </Button>

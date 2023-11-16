@@ -79,11 +79,10 @@ export default function SignUp({ onSignInClick }) {
             margin: '8px 0',
           }} />
       <TextField
-          label="Email"
-          type="email"
-          value={email}
+          label="Name"
+          value={name}
           variant="standard"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           style={textFieldStyles.container}
           InputProps={{
             style: textFieldStyles.input,
@@ -93,12 +92,11 @@ export default function SignUp({ onSignInClick }) {
           }}
           required
         />
-      <TextField
-          label="Name"
-          type="name"
-          value={name}
+        <TextField
+          label="Email"
+          value={email}
           variant="standard"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           style={textFieldStyles.container}
           InputProps={{
             style: textFieldStyles.input,
@@ -138,11 +136,10 @@ export default function SignUp({ onSignInClick }) {
           }}
           required
         />
-      <Button variant="contained" onClick={handleSignUp} sx={{
-          outline: "white solid 2px",
-          marginTop: "10px",
-          background: "primary",
-        }}>Sign Up</Button>
+      <Button variant="contained" onClick={handleSignUp}
+          // style={{outline: "white solid 2px",}}
+          color="secondary"
+        >Sign Up</Button>
       <Typography component={"span"} type="body3" margin="8px 0">
         Already signed up? <Link 
             component="button" 
