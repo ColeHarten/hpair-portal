@@ -1,8 +1,7 @@
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import { useState } from 'react';
 import SignIn from '../components/SignIn.js';
 import SignUp from '../components/SignUp.js';
-
 
 import Planet from '../components/planet/Planet.tsx';
 
@@ -63,7 +62,7 @@ export default function SignInScreen() {
           width: '50%', // Adjusted width to take the full width on smaller screens
         }}
       >
-        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="70%" />
+        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" />
 
         <Box
           sx={{
@@ -76,7 +75,7 @@ export default function SignInScreen() {
             flexDirection: 'column',
             alignItems: 'center',
             // maxWidth: '100%',
-            width: '70%',
+            width: '60%',
           }}
           component="div"
         >

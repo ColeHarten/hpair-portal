@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography, Link } from "@mui/material";
+import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { auth } from '../utils/firebase';
 import { syncUsers } from '../utils/mutations';
@@ -9,6 +9,21 @@ export default function SignUp({ onSignInClick }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const textFieldStyles = {
+    container: {
+      margin: '8px 0',
+      backgroundColor: 'transparent',
+      borderColor: 'white',
+    },
+    input: {
+      color: 'white',
+      borderColor: 'white',
+    },
+    label: {
+      color: 'white',
+    },
+  };
+
   const handleSignUp = async () => {
     if(password !== confirmPassword) {
       alert("Passwords do not match. Please try again.");
@@ -16,6 +31,9 @@ export default function SignUp({ onSignInClick }) {
     }
     if(email === '' || name === '' || password === '' || confirmPassword === '') {
       alert("Please fill out all fields.");
+      return;
+    } else if(password.length < 8) {
+      alert("Password must be at least 8 characters.");
       return;
     }
     try {
@@ -52,46 +70,87 @@ export default function SignUp({ onSignInClick }) {
       alignItems: 'center',  
       justifyContent: 'center', 
     }}>
-      <Typography variant="h5">Sign Up</Typography>
+      <Typography variant="h4">Sign Up</Typography>
+      <Box
+          sx={{
+            width: '100%',
+            height: '2px',
+            backgroundColor: 'white',
+            margin: '8px 0',
+          }} />
       <TextField
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        style={{ margin: '8px 0' }}
-
-      />
+          label="Email"
+          type="email"
+          value={email}
+          variant="standard"
+          onChange={(e) => setEmail(e.target.value)}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
+          required
+        />
       <TextField
-        label="Name"
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-        style={{ margin: '8px 0' }}
-
-      />
+          label="Name"
+          type="name"
+          value={name}
+          variant="standard"
+          onChange={(e) => setName(e.target.value)}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
+          required
+        />
+        <TextField
+            label="Password"
+            type="password"
+            value={password}
+            variant="standard"
+            onChange={(e) => setPassword(e.target.value)}
+            style={textFieldStyles.container}
+            InputProps={{
+              style: textFieldStyles.input,
+            }}
+            InputLabelProps={{
+              style: textFieldStyles.label,
+            }}
+            required
+          />
       <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        style={{ margin: '8px 0' }}
-
-      />
-      <TextField
-        label="Confirm Password"
-        type="password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-        style={{ margin: '8px 0' }}
-
-      />
-      <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
-      <Typography component={"span"}>
-        Already signed up? <Link component="button" variant="body1" onClick={onSignInClick}>Sign In</Link>
+          label="Confirm Password"
+          type="password"
+          value={confirmPassword}
+          variant="standard"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
+          required
+        />
+      <Button variant="contained" onClick={handleSignUp} sx={{
+          outline: "white solid 2px",
+          marginTop: "10px",
+          background: "primary",
+        }}>Sign Up</Button>
+      <Typography component={"span"} type="body3" margin="8px 0">
+        Already signed up? <Link 
+            component="button" 
+            onClick={onSignInClick} 
+            style={{ textDecoration: 'none', color: '#6e8eb8' }}
+          >
+            <strong>Sign in instead</strong>
+          </Link>
       </Typography>
     </Box>
 

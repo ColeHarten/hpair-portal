@@ -1,13 +1,29 @@
-import { Box, Button, TextField, Typography, Input } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../utils/firebase';
-import OutlinedInput from '@mui/material/OutlinedInput';
+
 
 export default function SignIn({ onSignUpClick }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+
+  const textFieldStyles = {
+    container: {
+      margin: '8px 0',
+      backgroundColor: 'transparent',
+      color: 'white',
+    },
+    input: {
+      color: 'white',
+    },
+    label: {
+      color: 'white',
+    },
+  };
+
 
   const handleSignIn = async () => {
     try {
@@ -43,7 +59,7 @@ export default function SignIn({ onSignUpClick }) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <Typography variant="h5" >Sign In</Typography>
+        <Typography variant="h4">Sign In</Typography>
         <Box
           sx={{
             width: '100%',
@@ -51,44 +67,70 @@ export default function SignIn({ onSignUpClick }) {
             backgroundColor: 'white',
             margin: '8px 0',
           }} />
-        <Input
-          placeholder="Email"
+        {/* TODO: The auto fill info from the browser breaks the styles. */}
+        <TextField
           label="Email"
           type="email"
           value={email}
-          variant="outlined"
+          variant="standard"
           onChange={(e) => setEmail(e.target.value)}
-          style={{ margin: '8px 0', backgroundColor: "transparent", 
-                    color: "white"
-                }}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
           required
         />
-        <Input
-          placeholder="Password"
+
+        <TextField
           label="Password"
           type="password"
-          variant="outlined"
+          variant="standard"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ margin: '8px 0', backgroundColor: "transparent", color: "white" }}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
           required
         />
+
         <Button variant="contained" onClick={handleSignIn} sx={{
           outline: "white solid 2px",
           marginTop: "10px",
-          color: "#A51C30",
+          background: "primary",
         }}>
           Sign In
         </Button>
-        <Typography component={"span"}>
+        <Typography component={"span"} margin="8px 0">
         <Box>
-            <Link component="button" variant="body2" onClick={onSignUpClick}>
-              Sign Up
-            </Link>{" | "}
-            <Link component="button" variant="body2" onClick={handleForgotPassword}>
-              Forgot Password?
+        <Typography>
+          Don't have an account?  <Link 
+            component="button" 
+            variant="body2" 
+            onClick={onSignUpClick} 
+            style={{ textDecoration: 'none', color: '#6e8eb8' }}
+          >
+            <strong>Sign up instead</strong>
+          </Link>
+          <br />
+          <center>
+            <Link 
+              component="button" 
+              variant="body2" 
+              onClick={handleForgotPassword} 
+              style={{ textDecoration: 'none', color: '#6e8eb8' }}
+            >
+              <strong>Forgot Password?</strong>
             </Link>
-          </Box>
+          </center>
+          </Typography>
+        </Box>
         </Typography>
       </Box>
     );
@@ -100,28 +142,43 @@ export default function SignIn({ onSignUpClick }) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Typography variant="h5">Forgot Password</Typography>
+        <Typography variant="h4">Forgot Password</Typography>
+        <Box
+          sx={{
+            width: '100%',
+            height: '2px',
+            backgroundColor: 'white',
+            margin: '8px 0',
+          }} />
         <TextField
           label="Email"
           type="email"
-          value={email}
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ margin: '8px 0' }}
+          variant="standard"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={textFieldStyles.container}
+          InputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
           required
         />
         <Button
           variant="contained"
-          color="primary"
+          style={{outline: "white solid 2px",}}
+          color="secondary"
           onClick={handleSendPasswordResetEmail}
         >
           Send Email
         </Button>
         <Button
           variant="text"
-          color="primary"
+          color="secondary"
           onClick={() => setShowForgotPassword(false)} // Go back to the sign-in form
           style={{ marginTop: '8px' }}
+          
         >
           Back to Sign In
         </Button>

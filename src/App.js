@@ -19,10 +19,10 @@ const mdTheme = createTheme({
   palette: {
     primary: {
       // main: '#A51C30', // A crimson primary color
-      main: "#ffffff"
+      main: "#A51C30"
     },
     secondary: {
-      main: '#A51C30', // A white secondary color
+      main: '#ffffff', // A white secondary color
     },
   },
   typography: {
@@ -83,8 +83,8 @@ export default function App() {
   useEffect(() => {
     const imgs = ["/art/HPAIR Logo Banner (Black).png",
                   "/art/HPAIR Logo Banner (White).png",
-                  "art/hpair-logo-white.png",
-                  "art/shanghai.jpg",]
+                  "/art/hpair-logo-white.png",
+                  "/art/shanghai.jpg",]
     
     // only preload images if we haven't already
     if(isCaching){

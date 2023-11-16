@@ -59,6 +59,7 @@ export default function PaymentWidget({user, joinCode}){
                 createOrder={createOrder}
                 onApprove={onApprove}
                 onError={onError}
+                shippingPreference="NO_SHIPPING"
             />
         </PayPalScriptProvider>
     );
