@@ -13,7 +13,6 @@ export default function SignIn({ onSignUpClick }) {
     container: {
       margin: '8px 0',
       backgroundColor: 'transparent',
-      color: 'white',
     },
     input: {
       color: 'white',
@@ -80,6 +79,7 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
         <TextField
@@ -95,6 +95,7 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
         <Button variant="contained" onClick={handleSignIn} 
@@ -157,6 +158,7 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
         <Button

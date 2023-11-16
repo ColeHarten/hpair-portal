@@ -64,7 +64,7 @@ export default function Home({user, onMenuButtonClick}) {
           sx={{
             p: 4,
             borderRadius: '0.5rem',
-            backgroundColor: 'rgba(220, 20, 60, 0.7)',
+            backgroundColor: 'rgba(220, 20, 60, 0.6)',
             border: '4px solid #fff',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
             display: 'flex',

@@ -18,11 +18,10 @@ import { getUserData } from "./utils/mutations";
 const mdTheme = createTheme({
   palette: {
     primary: {
-      // main: '#A51C30', // A crimson primary color
       main: "#A51C30"
     },
     secondary: {
-      main: '#ffffff', // A white secondary color
+      main: "#ffffff", // A white secondary color
     },
   },
   typography: {

@@ -90,6 +90,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
         <TextField
@@ -104,6 +105,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
         <TextField
@@ -119,6 +121,7 @@ export default function SignUp({ onSignInClick }) {
             InputLabelProps={{
               style: textFieldStyles.label,
             }}
+            color='secondary'
             required
           />
       <TextField
@@ -134,6 +137,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color='secondary'
           required
         />
       <Button variant="contained" onClick={handleSignUp}
