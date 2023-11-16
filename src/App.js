@@ -18,10 +18,11 @@ import { getUserData } from "./utils/mutations";
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: '#A51C30', // A crimson primary color
+      // main: '#A51C30', // A crimson primary color
+      main: "#ffffff"
     },
     secondary: {
-      main: '#000000', // A white secondary color
+      main: '#A51C30', // A white secondary color
     },
   },
   typography: {
@@ -82,6 +83,7 @@ export default function App() {
   useEffect(() => {
     const imgs = ["/art/HPAIR Logo Banner (Black).png",
                   "/art/HPAIR Logo Banner (White).png",
+                  "art/hpair-logo-white.png",
                   "art/shanghai.jpg",]
     
     // only preload images if we haven't already

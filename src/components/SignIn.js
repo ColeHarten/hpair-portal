@@ -1,7 +1,8 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, Input } from "@mui/material";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../utils/firebase';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 export default function SignIn({ onSignUpClick }) {
   const [email, setEmail] = useState('');
@@ -43,24 +44,40 @@ export default function SignIn({ onSignUpClick }) {
         justifyContent: 'center',
       }}>
         <Typography variant="h5" >Sign In</Typography>
-        <TextField
+        <Box
+          sx={{
+            width: '100%',
+            height: '2px',
+            backgroundColor: 'white',
+            margin: '8px 0',
+          }} />
+        <Input
+          placeholder="Email"
           label="Email"
           type="email"
           value={email}
           variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
-          style={{ margin: '8px 0' }}
+          style={{ margin: '8px 0', backgroundColor: "transparent", 
+                    color: "white"
+                }}
           required
         />
-        <TextField
+        <Input
+          placeholder="Password"
           label="Password"
           type="password"
+          variant="outlined"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ margin: '8px 0' }}
+          style={{ margin: '8px 0', backgroundColor: "transparent", color: "white" }}
           required
         />
-        <Button variant="contained" onClick={handleSignIn}>
+        <Button variant="contained" onClick={handleSignIn} sx={{
+          outline: "white solid 2px",
+          marginTop: "10px",
+          color: "#A51C30",
+        }}>
           Sign In
         </Button>
         <Typography component={"span"}>

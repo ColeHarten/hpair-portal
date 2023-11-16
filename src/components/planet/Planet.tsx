@@ -7,6 +7,8 @@ import React, { createRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import pastConferences from './past-conferences.json';
 
+import { Typography, Box } from '@mui/material';
+
 declare const planetaryjs: any;
 declare const topojson: any;
 
@@ -163,24 +165,38 @@ export default function Planet() {
     }, []);
 
     return (
-        <div className="text-center w-full max-w-md lg:max-w-lg p-8 hidden md:block">
-            <div className="flex flex-col items-center justify-center gap-4
-                            text-white bg-black bg-opacity-30 md:bg-transparent
-                            mb-4 h-52 md:h-32 rounded-lg p-8"
-            >
-            <h1 className="text-2xl font-bold">
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '1rem',
+            color: 'white',
+            padding: '1rem',
+            maxHeight: "100vh",
+        }}
+        >
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1rem',
+                color: 'white',
+                padding: '2rem',       
+            }}>
+            <Typography fontStyle="bold" component="h1" variant="h5">
                 {confData.location}
                 {' '}
                 {confData.year}
-            </h1>
-            <p className="italic text-xl">{confData.title}</p>
-            </div>
+            </Typography>
+            <Typography component="p" fontStyle="italic">{confData.title}</Typography>
+            </Box>
             <canvas
             ref={canvasRef}
             width={CANVAS_SIZE}
             height={CANVAS_SIZE}
-            className="w-full h-full cursor-move"
             />
-        </div>
+        </Box>
     );
 }

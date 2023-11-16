@@ -18,8 +18,7 @@ export default function SignInScreen() {
   };
 
   return (
-  // create a box with a background image
-  <Box
+    <Box
       sx={{
         width: '100vw',
         height: '100vh',
@@ -44,18 +43,51 @@ export default function SignInScreen() {
           },
         }}
       >
+      <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '50%', // Adjusted width to take the full width on smaller screens
+          // '@media (min-width:600px)': {
+          //   width: '50%', // Takes 50% width on larger screens
+          // },
+        }}>
         <Planet />
-        <Box>
-          <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="100%" />
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px 0' }}>
-            {isSignUp ? (
-              <SignUp onSignInClick={handleSignInClick} />
-            ) : (
-              <SignIn onSignUpClick={handleSignUpClick} />
-            )}
-          </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '50%', // Adjusted width to take the full width on smaller screens
+        }}
+      >
+        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="70%" />
+
+        <Box
+          sx={{
+            p: 4,
+            borderRadius: '0.5rem',
+            backgroundColor: 'rgba(220, 20, 60, 0.7)',
+            border: '4px solid #fff',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            // maxWidth: '100%',
+            width: '70%',
+          }}
+          component="div"
+        >
+          {isSignUp ? (
+            <SignUp onSignInClick={handleSignInClick} />
+          ) : (
+            <SignIn onSignUpClick={handleSignUpClick} />
+          )}
         </Box>
       </Box>
     </Box>
+  </Box>
   );
 }
