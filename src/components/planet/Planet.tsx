@@ -20,7 +20,7 @@ const INIT_LAT = 42.3751;
 const REPEAT_DELAY = 1000; // ms
 const ROTATE_DURATION = 2; // s
 
-const OCEAN_COLOR = '#D6EFFF';
+const OCEAN_COLOR = '#B6DFE9';//'#D6EFFF';
 const LAND_COLOR = '#A51C30';
 const BORDER_COLOR = '#FFFFFF';
 const LAKE_COLOR = '#D6EFFF';
