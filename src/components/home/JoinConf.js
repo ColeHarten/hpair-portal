@@ -81,7 +81,7 @@ export default function JoinConf ({ user, onMenuButtonClick }) {
         </Typography>
         <PaymentWidget user={user} joinCode={joinCode} />
         <Button
-         variant="contained" color="secondary"
+          variant="contained" color="secondary"
           onClick={() => setShowPayment(false)} // Go back to the sign-in form
           // style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'white' }}
         >Return</Button>
@@ -106,6 +106,7 @@ export default function JoinConf ({ user, onMenuButtonClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
+          color="secondary"
           onChange={(e) => setJoinCode(e.target.value)}
         />
         <Button variant="contained" color="secondary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
