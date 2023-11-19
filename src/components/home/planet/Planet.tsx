@@ -174,6 +174,7 @@ export default function Planet() {
             color: 'white',
             padding: '1rem',
             maxHeight: "100vh",
+            width: "100%",
         }}
         >
             <Box sx={{
@@ -183,7 +184,7 @@ export default function Planet() {
                 justifyContent: 'center',
                 gap: '1rem',
                 color: 'white',
-                padding: '2rem',       
+                padding: '1rem',       
             }}>
             <Typography fontStyle="bold" component="h1" variant="h5">
                 {confData.location}

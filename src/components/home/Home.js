@@ -24,12 +24,13 @@ export default function Home({user, onMenuButtonClick}) {
         backgroundImage: 'url("art/shanghai.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        display: 'flex',
+        // display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: 'white', // You can set the text color as needed
+        maxHeight: '100vh',
+        overflow: 'auto',
       }}
-      component="div"
     >
       <Box
         sx={{
@@ -37,7 +38,7 @@ export default function Home({user, onMenuButtonClick}) {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,
-          '@media (min-width:500px)': {
+          '@media (min-width:850px)': {
             flexDirection: 'row',
           },
         }}
@@ -47,7 +48,7 @@ export default function Home({user, onMenuButtonClick}) {
           flexDirection: 'column',
           alignItems: 'center',
           width: '50%', // Adjusted width to take the full width on smaller screens
-        }}>
+      }}>
         <Planet />
       </Box>
 
@@ -59,7 +60,7 @@ export default function Home({user, onMenuButtonClick}) {
           width: '55%', // Adjusted width to take the full width on smaller screens
         }}
       >
-        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" />
+        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" style={{ minWidth: '291px' }} />
         <Box
           sx={{
             p: 4,
