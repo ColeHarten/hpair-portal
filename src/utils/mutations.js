@@ -27,7 +27,7 @@ export async function isValidConfCode(conferenceCode) {
    } catch (error) {
       console.error(error);
    }
- }
+}
 
 // mutation to get user data
 export async function getUserData(user) {
@@ -61,7 +61,7 @@ export async function getConferenceData(conferenceCode) {
 
 // mutation to add conference code to user doc
 export async function addConferenceCode(user, conferenceCode) {
-   try{
+   try {
       const userRef = doc(db, 'users', user.uid);
       await updateDoc(userRef, {
          conferenceCode: conferenceCode,

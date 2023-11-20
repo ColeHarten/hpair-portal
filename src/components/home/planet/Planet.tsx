@@ -174,7 +174,7 @@ export default function Planet() {
             color: 'white',
             padding: '1rem',
             maxHeight: "100vh",
-            width: "100%",
+            width: "90%",
         }}
         >
             <Box sx={{
