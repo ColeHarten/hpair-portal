@@ -4,13 +4,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from "react";
 import './App.css';
-import MenuBar from './components/MenuBar';
-import SupportModal from './components/SupportModal';
+import MenuBar from './components/menuBar/MenuBar';
+import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
-import ConfPage from './Pages/ConfPage';
-import JoinConf from './Pages/JoinConf';
-import SettingsPage from './Pages/Settings';
-import SignInScreen from './Pages/SignInScreen';
+import ConfPage from './components/confPage/ConfPage';
+import Home from './components/home/Home'
+import SettingsPage from './components/settings/Settings';
+
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -18,10 +18,10 @@ import { getUserData } from "./utils/mutations";
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: '#A51C30', // A crimson primary color
+      main: "#A51C30"
     },
     secondary: {
-      main: '#000000', // A white secondary color
+      main: "#ffffff", // A white secondary color
     },
   },
   typography: {
@@ -80,8 +80,10 @@ export default function App() {
 
   // preload the images into the cache on first load
   useEffect(() => {
-    const imgs = ["/HPAIR Logo Banner (Black).png",
-                  "/HPAIR Logo Banner (White).png",]
+    const imgs = ["/art/HPAIR Logo Banner (Black).png",
+                  "/art/HPAIR Logo Banner (White).png",
+                  "/art/hpair-logo-white.png",
+                  "/art/shanghai.jpg",]
     
     // only preload images if we haven't already
     if(isCaching){
@@ -155,20 +157,40 @@ export default function App() {
   // Switches between pages based on the current page and user authentication state
   const routerSwitch = () => {
     if (!currentUser) {
-      return <SignInScreen />;
+      return (
+        <Box>
+          <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
+        </Box>
+      );
     }
-  
+
     switch(currentPage) {
       case 0:
-        return <SignInScreen />;
-      case 1:
-        return <JoinConf user={currentUser} />;
+        return (
+          <Box>
+            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
+          </Box>
+        );
       case 2:
-        return <ConfPage user={currentUser} />;
+        return (
+          <Box sx={{ marginTop: '64px' }}>
+            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
+            <ConfPage user={currentUser} />
+          </Box>
+          );
       case 3:
-        return <SettingsPage user={currentUser} setCurrentPage={setCurrentPage}/>;
+        return (
+          <Box sx={{ marginTop: '64px' }}>
+            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
+            <SettingsPage user={currentUser} setCurrentPage={setCurrentPage}/>
+          </Box>
+          );
       default:
-        return <SignInScreen />;
+        return (
+          <Box>
+            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
+          </Box>
+        );
     }
   }
 
@@ -178,12 +200,9 @@ export default function App() {
       {/* Don't show the screen before the images are preloaded into the cache */}
       {isCaching ? <Typography>Loading...</Typography> :  
       (<>
-      <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} isSignedIn={!!currentUser} />
-      <Box sx={{ marginTop: '64px' }}>
         <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
         {/* Don't show the main window if the window is loading (i.e. auth state is changine). Prevents flickering. */}
         {isLoading ? <Typography>Loading...</Typography> : routerSwitch()}
-      </Box>
       </>
       )}
     </ThemeProvider>

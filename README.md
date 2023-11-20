@@ -1,6 +1,30 @@
-# Getting Started with Create React App
+# HPAIR Delegate Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the Harvard College Project for Asian and International Relations Delegate Portal for 2023-2024 (and hopefully beyond), where delegates can apply to the HPAIR conferences.
+
+
+## Tech stack
+
+**Project**
+
+- Primary language: Javascript
+- Package manager: Node Package Manager (npm)
+
+**Frontend**
+
+- JavaScript library: [React](https://reactjs.org/)
+- Build tooling: [react-scripts](https://create-react-app.dev/)
+- Styling framework: [Material UI](https://mui.com/material-ui/)
+
+**Backend**
+
+Our backend is entirely built on [Firebase](https://firebase.google.com/), an app development platform from Google.
+
+- Database: [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore)
+- Authentication: [Firebase Auth](https://firebase.google.com/docs/auth)
+- File storage: [Firebase Cloud Storage](https://firebase.google.com/docs/storage)
+- Hosting: [Firebase Hosting](https://firebase.google.com/docs/hosting)
+- API and cloud functions: [Firebase Cloud Functions](https://firebase.google.com/docs/functions)
 
 ## Available Scripts
 
@@ -39,32 +63,50 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2. Clone this repository
 
-### Code Splitting
+We recommend setting up an [SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) for authenticating to GitHub.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+### 3. Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm install # install dependencies
+```
 
-### Making a Progressive Web App
+### 4. Configure Firebase
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+You will need to connect your local machine to Firebase. Install the [Firebase CLI](https://firebase.google.com/docs/cli). If you are already logged in, you may need to `firebase logout` first.
 
-### Advanced Configuration
+```sh
+npm install firebase-tools
+firebase --version # ensure you have at least v10.2.0
+firebase login # log in to tech@hpair.org
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 5. Configure environment variables
 
-### Deployment
+You will need to put the two files `firebase-config.dev.json` and `firebase-config.prod.json` in the `src/` directory. These should contain the necessary credentials to interact with Firebase. Ask a tech associate if you are unsure what these values are. These values are _not_ strictly confidential, but we keep them private so other people can't run phishing scams on our behalf, inadvertently modify user data, or mess with analytics.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+You will also need a **private key** for the Firebase Admin SDK for both projects. This can be downloaded from the Firebase project under `Project settings > Service accounts`. You should rename these to `.dev.admin-config.json`, `.prod.admin-config.json`. These go in the `functions/src` folder and are **HIGHLY CONFIDENTIAL.** Access to these allows a person _full access_ to our repository, including our massive amounts of confidential delegate data. Please ensure they are **NEVER** shared to a public location. Whenever these are regenerated, you will also need to update the GitHub secrets
 
-### `npm run build` fails to minify
+Finally, you will also need to put the SendGrid API Key as well as the authorize.net credentials in `functions/.env`. An example is included in `functions/.env.example`. You can find these in our [internal passwords file](https://docs.google.com/document/d/1V335ElUqSJ73FIpMopH3RoaO2sSGLgXkrUyoRMoeUNs/edit?usp=sharing) (DO NOT SHARE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### 6. Run the code
+
+```bash
+npm run build # launches the Firebase emulator suite, live-compiles the cloud functions, and starts a local development server
+```
+
+See [package.json](./package.json) for more information about yarn scripts and deploying.
+
+```sh
+firebase deploy
+```
+
+## Workflow
+
+We have divided the repository into two principal, permanent banches: `master` and `dev`. The branch `master` holds the current production repo, that is, the code for the app currently deployed to firebase. `master` can only be modified via a pull request, and it should only be modified by merging with `dev` after rigorous testing of all functionality. The other permanent branch, `dev`, holds the app next up for deployment. `dev` is hosted by a Vercel app, and it should only be pushed to with buildable code.

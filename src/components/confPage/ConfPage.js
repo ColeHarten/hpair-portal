@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import QRCodeCanvas from "qrcode.react";
 import React, { useState } from 'react';
-import { getConferenceData, getUserData } from '../utils/mutations';
+import { getConferenceData, getUserData } from '../../utils/mutations';
 
 export default function ConfPage({ user }) {
   const [confName, setConfName] = useState(null);

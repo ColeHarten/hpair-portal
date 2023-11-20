@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
-import MENU_ITEMS from '../constants';
+import MENU_ITEMS from '../../constants';
 
 export default function AccountMenu({user, onMenuButtonClick}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
