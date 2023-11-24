@@ -26,6 +26,19 @@ export async function isValidConfCode(conferenceCode) {
       return confDoc.exists();
    } catch (error) {
       console.error(error);
+      return false;
+   }
+}
+
+// Define a function to validate ticket class by checking if it exists in the prices map
+export async function isValidTicketClass(conferenceCode, ticketClass) {
+   try{
+      const confRef = doc(db, 'conferences', conferenceCode);
+      const confDoc = await getDoc(confRef);
+      return confDoc.data().prices[ticketClass] === undefined ? false : true;
+   } catch (error) {
+      console.error(error);
+      return false;
    }
 }
 
@@ -60,11 +73,13 @@ export async function getConferenceData(conferenceCode) {
 }
 
 // mutation to add conference code to user doc
-export async function addConferenceCode(user, conferenceCode) {
+export async function addConferenceCode(user, joinCode) {
    try {
+      const conferenceCode = joinCode.slice(0,7);
       const userRef = doc(db, 'users', user.uid);
       await updateDoc(userRef, {
          conferenceCode: conferenceCode,
+         ticketClass: joinCode.split('-')[1],
          paymentTime: serverTimestamp(),
       });
       await updateDoc(doc(db, 'conferences', conferenceCode), {

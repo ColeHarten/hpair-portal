@@ -105,7 +105,7 @@ export default function SignIn({ onSignUpClick }) {
         </Button>
         <Typography component={"span"} margin="8px 0">
         <Box>
-        <Typography>
+        <Typography component={"span"}>
           Don't have an account?  <Link 
             component="button" 
             variant="body2" 
