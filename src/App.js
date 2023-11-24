@@ -8,6 +8,7 @@ import MenuBar from './components/menuBar/MenuBar';
 import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
+import MerchStore from './components/confPage/MerchStore';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -150,7 +151,6 @@ export default function App() {
     )
   }
   
-  
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
@@ -165,6 +165,7 @@ export default function App() {
             <Route path="/" element={<Home user={currentUser} />} />
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
+            <Route path="/:confCode/store" element={withMenu(<MerchStore user={currentUser} />)} />
           </Routes>
         }
       </>
