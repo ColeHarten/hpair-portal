@@ -3,7 +3,7 @@ import React from 'react';
 import AccountMenu from "./AccountMenu";
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
-export default function MenuBar({ user, onButtonClick }) {
+export default function MenuBar({ user, onMenuButtonClick }) {
   const navigate = useNavigate();
   const {confCode} = useParams();
 
@@ -15,7 +15,7 @@ export default function MenuBar({ user, onButtonClick }) {
         </Button>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button color="inherit" style={{ textDecoration: 'none' }} onClick={()=>{navigate(`/${confCode}/store`)}}>Store</Button>
-          <AccountMenu user={user} onMenuButtonClick={onButtonClick} />
+          <AccountMenu user={user} onMenuButtonClick={onMenuButtonClick} />
         </Box>
       </Toolbar>
     </AppBar>

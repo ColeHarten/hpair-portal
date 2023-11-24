@@ -166,6 +166,8 @@ export default function App() {
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<MerchStore user={currentUser} />)} />
+            {/* add default route that shows no routes found */}
+            <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>
         }
       </>
