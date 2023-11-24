@@ -12,6 +12,7 @@ import MerchStore from './components/confPage/MerchStore';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
+import SuccessPage from './components/confPage/SuccessPage';
 
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
@@ -163,6 +164,7 @@ export default function App() {
         {isLoading ? <Typography>Loading...</Typography> :
           <Routes>
             <Route path="/" element={<Home user={currentUser} />} />
+            <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<MerchStore user={currentUser} />)} />

@@ -34,7 +34,7 @@ export default function PaymentWidget({user, joinCode}){
         return actions.order.capture().then(async (details) => {
             const { payer } = details;
             // add user to conference
-            await addConferenceCode(user, joinCode);
+            await addConferenceCode(user, joinCode, details.id);
             // add payment info to payments collection
             await addPaymentInfo(user, {
                 amount: details.purchase_units[0].amount.value,

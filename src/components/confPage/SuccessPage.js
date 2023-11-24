@@ -1,74 +1,67 @@
 // ! This is the page that is rendered for events other than HCONF and ACONF. It is simpler and only shows some payment receipt information
 // ! and various other success messaging
+import { Box, Paper, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getConferenceData, getUserData } from '../../utils/mutations';
 
 export default function SuccessPage({ user }) {
-    const { confCode } = useParams();
-    const [conferenceData, setConferenceData] = useState(null);
-    const [userData, setUserData] = useState(null);
-    
+    const [confCode, setConfCode] = useState(null);
+    const [paymentID, setPaymentID] = useState(null);
+    const [name, setName] = useState(null);
+    const [isFree, setIsFree] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
-        const conferenceData = await getConferenceData(confCode);
-        setConferenceData(conferenceData);
-        const userData = await getUserData(user);
-        setUserData(userData);
+            const userData = await getUserData(user);
+            
+            setConfCode(userData.conferenceCode);
+            setPaymentID(userData.paymentID);
+            setName(userData.displayName.split(" ")[0]);
+            setIsFree(userData.ticketClass === "F");
         }
         fetchData();
-    }, []);
+    }, [user]);
     
     return (
-        <Box sx={{
-        width: '100vw',
-        height: '100vh',
-        backgroundImage: 'url("art/shanghai.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        // display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white', // You can set the text color as needed
-        maxHeight: '100vh',
-        overflow: 'auto',
-        }}>
-        <Box sx={{
-            display: 'flex',
+    <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column', // Stack contents vertically
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'auto',
+        }}
+      >
+        <Paper
+          sx={{
+            width: '30%',      // Take up 1/3 of the width
+            minWidth: '350px', // But at least 300px
+            p: 2,              // Add some padding
+            display: 'flex',   // Use Flexbox to center content
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 8,
-            '@media (min-width:850px)': {
-            flexDirection: 'row',
-            },
-        }}>
-            <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '50%', // Adjusted width to take the full width on smaller screens
-            }}>
-            <Planet />
-            </Box>
-    
-            <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '55%', // Adjusted width to take the full width on smaller screens
-            }}
-            >
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 4,
-            }}>
-                <Typography variant="h1" sx={{ fontSize: '3rem' }}>Success!</Typography>
-                <Typography variant="h3" sx={{ fontSize: '2rem' }}>You're all set for {conferenceData?.name}!</Typography>
-                <Typography variant="h3" sx={{ fontSize: '2rem' }}>Check your email for a receipt.</Typography>
-                <Typography variant="h3" sx={{ fontSize: '2rem' }}>We'll see you there!</Typography>
-            </Box>
-            </Box>
-        </Box>
-        </Box>
+            justifyContent: 'center',
+            minHeight: "100vh",
+          }}>
+            <img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} />
+            <Typography variant="body" sx={{textAlign: 'left', margin: '10px 0'}} component="span">
+            Success! Thank you, {name}. 
+            Your payment has been processed and you have been successfully registered for the {confCode} conference.
+            {!isFree && 
+            (<>
+                Your payment id is:
+            <strong><center>{paymentID}</center></strong>
+            </>)}
+             If you have any questions, please reach out to <a href="mailto:help@hpair.org"> help@hpair.org</a>
+            </Typography>
+        </Paper>
+    </Box>
     );
 }

@@ -52,7 +52,7 @@ export default function JoinConf ({ user }) {
     const isValid = await validateJoinCode(joinCode, user.email)
     if(isValid){
       if(joinCode.split('-')[1] === "F"){
-        await addConferenceCode(user, joinCode);
+        await addConferenceCode(user, joinCode, "N/A");
         // refresh page to update user info
         window.location.reload();
       } else{
