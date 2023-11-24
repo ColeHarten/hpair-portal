@@ -7,8 +7,9 @@ import React, { useState } from 'react';
 import MENU_ITEMS from '../../constants';
 import { isValidConfCode, isValidTicketClass, addConferenceCode } from '../../utils/mutations';
 import PaymentWidget from './PaymentWidget';
+import {auth} from '../../utils/firebase';
 
-export default function JoinConf ({ user, onMenuButtonClick }) {
+export default function JoinConf ({ user }) {
   const [showPayment, setShowPayment] = useState(false);
   const [joinCode, setJoinCode] = useState('');
   
@@ -122,7 +123,7 @@ export default function JoinConf ({ user, onMenuButtonClick }) {
         <Button
           variant="text"
           color="secondary"
-          onClick={() => onMenuButtonClick(MENU_ITEMS.LOGOUT) } // Go back to the sign-in form
+          onClick={() => auth.signOut() } // Go back to the sign-in form
           style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'white' }}
         >
           Sign out

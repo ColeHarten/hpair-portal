@@ -1,9 +1,9 @@
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Typography, Paper, TextField, Button, Box } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from '../../utils/firebase';
-import { getUserData } from "../../utils/mutations";
 
-export default function SettingsPage({ user, setCurrentPage }) {
+export default function SettingsPage({ user }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,16 +27,12 @@ export default function SettingsPage({ user, setCurrentPage }) {
     }
   };
 
+  const {confCode} = useParams();
+  const navigate = useNavigate();
+
   const onBack = async () => {
-  //  if use is in a confernece redirec to their conference pagez
-    const data = await getUserData(user);
-    if (data?.conferenceCode) {
-      // if we have a conference code, go to the conference page
-      setCurrentPage(2);
-    } else {
-      // otherwise, go to the join conference page
-      setCurrentPage(1);
-    }
+    // go back to conference page using the params from the url
+    navigate(`/${confCode}`)
   }
 
   return (
@@ -57,7 +53,7 @@ export default function SettingsPage({ user, setCurrentPage }) {
 >
   <Paper
     sx={{
-      width: '30%',     // Take up 1/3 of the width
+      width: '30%',      // Take up 1/3 of the width
       minWidth: '350px', // But at least 300px
       p: 2,              // Add some padding
       display: 'flex',   // Use Flexbox to center content
