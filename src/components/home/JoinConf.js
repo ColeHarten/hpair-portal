@@ -4,10 +4,9 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { sha256 } from 'crypto-hash';
 import React, { useState } from 'react';
-import MENU_ITEMS from '../../constants';
-import { isValidConfCode, isValidTicketClass, addConferenceCode } from '../../utils/mutations';
+import { auth } from '../../utils/firebase';
+import { addConferenceCode, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
 import PaymentWidget from './PaymentWidget';
-import {auth} from '../../utils/firebase';
 
 export default function JoinConf ({ user }) {
   const [showPayment, setShowPayment] = useState(false);
