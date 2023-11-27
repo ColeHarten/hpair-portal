@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product from './Product';
-import {Box} from "@mui/material";
+import {Box, Button} from "@mui/material";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const StoreWidget = () => {
     // fetch the products from the public directory file products.json
@@ -13,13 +14,39 @@ const StoreWidget = () => {
             });
     }, []);
 
+    const [itemsCount, setItemsCount] = useState(0);
+
+	useEffect(() => {
+		const Snip = window.Snipcart;
+		const initialState = Snip.store.getState();
+		setItemsCount(initialState.cart.items.count);
+
+		const unsubscribe = Snip.store.subscribe(() => {
+			const newState = Snip.store.getState();
+			setItemsCount(newState.cart.items.count);
+		});
+
+		return () => unsubscribe();
+	}, [setItemsCount]);
+
     return (
-    <Box sx={{overflow: 'auto'}}>
-          <Box
+    <Box sx={{overflow: 'auto'}}>   
+        <Button
+          color="primary"
+          startIcon={<ShoppingCartIcon />}
+          href="#"
+          className="snipcart-checkout"
+          sx={{ ml: 'auto', width: '100%' }}
+        >
+        <div class="snipcart-summary">
+         {/* checkout with number of items */}
+            Checkout ({itemsCount})
+        </div>
+        </Button>
+        <Box
             sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                // gap: '16px', // Adjust the gap as needed
                 justifyContent: 'space-between', // You can use 'space-around' or 'space-evenly' as well
             }}
         >
