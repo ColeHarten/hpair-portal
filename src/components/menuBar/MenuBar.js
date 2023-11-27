@@ -25,7 +25,7 @@ export default function MenuBar({ user, onMenuButtonClick }) {
   };
 
   return (
-    <AppBar position="fixed" sx={{ height: '64px', zIndex: '0' }}>
+    <AppBar position="fixed" sx={{ height: '64px', zIndex: 1 }}>
       <Toolbar sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
         {isSmallScreen ? (
           <>

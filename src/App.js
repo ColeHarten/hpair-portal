@@ -8,7 +8,7 @@ import MenuBar from './components/menuBar/MenuBar';
 import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
-import MerchStore from './components/confPage/MerchStore';
+import Store from './components/confPage/store/Store';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -104,22 +104,28 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
+        // if the user is signed in, set the currentUser
         setCurrentUser(user);
         const data = await getUserData(user);
+        // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
         if (data?.conferenceCode) {
           const conferenceCode = data.conferenceCode.slice(0, 7);
           setConferenceID(conferenceCode);
-          navigate(`/${conferenceCode}`)
+          if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
+            navigate(`/${conferenceCode}`);
+          }
         } 
       } else {
+        // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
         setConferenceID(null);
         navigate(`/`)
       }
       setIsLoading(false);
     });
+    // Un-register Firebase observers when the component unmounts.
     return () => unregisterAuthObserver();
-  }, []);
+  }, [navigate]);
 
   // Handles button clicks within the menu
   const handleMenuButtonClick = (buttonCode) => {
@@ -139,7 +145,7 @@ export default function App() {
     }
   }
 
-  // function add menu bar to the top of the page, takes in children
+  // Add menu bar to the top of the page, takes in children
   const withMenu = (children) => {
     return (
       <Box>
@@ -167,7 +173,7 @@ export default function App() {
             <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
-            <Route path="/:confCode/store" element={withMenu(<MerchStore user={currentUser} />)} />
+            <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
             {/* add default route that shows no routes found */}
             <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>
