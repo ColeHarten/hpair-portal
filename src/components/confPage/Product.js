@@ -22,7 +22,7 @@ export default function Product(props) {
                     data-item-id={id}
                     data-item-image={imageUrl}
                     data-item-name={name}
-                    data-item-url="/"
+                    // data-item-url={url}
                     data-item-price={price}
                 >
                     Add to Cart
