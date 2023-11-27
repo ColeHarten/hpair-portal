@@ -17,6 +17,8 @@ import SuccessPage from './components/confPage/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
+
+
 // Create a theme instance for the entire app
 const mdTheme = createTheme({
   palette: {
