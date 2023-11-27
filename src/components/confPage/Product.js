@@ -1,7 +1,7 @@
 import "./product.css";
 
 export default function Product(props) {
-    const {id, imageUrl, name, description, price} = props
+    const {id, imageUrl, name, description, price, url} = props
 
     return (
         <div

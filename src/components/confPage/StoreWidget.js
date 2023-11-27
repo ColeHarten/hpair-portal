@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Product from './Product';
-import products from './products.json';
 import {Box} from "@mui/material";
 
 const StoreWidget = () => {
+    // fetch the products from the public directory file products.json
+    const [products, setProducts] = React.useState([]);
+    useEffect(() => {
+        fetch('/products.json')
+            .then((response) => response.json())
+            .then((data) => {
+                setProducts(data);
+            });
+    }, []);
+
     return (
     <Box sx={{overflow: 'auto'}}>
           <Box
