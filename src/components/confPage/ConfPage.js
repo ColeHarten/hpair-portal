@@ -13,7 +13,7 @@ export default function ConfPage({ user }) {
       setName(confData.displayName);
     }
     getConfData();
-  }, [confCode]);
+  }, [user, confCode]);
 
   return (
 <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
