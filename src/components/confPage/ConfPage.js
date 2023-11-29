@@ -10,7 +10,7 @@ export default function ConfPage({ user }) {
   useEffect(() => {
     const getConfData = async () => {
       const confData = await getUserData(user);
-      setName(confData.displayName);
+      setName(confData?.displayName);
     }
     getConfData();
   }, [user, confCode]);

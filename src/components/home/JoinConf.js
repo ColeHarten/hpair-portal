@@ -5,12 +5,13 @@ import Tooltip from '@mui/material/Tooltip';
 import { sha256 } from 'crypto-hash';
 import React, { useState } from 'react';
 import { auth } from '../../utils/firebase';
-import { addConferenceCode, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
+import { addConferenceCode, getConferenceData, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
 import PaymentWidget from './PaymentWidget';
 
 export default function JoinConf ({ user }) {
   const [showPayment, setShowPayment] = useState(false);
   const [joinCode, setJoinCode] = useState('');
+  const [price, setPrice] = useState(null);
   
   const textFieldStyles = {
     container: {
@@ -55,6 +56,9 @@ export default function JoinConf ({ user }) {
         // refresh page to update user info
         window.location.reload();
       } else{
+        const confData = await getConferenceData(joinCode.slice(0,7));
+        // access the element 'F' from the prices map
+        await setPrice(confData.prices[joinCode.split('-')[1]]);
         setShowPayment(true);
       }
     } else{
@@ -84,9 +88,9 @@ export default function JoinConf ({ user }) {
       // Show the PaymentWidget
       <Box>
         <Typography variant="h6" style={{ margin: '8px 0' }}>
-          Please complete payment to join conference.
+          Please complete payment of {price} USD to join conference.
         </Typography>
-        <PaymentWidget user={user} joinCode={joinCode} />
+        <PaymentWidget user={user} joinCode={joinCode} price={price} />
         <Button
           variant="contained" color="secondary"
           onClick={() => setShowPayment(false)} // Go back to the sign-in form

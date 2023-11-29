@@ -49,7 +49,7 @@ export default function SuccessPage({ user }) {
             justifyContent: 'center',
             minHeight: "100vh",
           }}>
-            <img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} />
+            <a href="https://www.hpair.org"><img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} /></a>
             <Typography variant="body" sx={{textAlign: 'left', margin: '10px 0'}} component="span">
             Success! Thank you, {name}. 
             Your payment has been processed and you have been successfully registered for the {confCode} conference.
@@ -58,7 +58,7 @@ export default function SuccessPage({ user }) {
                 Your payment id is:
             <strong><center>{paymentID}</center></strong>
             </>)}
-             If you have any questions, please reach out to <a href="mailto:help@hpair.org"> help@hpair.org</a>
+             If you have any questions, please reach out to <a href="mailto:help@hpair.org"> help@hpair.org</a>.
             </Typography>
         </Paper>
     </Box>
