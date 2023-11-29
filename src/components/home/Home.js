@@ -5,7 +5,7 @@ import SignUp from './SignUp.js';
 import JoinConf from "./JoinConf.js";
 import Planet from './planet/Planet.tsx';
 
-export default function Home({user, onMenuButtonClick}) {
+export default function Home({user}) {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleSignUpClick = () => {
@@ -83,7 +83,7 @@ export default function Home({user, onMenuButtonClick}) {
               <SignIn onSignUpClick={handleSignUpClick} />
             )) : (
             <Box sx={{overflow: "auto"}}>
-              <JoinConf user={user} onMenuButtonClick={onMenuButtonClick} />
+              <JoinConf user={user} />
             </Box>
           )}
         </Box>

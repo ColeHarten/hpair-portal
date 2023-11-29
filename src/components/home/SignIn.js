@@ -2,6 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../utils/firebase';
+import PasswordInput from "./PasswordInput";
 
 
 export default function SignIn({ onSignUpClick }) {
@@ -13,6 +14,7 @@ export default function SignIn({ onSignUpClick }) {
     container: {
       margin: '8px 0',
       backgroundColor: 'transparent',
+      width: '80%',
     },
     input: {
       color: 'white',
@@ -82,20 +84,20 @@ export default function SignIn({ onSignUpClick }) {
           color='secondary'
           required
         />
-        <TextField
+        <PasswordInput
           label="Password"
-          type="password"
+          id="adornment-password"
           variant="standard"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={textFieldStyles.container}
-          InputProps={{
+          sx={textFieldStyles.container}
+          inputProps={{
             style: textFieldStyles.input,
           }}
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color="secondary"
           required
         />
         <Button variant="contained" onClick={handleSignIn} 

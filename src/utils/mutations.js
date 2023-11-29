@@ -73,7 +73,7 @@ export async function getConferenceData(conferenceCode) {
 }
 
 // mutation to add conference code to user doc
-export async function addConferenceCode(user, joinCode) {
+export async function addConferenceCode(user, joinCode, paymentID) {
    try {
       const conferenceCode = joinCode.slice(0,7);
       const userRef = doc(db, 'users', user.uid);
@@ -81,6 +81,7 @@ export async function addConferenceCode(user, joinCode) {
          conferenceCode: conferenceCode,
          ticketClass: joinCode.split('-')[1],
          paymentTime: serverTimestamp(),
+         paymentID: paymentID,
       });
       await updateDoc(doc(db, 'conferences', conferenceCode), {
          attendees: arrayUnion(user.uid),

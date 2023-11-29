@@ -32,8 +32,8 @@ export default function SupportModal({ onClose, open }) {
       <Typography variant="body1" component={'span'}>
         <strong>Contact Information:</strong>
       </Typography>
-      <Typography variant="body1">
-        Email: <a href="mailto:support@hpair.org">support@hpair.org</a>
+      <Typography variant="body1" component="span">
+        Email: <a href="mailto:help@hpair.org">help@hpair.org</a>
       </Typography>
     </DialogContent>
   </Box>

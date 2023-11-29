@@ -8,11 +8,16 @@ import MenuBar from './components/menuBar/MenuBar';
 import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
+import Store from './components/confPage/store/Store';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
+import { Route, Routes, useNavigate } from "react-router-dom";
+import SuccessPage from './components/confPage/SuccessPage';
 
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
+
+
 
 // Create a theme instance for the entire app
 const mdTheme = createTheme({
@@ -57,9 +62,10 @@ const mdTheme = createTheme({
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [conferenceID, setConferenceID] = useState(null);
-  const [supportOpen, setSupportOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCaching, setIsCaching] = useState(true);
+  const [supportOpen, setSupportOpen] = useState(false);
+
 
   // Preload images into the cache asynchronously
   const cacheImages = async (srcArray) => {
@@ -91,12 +97,8 @@ export default function App() {
     }
   }, [isCaching])  
 
-  // Pages:
-  // 0: SignInScreen
-  // 1: JoinConf/Payment
-  // 2: ConfPage
-  // 3: SettingsPage
-  const [currentPage, setCurrentPage] = useState(0);
+
+  const navigate = useNavigate();
 
   // Listen to the Firebase Auth state and set the local state.
   // This is called on sign in and sign out.
@@ -104,37 +106,28 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
+        // if the user is signed in, set the currentUser
         setCurrentUser(user);
         const data = await getUserData(user);
+        // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
         if (data?.conferenceCode) {
-          const conferenceCode = data.conferenceCode.slice(0, 6);
+          const conferenceCode = data.conferenceCode.slice(0, 7);
           setConferenceID(conferenceCode);
+          if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
+            navigate(`/${conferenceCode}`);
+          }
         } 
       } else {
+        // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
         setConferenceID(null);
+        navigate(`/`)
       }
       setIsLoading(false);
     });
+    // Un-register Firebase observers when the component unmounts.
     return () => unregisterAuthObserver();
-  }, []);
-  
-  // useEffect to control which page is displayed
-  useEffect(() => {
-    if (!currentUser) {
-      // if we are not signed in, go to sign in page
-      setCurrentPage(0);
-    } else if (currentPage === 3) {
-      // if we are on the settings page, don't change the page
-      return;
-    } else if (!conferenceID) {
-      // if we don't have a conference ID, go to join conference
-      setCurrentPage(prevPage => (prevPage !== 1 ? 1 : prevPage));
-    } else {
-      // otherwise, go to the conference page
-      setCurrentPage(prevPage => (prevPage !== 2 ? 2 : prevPage));
-    }
-  }, [currentUser, conferenceID, currentPage]);
+  }, [navigate]);
 
   // Handles button clicks within the menu
   const handleMenuButtonClick = (buttonCode) => {
@@ -144,7 +137,7 @@ export default function App() {
         setSupportOpen(true);
         break;
       case MENU_ITEMS.SETTINGS:
-        setCurrentPage(3);
+        navigate(`/${conferenceID}/settings`);
         break;
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
@@ -154,55 +147,39 @@ export default function App() {
     }
   }
 
-  // Switches between pages based on the current page and user authentication state
-  const routerSwitch = () => {
-    if (!currentUser) {
-      return (
-        <Box>
-          <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
+  // Add menu bar to the top of the page, takes in children
+  const withMenu = (children) => {
+    return (
+      <Box>
+        <MenuBar user={currentUser} conferenceID={conferenceID} onMenuButtonClick={handleMenuButtonClick} />
+        {/* lower the children by 64 px to accomodate menubar */}
+        <Box sx={{ marginTop: '64px' }}>
+          {children}
         </Box>
-      );
-    }
-
-    switch(currentPage) {
-      case 0:
-        return (
-          <Box>
-            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
-          </Box>
-        );
-      case 2:
-        return (
-          <Box sx={{ marginTop: '64px' }}>
-            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
-            <ConfPage user={currentUser} />
-          </Box>
-          );
-      case 3:
-        return (
-          <Box sx={{ marginTop: '64px' }}>
-            <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />
-            <SettingsPage user={currentUser} setCurrentPage={setCurrentPage}/>
-          </Box>
-          );
-      default:
-        return (
-          <Box>
-            <Home user={currentUser} onMenuButtonClick={handleMenuButtonClick}/>
-          </Box>
-        );
-    }
+      </Box>
+    )
   }
-
+  
   return (
     <ThemeProvider theme={mdTheme}>
       <CssBaseline />
+      <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
+    
       {/* Don't show the screen before the images are preloaded into the cache */}
       {isCaching ? <Typography>Loading...</Typography> :  
       (<>
-        <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
         {/* Don't show the main window if the window is loading (i.e. auth state is changine). Prevents flickering. */}
-        {isLoading ? <Typography>Loading...</Typography> : routerSwitch()}
+        {isLoading ? <Typography>Loading...</Typography> :
+          <Routes>
+            <Route path="/" element={<Home user={currentUser} />} />
+            <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
+            <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
+            <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
+            <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
+            {/* add default route that shows no routes found */}
+            <Route path="*" element={<Typography>404: Not Found</Typography>} />
+          </Routes>
+        }
       </>
       )}
     </ThemeProvider>

@@ -2,6 +2,8 @@ import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useState } from 'react';
 import { auth } from '../../utils/firebase';
 import { syncUsers } from '../../utils/mutations';
+import PasswordInput from "./PasswordInput";
+
 
 export default function SignUp({ onSignInClick }) {
   const [email, setEmail] = useState('');
@@ -14,6 +16,7 @@ export default function SignUp({ onSignInClick }) {
       margin: '8px 0',
       backgroundColor: 'transparent',
       borderColor: 'white',
+      width: '80%'
     },
     input: {
       color: 'white',
@@ -92,8 +95,8 @@ export default function SignUp({ onSignInClick }) {
           }}
           color='secondary'
           required
-        />
-        <TextField
+      />
+      <TextField
           label="Email"
           value={email}
           variant="standard"
@@ -107,37 +110,37 @@ export default function SignUp({ onSignInClick }) {
           }}
           color='secondary'
           required
-        />
-        <TextField
-            label="Password"
-            type="password"
-            value={password}
-            variant="standard"
-            onChange={(e) => setPassword(e.target.value)}
-            style={textFieldStyles.container}
-            InputProps={{
-              style: textFieldStyles.input,
-            }}
-            InputLabelProps={{
-              style: textFieldStyles.label,
-            }}
-            color='secondary'
-            required
-          />
-      <TextField
-          label="Confirm Password"
-          type="password"
-          value={confirmPassword}
+      />
+      <PasswordInput
+          label="Password"
+          id="adornment-password"
           variant="standard"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          style={textFieldStyles.container}
-          InputProps={{
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={textFieldStyles.container}
+          inputProps={{
             style: textFieldStyles.input,
           }}
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color="secondary"
+          required
+        />
+      <TextField
+          label="Confirm Password"
+          id="adornment-password"
+          variant="standard"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          sx={textFieldStyles.container}
+          inputProps={{
+            style: textFieldStyles.input,
+          }}
+          InputLabelProps={{
+            style: textFieldStyles.label,
+          }}
+          color="secondary"
           required
         />
       <Button variant="contained" onClick={handleSignUp}
