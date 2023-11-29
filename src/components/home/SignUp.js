@@ -129,8 +129,8 @@ export default function SignUp({ onSignInClick }) {
         />
       <TextField
           label="Confirm Password"
-          id="adornment-password"
           variant="standard"
+          type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           sx={textFieldStyles.container}
