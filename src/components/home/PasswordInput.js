@@ -30,7 +30,7 @@ const PasswordInput = ({ label, id, variant, value, onChange, ...rest }) => {
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
             >
-              {showPassword ? <Visibility /> : <VisibilityOff />}
+              {!showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
         ),
