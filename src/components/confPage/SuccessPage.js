@@ -51,14 +51,9 @@ export default function SuccessPage({ user }) {
           }}>
             <a href="https://www.hpair.org"><img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} /></a>
             <Typography variant="body" sx={{textAlign: 'left', margin: '10px 0'}} component="span">
-            Success! Thank you, {name}. 
-            Your payment has been processed and you have been successfully registered for the {confCode} conference.
-            {!isFree && 
-            (<>
-                Your payment id is:
+            You have been succcessfully registered for the TAS Harvard Youth Leaders Conference. Your payment id is
             <strong><center>{paymentID}</center></strong>
-            </>)}
-             If you have any questions, please reach out to <a href="mailto:help@hpair.org"> help@hpair.org</a>.
+            We will be sending out all further details via email soon. Thank You!
             </Typography>
         </Paper>
     </Box>
