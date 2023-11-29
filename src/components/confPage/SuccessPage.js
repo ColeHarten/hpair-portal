@@ -5,24 +5,20 @@ import React, { useEffect, useState } from 'react';
 import { getUserData } from '../../utils/mutations';
 
 export default function SuccessPage({ user }) {
-    const [confCode, setConfCode] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [paymentID, setPaymentID] = useState(null);
-    const [name, setName] = useState(null);
-    const [isFree, setIsFree] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             const userData = await getUserData(user);
-            
-            setConfCode(userData.conferenceCode);
-            setPaymentID(userData.paymentID);
-            setName(userData.displayName.split(" ")[0]);
-            setIsFree(userData.ticketClass === "F");
+            setPaymentID(userData?.paymentID);
         }
         fetchData();
+        setLoading(false);
     }, [user]);
     
     return (
+    loading ? <Typography>Loading...</Typography> : (
     <Box
         component="main"
         sx={{
@@ -53,9 +49,9 @@ export default function SuccessPage({ user }) {
             <Typography variant="body" sx={{textAlign: 'left', margin: '10px 0'}} component="span">
             You have been succcessfully registered for the TAS Harvard Youth Leaders Conference. Your payment id is
             <strong><center>{paymentID}</center></strong>
-            We will be sending out all further details via email soon. Thank You!
+            We will be sending out all further details via email soon. Thank you!
             </Typography>
         </Paper>
-    </Box>
+    </Box>)
     );
 }

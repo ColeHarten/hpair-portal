@@ -127,7 +127,7 @@ export default function SignUp({ onSignInClick }) {
           color="secondary"
           required
         />
-      <PasswordInput
+      <TextField
           label="Confirm Password"
           id="adornment-password"
           variant="standard"
