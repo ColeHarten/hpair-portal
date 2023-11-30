@@ -162,6 +162,7 @@ export default function Planet() {
             if (pingInterval) clearInterval(pingInterval);
             timeouts.forEach((to) => clearTimeout(to));
         };
+    // eslint-disable-next-line
     }, []);
 
     return (
