@@ -4,16 +4,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from "react";
 import './App.css';
-import MenuBar from './components/menuBar/MenuBar';
+import MenuBar from './components/confPage/menuBar/MenuBar';
 import SupportModal from './components/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
 import Store from './components/confPage/store/Store';
+import Social from './components/confPage/social/Social';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SuccessPage from './components/confPage/SuccessPage';
-
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -176,6 +176,7 @@ export default function App() {
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
+            <Route path="/:confCode/social" element={withMenu(<Social user={currentUser} />)} />
             {/* add default route that shows no routes found */}
             <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>

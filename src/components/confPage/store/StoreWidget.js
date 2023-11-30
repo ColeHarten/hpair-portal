@@ -47,11 +47,14 @@ const StoreWidget = () => {
         </div>
         </Button>
         <Box
-            sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between', // You can use 'space-around' or 'space-evenly' as well
-            }}
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between', // Default for big screens
+            '@media screen and (max-width: 600px)': {
+              justifyContent: 'center', // Center for small screens
+            },
+          }}
         >
             {
               products.map((product, i) => <Product {...product} key={i}/>)

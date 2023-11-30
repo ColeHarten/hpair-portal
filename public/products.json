@@ -1,26 +1,34 @@
 [
     {
-      "id": "t-shirt",
-      "name": "T-Shirt",
-      "price": 35.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338865-shirt.jpg",
-      "description": "A white t-shirt",
-      "url": "/products.json"
-    },
-    {
-      "id": "wallet",
-      "name": "Wallet",
+      "id": "mug",
+      "name": "Mug",
       "price": 20.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338869-fancy-wallet.jpg",
-      "description": "A fancy wallet",
+      "imageUrl": "/product-photos/mug.png",
+      "description": "A coffee mug",
       "url": "/products.json"
     },
     {
-      "id": "cup",
-      "name": "Cup",
-      "price": 5.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338802-cup.jpg",
-      "description": "A tea cup",
+      "id": "water-bottle",
+      "name": "Water Bottle",
+      "price": 20.0,
+      "imageUrl": "/product-photos/waterbottle.png",
+      "description": "A water bottle",
+      "url": "/products.json"
+    },
+    {
+      "id": "hat",
+      "name": "Bucket Hat",
+      "price": 20.0,
+      "imageUrl": "/product-photos/hat.png",
+      "description": "A bucket hat",
+      "url": "/products.json"
+    },
+    {
+      "id": "t-shirt",
+      "name": "T Shirt",
+      "price": 20.0,
+      "imageUrl": "/product-photos/shirt.png",
+      "description": "A t-shirt",
       "url": "/products.json"
     }
   ]
