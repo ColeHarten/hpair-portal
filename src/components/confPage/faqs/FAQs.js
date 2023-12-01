@@ -3,16 +3,26 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 const FAQSection = ({ title, content }) => (
-  <Box mb={3}>
-    <Typography variant="h6" fontWeight="bold">
+  <Box mb={3} boxShadow={2} p={4} borderRadius={3} bgcolor="white">
+    <Typography variant="h6" fontWeight="bold" color="primary">
       {title}
     </Typography>
-    <Typography variant="body1">{content}</Typography>
+    <Typography variant="body1" color="textSecondary">
+      {content}
+    </Typography>
   </Box>
 );
 
 export default function FAQs(user) {
   return (
+    <Box sx={{
+      display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center', // Align items in the center horizontally
+            justifyContent: 'center', // Center content vertically
+            padding: '20px',
+    }}>
+    <Typography variant="h4">FAQs</Typography>
     <Box
         sx={{
             display: 'flex',
@@ -33,46 +43,6 @@ export default function FAQs(user) {
       <FAQSection
         title="When and where is the conference?"
         content="The 2024 Harvard Conference will take place from February 9-11, 2024, at Harvard University in Cambridge, Massachusetts."
-      />
-
-      <FAQSection
-        title="How do I apply for a HPAIR conference?"
-        content="HPAIR’s conference delegate application process has two rounds. The first is an online application, which can be found at apply.hpair.org. The application requires you to attach a resume and answer a few short-answer questions. If you are selected for the next round of applications, you will either be asked to submit a video interview or have a brief online (Zoom) interview with a HPAIR staff member. We look forward to reading your application soon!"
-      />
-
-      <FAQSection
-        title="What is the application timeline?"
-        content="Early-bird applications open October 15, 2023, and close November 15, 2023, at 11:59 pm EST. Regular applications will then open and close on December 15, 2023, at 11:59 pm EST."
-      />
-
-      <FAQSection
-        title="When will final decisions be released?"
-        content="Scholarship/Early Bird round applicants can expect to receive a decision on a rolling basis beginning in December. Regular Round applicants can expect to receive decisions by mid-January."
-      />
-
-      <FAQSection
-        title="What are the advantages of applying during the early-bird round?"
-        content="Early-bird applicants enjoy a discounted conference ticket price and have the opportunity to apply for our scholarship program! Early-bird applicants also receive their decisions earlier and have more time to apply for a visa to attend the conference."
-      />
-
-      <FAQSection
-        title="How do I take advantage of the early-bird discount?"
-        content="To receive the early-bird discount, you must apply in the early-bird round and register for the conference during early-bird registration."
-      />
-
-      <FAQSection
-        title="Does HPAIR award scholarships? How do I apply for a scholarship?"
-        content="Yes, HPAIR is committed to accessibility and proud to offer scholarships for all of our conferences. Applicants can only apply for HPAIR’s scholarship program during the early-bird round. To apply, applicants must answer an additional short-answer question on the application form and submit the documents listed in the application. Scholarship applications for HCONF 2024 close November 15, 2023. This is a strict deadline, so get your applications in quick! We will not be able to consider any scholarship applications after that deadline."
-      />
-
-      <FAQSection
-        title="Are scholarships available to international students?"
-        content="Yes, many of our scholarship recipients are international students!"
-      />
-
-      <FAQSection
-        title="Is the scholarship merit-based or need-based?"
-        content="Scholarships are merit-based, although we do try to take financial need into consideration. We encourage all applicants to apply for our scholarship program, and practice need-blind admissions: applying for a scholarship will not affect your candidacy for the conference!"
       />
 
       <FAQSection
@@ -104,6 +74,7 @@ export default function FAQs(user) {
         title="Does HPAIR provide recommendation letters to delegates?"
         content="Due to the short nature and the high number of delegates at our conferences, we are unable to provide recommendation letters to individual delegates. While we believe individualized recommendation letters are important, we do not believe our team is adequately prepared to speak for each delegate’s personal abilities and potential."
       />
+    </Box>
     </Box>
   );
 };

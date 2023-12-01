@@ -22,7 +22,7 @@ export default function Social(user){
             }}
         >
             <a href="https://www.linkedin.com/groups/12935124/">
-                <img src="/art/linkedin.png" width="50px" alt="LinkedIn Icon" />
+                <img src="/art/linkedin.png" width="50px" alt="LinkedIn Icon" target="_blank" />
             </a>
         </Box>
     </Box>
