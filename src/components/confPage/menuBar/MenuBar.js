@@ -42,6 +42,7 @@ export default function MenuBar({ user, onMenuButtonClick }) {
           <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
         </Button>
         <Box sx={{display: 'flex', gap: '10px'}}>
+          <Button color="inherit" style={{ textDecoration: 'none' }} onClick={() => { navigate(`/${confCode}/faqs`); }}>FAQs</Button>
           <Button color="inherit" style={{ textDecoration: 'none' }} onClick={() => { navigate(`/${confCode}/social`); }}>Social</Button>
           <Button color="inherit" style={{ textDecoration: 'none' }} onClick={() => { navigate(`/${confCode}/store`); }}>Store</Button>
           <AccountMenu user={user} onMenuButtonClick={onMenuButtonClick} />

@@ -10,6 +10,7 @@ import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
 import Store from './components/confPage/store/Store';
 import Social from './components/confPage/social/Social';
+import FAQs from './components/confPage/faqs/FAQs';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -89,7 +90,9 @@ export default function App() {
     const imgs = ["/art/HPAIR Logo Banner (Black).png",
                   "/art/HPAIR Logo Banner (White).png",
                   "/art/hpair-logo-white.png",
-                  "/art/shanghai.jpg",]
+                  "/art/shanghai.jpg",
+                  "/art/linkedin.png",
+                ]
     
     // only preload images if we haven't already
     if(isCaching){
@@ -177,6 +180,7 @@ export default function App() {
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
             <Route path="/:confCode/social" element={withMenu(<Social user={currentUser} />)} />
+            <Route path="/:confCode/faqs" element={withMenu(<FAQs user={currentUser} />)} />
             {/* add default route that shows no routes found */}
             <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>

@@ -16,9 +16,9 @@ export default function ConfPage({ user }) {
   }, [user, confCode]);
 
   return (
-<Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-  <Typography variant="h4"> Congratulations, {name.split(' ')[0]}! </Typography>
-</Box>
+    <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+      <Typography variant="h4"> Congratulations, {name.split(' ')[0]}! </Typography>
+    </Box>
 
   );
 }
