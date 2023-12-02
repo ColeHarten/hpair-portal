@@ -23,14 +23,14 @@ import { getUserData } from "./utils/mutations";
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: "#A51C30"
+      main: "#B4041A"
     },
     secondary: {
       main: "#ffffff", // A white secondary color
     },
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif', // Use the Roboto font family
+    fontFamily: 'Montserrat, Arial, Helvetica',
     h5: {
       fontSize: '1.5rem', // Customize the font size for h5 typography
     },

@@ -17,10 +17,10 @@ export default function SignIn({ onSignUpClick }) {
       width: '80%',
     },
     input: {
-      color: 'white',
+      color: 'black',
     },
     label: {
-      color: 'white',
+      color: 'black',
     },
   };
 
@@ -81,7 +81,7 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color='primary'
           required
         />
         <PasswordInput
@@ -97,11 +97,11 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color="secondary"
+          color="primary"
           required
         />
         <Button variant="contained" onClick={handleSignIn} 
-          color="secondary"
+          color="primary"
         >
           Sign In
         </Button>
@@ -160,12 +160,12 @@ export default function SignIn({ onSignUpClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color='primary'
           required
         />
         <Button
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={handleSendPasswordResetEmail}
         >
           Send Email
@@ -174,7 +174,7 @@ export default function SignIn({ onSignUpClick }) {
           variant="text"
           color="secondary"
           onClick={() => setShowForgotPassword(false)} // Go back to the sign-in form
-          style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'white' }}
+          style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'black' }}
         >
           Back to Sign In
         </Button>

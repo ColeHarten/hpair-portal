@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { useState } from 'react';
 import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
@@ -17,65 +17,40 @@ export default function Home({user}) {
   };
 
   return (
-    <Box
+  <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      display: 'flex',
+      flexDirection: 'column', // Stack contents vertically
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'auto',
+    }}
+  >
+    <Paper
       sx={{
-        width: '100vw',
-        height: '100vh',
-        backgroundImage: 'url("art/shanghai.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        // display: 'flex',
+        width: '30%',      // Take up 1/3 of the width
+        minWidth: '350px', // But at least 300px
+        p: 2,              // Add some padding
+        display: 'flex',   // Use Flexbox to center content
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white', // You can set the text color as needed
-        maxHeight: '100vh',
-        overflow: 'auto',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 8,
-          '@media (min-width:850px)': {
-            flexDirection: 'row',
-          },
-        }}
-      >
-      <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '50%', // Adjusted width to take the full width on smaller screens
+        minHeight: '100vh',
       }}>
-        <Planet />
-      </Box>
-
       <Box
-        sx={{
+        style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '55%', // Adjusted width to take the full width on smaller screens
-        }}
-      >
-        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" style={{ minWidth: '291px' }} />
-        <Box
-          sx={{
-            p: 4,
-            borderRadius: '0.5rem',
-            backgroundColor: 'rgba(220, 20, 60, 0.6)',
-            border: '4px solid #fff',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '60%',
-            maxHeight: '80vh',
-            minWidth: '350px',
-          }}
-        >
+          justifyContent: 'center',
+        }}>
+        <img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width="100%" style={{ minWidth: '291px', marginBottom: '10px' }} />
           {!user ?
            ( isSignUp ? (
               <SignUp onSignInClick={handleSignInClick} />
@@ -87,8 +62,7 @@ export default function Home({user}) {
             </Box>
           )}
         </Box>
-      </Box>
+      </Paper>
     </Box>
-  </Box>
   );
 }

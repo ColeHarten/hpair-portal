@@ -20,10 +20,10 @@ export default function JoinConf ({ user }) {
       color: 'white',
     },
     input: {
-      color: 'white',
+      color: 'black',
     },
     label: {
-      color: 'white',
+      color: 'black',
     },
   };
   // TODO: Move this validation into a firebase function to hide it from the client
@@ -87,12 +87,12 @@ export default function JoinConf ({ user }) {
     {showPayment ? (
       // Show the PaymentWidget
       <Box>
-        <Typography variant="h6" style={{ margin: '8px 0' }}>
-          Please complete payment of {price} USD to join conference.
+        <Typography variant="body1" style={{ margin: '8px 0' }}>
+          Please complete payment of ${price} USD to join conference.
         </Typography>
         <PaymentWidget user={user} joinCode={joinCode} price={price} />
         <Button
-          variant="contained" color="secondary"
+          variant="contained" color="primary"
           onClick={() => setShowPayment(false)} // Go back to the sign-in form
         >Return</Button>
       </Box>
@@ -102,7 +102,7 @@ export default function JoinConf ({ user }) {
         <Typography variant="h6" style={{ margin: '8px 0' }}>
           Join Conference
           <Tooltip title="Please enter join code sent in email." arrow>
-            <IconButton color="secondary" size="small">
+            <IconButton color="primary" size="small">
               <InfoOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -117,17 +117,17 @@ export default function JoinConf ({ user }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color="secondary"
+          color="primary"
           onChange={(e) => setJoinCode(e.target.value)}
         />
-        <Button variant="contained" color="secondary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
+        <Button variant="contained" color="primary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
           To Payment
         </Button>
         <Button
           variant="text"
-          color="secondary"
+          color="primary"
           onClick={() => auth.signOut() } // Go back to the sign-in form
-          style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'white' }}
+          style={{ marginTop: '8px', backgroundColor: 'transparent', color: 'black' }}
         >
           Sign out
         </Button>
