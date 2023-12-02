@@ -36,7 +36,8 @@ export default function Home({user}) {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'top',
+          padding: '20px',
           gap: 8,
           '@media (min-width:850px)': {
             flexDirection: 'row',
@@ -47,7 +48,8 @@ export default function Home({user}) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '50%', // Adjusted width to take the full width on smaller screens
+          width: '45%',
+          maxWidth: '45vw', // Adjusted width to take the full width on smaller screens
       }}>
         <Planet />
       </Box>
@@ -60,7 +62,7 @@ export default function Home({user}) {
           width: '55%', // Adjusted width to take the full width on smaller screens
         }}
       >
-        <img src="/art/hpair-logo-white.png" alt="HPAIR Logo" width="50%" style={{ minWidth: '291px' }} />
+        <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="100%" style={{ minWidth: '291px' }} />
         <Box
           sx={{
             px: 4,

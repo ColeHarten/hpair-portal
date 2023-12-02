@@ -166,6 +166,16 @@ export default function Planet() {
     }, []);
 
     return (
+    <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '1rem',
+        // color: 'white',
+        // padding: '1rem',
+    }}
+    >
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -173,32 +183,20 @@ export default function Planet() {
             justifyContent: 'center',
             gap: '1rem',
             color: 'white',
-            padding: '1rem',
-            maxHeight: "100vh",
-            width: "90%",
-        }}
-        >
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1rem',
-                color: 'white',
-                padding: '1rem',       
-            }}>
-            <Typography fontStyle="bold" component="h1" variant="h5">
-                {confData.location}
-                {' '}
-                {confData.year}
-            </Typography>
-            <Typography component="p" fontStyle="italic">{confData.title}</Typography>
-            </Box>
-            <canvas
-            ref={canvasRef}
-            width={CANVAS_SIZE}
-            height={CANVAS_SIZE}
-            />
+            padding: '1rem',       
+        }}>
+        <Typography fontStyle="bold" variant="body1">
+            {confData.location}
+            {' '}
+            {confData.year}
+        </Typography>
+        <Typography fontStyle="italic" variant="body1">{confData.title}</Typography>
         </Box>
+        <canvas
+        ref={canvasRef}
+        width={CANVAS_SIZE}
+        height={CANVAS_SIZE}
+        />
+    </Box>
     );
 }

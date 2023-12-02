@@ -31,7 +31,7 @@ const mdTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif', // Use the Roboto font family
+    fontFamily: 'Montserrat, Helvetica', // Use the Roboto font family
     h5: {
       fontSize: '1.5rem', // Customize the font size for h5 typography
     },
