@@ -24,9 +24,6 @@ export default function Home({user}) {
         backgroundImage: 'url("art/shanghai.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        // display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         color: 'white', // You can set the text color as needed
         maxHeight: '100vh',
         overflow: 'auto',
@@ -35,21 +32,19 @@ export default function Home({user}) {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'top',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
           padding: '20px',
+          // justifyContent: 'center',
           gap: 8,
-          '@media (min-width:850px)': {
-            flexDirection: 'row',
+          '@media (max-width:850px)': {
+            flexDirection: 'column',
           },
         }}
       >
       <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '45%',
-          maxWidth: '45vw', // Adjusted width to take the full width on smaller screens
+          // width: '45%',
+          // maxWidth: '45vw', // Adjusted width to take the full width on smaller screens
       }}>
         <Planet />
       </Box>
@@ -59,7 +54,7 @@ export default function Home({user}) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '55%', // Adjusted width to take the full width on smaller screens
+          // width: '55%', // Adjusted width to take the full width on smaller screens
         }}
       >
         <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="100%" style={{ minWidth: '291px' }} />
