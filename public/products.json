@@ -8,10 +8,18 @@
       "url": "/products.json"
     },
     {
-      "id": "water-bottle",
-      "name": "Water Bottle",
+      "id": "white-water-bottle",
+      "name": "Water Bottle (white)",
       "price": 20.0,
-      "imageUrl": "/product-photos/waterbottle.png",
+      "imageUrl": "/product-photos/white-waterbottle.png",
+      "description": "A water bottle",
+      "url": "/products.json"
+    },
+    {
+      "id": "black-water-bottle",
+      "name": "Water Bottle (black)",
+      "price": 20.0,
+      "imageUrl": "/product-photos/black-waterbottle.png",
       "description": "A water bottle",
       "url": "/products.json"
     },
