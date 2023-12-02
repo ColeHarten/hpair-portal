@@ -53,6 +53,7 @@ export default function JoinConf ({ user }) {
   const handleJoinConf = async (joinCode) => {
     // add conference code to user doc
     const isValid = await validateJoinCode(joinCode, user.email)
+    console.log(isValid);
     if(isValid){
       if(joinCode.split('-')[1] === "F"){
         await addConferenceCode(user, joinCode, "N/A");
@@ -74,6 +75,8 @@ export default function JoinConf ({ user }) {
       if (isCorrectFormat(joinCode)) {
         // Open the PaymentWidget
         handleJoinConf(joinCode);
+      }else{
+        alert("Invalid Join Code. Please verify the code is correct. If you are still having issues, please reach out to conference support.")
       }
     }
   }
