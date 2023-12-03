@@ -36,8 +36,8 @@ export default function Home({ user }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          padding: '20px',
+          justifyContent: 'flex-end',
+          padding: '3%',
           gap: 8,
           '@media (max-width:850px)': {
             justifyContent: 'center',
@@ -45,9 +45,7 @@ export default function Home({ user }) {
         }}
       >
         {!isSmallScreen && (
-          <Box sx={{}}>
             <Planet />
-          </Box>
         )}
 
         <Box
@@ -55,6 +53,7 @@ export default function Home({ user }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: '60%',
           }}
         >
           <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="80%" style={{ minWidth: '291px' }} />
@@ -69,9 +68,9 @@ export default function Home({ user }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              width: '60%',
               maxHeight: '80vh',
               minWidth: '350px',
+              padding: '2rem 3rem 2rem 3rem',
             }}
           >
             {!user ?
