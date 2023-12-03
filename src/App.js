@@ -11,6 +11,7 @@ import ConfPage from './components/confPage/ConfPage';
 import Store from './components/confPage/store/Store';
 import Social from './components/confPage/social/Social';
 import FAQs from './components/confPage/faqs/FAQs';
+import Profile from './components/confPage/profile/Profile';
 import Home from './components/home/Home'
 import SettingsPage from './components/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -24,14 +25,14 @@ import { getUserData } from "./utils/mutations";
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: "#A51C30"
+      main: "#B4041A"
     },
     secondary: {
       main: "#ffffff", // A white secondary color
     },
   },
   typography: {
-    fontFamily: 'Montserrat, Helvetica', // Use the Roboto font family
+    fontFamily: 'Montserrat, Arial', // Use the Roboto font family
     h5: {
       fontSize: '1.5rem', // Customize the font size for h5 typography
     },
@@ -92,6 +93,8 @@ export default function App() {
                   "/art/hpair-logo-white.png",
                   "/art/shanghai.jpg",
                   "/art/linkedin.png",
+                  "/art/instagram.jpg",
+                  "/art/facebook.png",
                 ]
     
     // only preload images if we haven't already
@@ -145,6 +148,9 @@ export default function App() {
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
         break;
+      case MENU_ITEMS.PROFILE:
+        navigate(`/${conferenceID}/profile`);
+        break;
       default:
         break;
     }
@@ -181,6 +187,7 @@ export default function App() {
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
             <Route path="/:confCode/social" element={withMenu(<Social user={currentUser} />)} />
             <Route path="/:confCode/faqs" element={withMenu(<FAQs user={currentUser} />)} />
+            <Route path="/:confCode/profile" element={withMenu(<Profile user={currentUser} />)} />
             {/* add default route that shows no routes found */}
             <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>

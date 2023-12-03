@@ -29,8 +29,8 @@ export default function SupportModal({ onClose, open }) {
           If you need assistance, please reach out to our support team.
         </Typography>
       </DialogContentText>
-      <Typography variant="body1" component={'span'}>
-        <strong>Contact Information:</strong>
+      <Typography variant="body1" component={'span'} style={{ fontWeight: 'bold' }}>
+        Contact Information<br />
       </Typography>
       <Typography variant="body1" component="span">
         Email: <a href="mailto:help@hpair.org">help@hpair.org</a>
