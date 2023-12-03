@@ -2,7 +2,7 @@
 // ! and various other success messaging
 import { Box, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getUserData } from '../../utils/mutations';
+import { getUserData } from '../utils/mutations';
 
 export default function SuccessPage({ user }) {
     const [loading, setLoading] = useState(true);

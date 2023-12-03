@@ -19,6 +19,5 @@ export default function ConfPage({ user }) {
     <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
       <Typography variant="h4"> Congratulations, {name.split(' ')[0]}! </Typography>
     </Box>
-
   );
 }

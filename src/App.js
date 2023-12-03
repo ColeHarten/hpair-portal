@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from "react";
 import './App.css';
 import MenuBar from './components/confPage/menuBar/MenuBar';
-import SupportModal from './components/supportModal/SupportModal';
+import SupportModal from './components/confPage/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
 import Store from './components/confPage/store/Store';
@@ -13,9 +13,9 @@ import Social from './components/confPage/social/Social';
 import FAQs from './components/confPage/faqs/FAQs';
 import Profile from './components/confPage/profile/Profile';
 import Home from './components/home/Home'
-import SettingsPage from './components/settings/Settings';
+import SettingsPage from './components/confPage/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
-import SuccessPage from './components/confPage/SuccessPage';
+import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -38,7 +38,7 @@ const mdTheme = createTheme({
     },
   },
   shape: {
-    borderRadius: 10, // Adjust the global border radius
+    borderRadius: 8, // Adjust the global border radius
   },
   overrides: {
     MuiButton: {
@@ -93,7 +93,7 @@ export default function App() {
                   "/art/hpair-logo-white.png",
                   "/art/shanghai.jpg",
                   "/art/linkedin.png",
-                  "/art/instagram.jpg",
+                  "/art/instagram.png",
                   "/art/facebook.png",
                 ]
     

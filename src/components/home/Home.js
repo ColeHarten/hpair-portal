@@ -36,6 +36,7 @@ export default function Home({ user }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'flex-start',
+          justifyContent: 'space-between',
           padding: '20px',
           gap: 8,
           '@media (max-width:850px)': {
@@ -56,7 +57,7 @@ export default function Home({ user }) {
             alignItems: 'center',
           }}
         >
-          <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="100%" style={{ minWidth: '291px' }} />
+          <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="80%" style={{ minWidth: '291px' }} />
           <Box
             sx={{
               px: 4,

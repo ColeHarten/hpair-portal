@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
 export default function Social(user){
 
@@ -24,13 +24,13 @@ export default function Social(user){
                 justifyContent: 'space-between', // Center content vertically
             }}
         >
-            <a href="https://www.linkedin.com/groups/12935124/" target="_blank">
+            <a href="https://www.linkedin.com/groups/12935124/" rel="noreferrer" target="_blank">
                 <img src="/art/linkedin.png" width="50px" alt="LinkedIn Icon"  />
             </a>
-            <a href="https://www.instagram.com/officialhpair/?hl=en" target="_blank">
-                <img src="/art/instagram.jpg" width="50px" alt="Instagram Icon" />
+            <a href="https://www.instagram.com/officialhpair/?hl=en" rel="noreferrer" target="_blank">
+                <img src="/art/instagram.png" width="50px" alt="Instagram Icon" />
             </a>
-            <a href="https://www.facebook.com/official.hpair/" target="_blank">
+            <a href="https://www.facebook.com/official.hpair/" rel="noreferrer" target="_blank">
                 <img src="/art/facebook.png" width="50px" alt="Facebook Icon" />
             </a>
         </Box>

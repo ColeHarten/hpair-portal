@@ -1,7 +1,7 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from '../../utils/firebase';
+import { useAuth } from '../../../utils/firebase';
 
 export default function SettingsPage({ user }) {
   const [oldPassword, setOldPassword] = useState("");
