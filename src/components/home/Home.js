@@ -39,7 +39,7 @@ export default function Home({ user }) {
           padding: '20px',
           gap: 8,
           '@media (max-width:850px)': {
-            flexDirection: 'column',
+            justifyContent: 'center',
           },
         }}
       >
