@@ -36,7 +36,7 @@ export default function Home({ user }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'flex-start',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
           padding: '3%',
           gap: 8,
           '@media (max-width:850px)': {

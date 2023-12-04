@@ -13,7 +13,7 @@ export default function SupportModal({ onClose, open }) {
     <Dialog onClose={onClose} open={open}>
   <Box style={{ padding: '10px' }}>
     <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Typography variant="h5">Contact Customer Support</Typography>
+      <Typography variant="h5">Contact Support</Typography>
       <IconButton
         edge="end"
         color="inherit"
