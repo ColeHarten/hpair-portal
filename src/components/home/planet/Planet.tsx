@@ -195,9 +195,10 @@ return (
     <Typography variant="h5" fontWeight="bold">
         {confData.location} {confData.year}
     </Typography>
-    <Typography variant="body1" sx={{ fontStyle: 'italic', fontSize: 'xl' }}>
-        {confData.title}
+    <Typography variant="body1" sx={{ fontStyle: 'italic', fontSize: 'xl', height: '3rem', overflow: 'hidden' }}>
+      {confData.title}
     </Typography>
+
       <canvas
         ref={canvasRef}
         width={CANVAS_SIZE}

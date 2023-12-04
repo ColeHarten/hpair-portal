@@ -45,7 +45,11 @@ export default function Home({ user }) {
         }}
       >
         {!isSmallScreen && (
+          <Box sx={{
+            width: '40%',
+          }}>
             <Planet />
+          </Box>
         )}
 
         <Box
