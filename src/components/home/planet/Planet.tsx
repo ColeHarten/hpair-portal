@@ -198,7 +198,6 @@ return (
     <Typography variant="body1" sx={{ fontStyle: 'italic', fontSize: 'xl', height: '3rem', overflow: 'hidden' }}>
       {confData.title}
     </Typography>
-
       <canvas
         ref={canvasRef}
         width={CANVAS_SIZE}

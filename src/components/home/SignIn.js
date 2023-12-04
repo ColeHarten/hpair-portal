@@ -14,7 +14,7 @@ export default function SignIn({ onSignUpClick }) {
     container: {
       margin: '8px 0',
       backgroundColor: 'transparent',
-      width: '100%',
+      width: '80%',
     },
     input: {
       color: 'white',
