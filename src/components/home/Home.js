@@ -35,7 +35,7 @@ export default function Home({ user }) {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           padding: '2%',
           gap: 8,
