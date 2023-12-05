@@ -23,7 +23,7 @@ export default function Home({ user }) {
       sx={{
         width: '100vw',
         height: '100vh',
-        backgroundImage: 'url("art/shanghai.jpg")',
+        backgroundImage: "url('art/home-background.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',

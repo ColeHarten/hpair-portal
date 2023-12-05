@@ -90,11 +90,10 @@ export default function App() {
   useEffect(() => {
     const imgs = ["/art/HPAIR Logo Banner (Black).png",
                   "/art/HPAIR Logo Banner (White).png",
-                  "/art/hpair-logo-white.png",
-                  "/art/shanghai.jpg",
                   "/art/linkedin.png",
                   "/art/instagram.png",
                   "/art/facebook.png",
+                  "/art/home-background.png",
                 ]
     
     // only preload images if we haven't already
