@@ -14,7 +14,7 @@ export default function Product(props) {
                 className={"image-product"}
             />
             <h3>{name}</h3>
-            <p>{description}</p>
+            {/* <p>{description}</p> */}
             <span>${price}</span>
             <div>
                 <button
