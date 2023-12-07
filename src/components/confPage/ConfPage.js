@@ -16,8 +16,11 @@ export default function ConfPage({ user }) {
   }, [user, confCode]);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-      <Typography variant="h4"> Congratulations, {name.split(' ')[0]}! </Typography>
-    </Box>
+  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center', padding: '20px' }}>
+    <Typography variant="h4" sx={{ mb: 2 }}>Congratulations, {name?.split(' ')[0]}!</Typography>
+    <Typography variant="body1" sx={{ mb: 2 }}>We can't wait to see you in February!</Typography>
+    <iframe title="welcome video" style={{ width: '50vw', height: '60vh' }} src="https://www.youtube.com/embed/omH9elhUtKI?autoplay=1&mute=0">
+    </iframe>
+  </Box>
   );
 }

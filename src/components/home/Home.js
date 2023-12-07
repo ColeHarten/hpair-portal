@@ -63,8 +63,7 @@ export default function Home({ user }) {
           <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="70%" style={{ minWidth: '291px' }} />
           <Box
             sx={{
-              px: 4,
-              py: 4,
+              p: 4,
               borderRadius: '0.5rem',
               backgroundColor: 'rgba(220, 20, 60, 0.6)',
               border: '4px solid #fff',
@@ -75,6 +74,7 @@ export default function Home({ user }) {
               maxHeight: '80vh',
               minWidth: '350px',
               padding: '2rem 3rem 2rem 3rem',
+              width: '60%',
             }}
           >
             {!user ?

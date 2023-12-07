@@ -1,10 +1,18 @@
 [
     {
+      "id": "exec-seminar",
+      "name": "Executive Seminar",
+      "price": 75.0,
+      "imageUrl": "/product-photos/hpair-logo.png",
+      "description": "",
+      "url": "/products.json"
+    },
+    {
       "id": "mug",
       "name": "Mug",
-      "price": 20.0,
+      "price": 15.0,
       "imageUrl": "/product-photos/mug.png",
-      "description": "A coffee mug",
+      "description": "",
       "url": "/products.json"
     },
     {
@@ -12,7 +20,7 @@
       "name": "Water Bottle (white)",
       "price": 20.0,
       "imageUrl": "/product-photos/white-waterbottle.png",
-      "description": "A water bottle",
+      "description": "",
       "url": "/products.json"
     },
     {
@@ -20,7 +28,7 @@
       "name": "Water Bottle (black)",
       "price": 20.0,
       "imageUrl": "/product-photos/black-waterbottle.png",
-      "description": "A water bottle",
+      "description": "",
       "url": "/products.json"
     },
     {
@@ -28,15 +36,15 @@
       "name": "Bucket Hat",
       "price": 20.0,
       "imageUrl": "/product-photos/hat.png",
-      "description": "A bucket hat",
+      "description": "",
       "url": "/products.json"
     },
     {
       "id": "t-shirt",
       "name": "T Shirt",
-      "price": 20.0,
+      "price": 25.0,
       "imageUrl": "/product-photos/shirt.png",
-      "description": "A t-shirt",
+      "description": "",
       "url": "/products.json"
     }
   ]
