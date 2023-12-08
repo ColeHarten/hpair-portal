@@ -107,8 +107,8 @@ export default function JoinConf ({ user }) {
     {showPayment ? (
       // Show the PaymentWidget
       <Box>
-        <Typography variant="h6" style={{ margin: '8px 0' }}>
-          Please complete payment of {price} USD to join conference.
+        <Typography variant="body1" style={{ margin: '8px 0' }}>
+          Please complete payment of ${price} USD to join conference.
         </Typography>
         <PaymentWidget user={user} joinCode={joinCode} price={price} />
         <Button
