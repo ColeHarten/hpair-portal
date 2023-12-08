@@ -24,7 +24,7 @@ export default function ConfPage({ user }) {
     startVelocity: 30,
     elementCount: 200,
     dragFriction: 0.10,
-    duration: 8000,
+    duration: 5000,
     stagger: 3,
     width: "10px",
     height: "10px",
