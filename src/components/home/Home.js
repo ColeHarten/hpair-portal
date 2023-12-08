@@ -104,6 +104,7 @@ export default function Home({ user }) {
               )}
           </Box>
         </Box>
+      </Box>
       </Paper>
     </Box>
   );
