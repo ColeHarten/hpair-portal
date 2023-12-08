@@ -19,11 +19,11 @@ export default function SignUp({ onSignInClick }) {
       width: '80%'
     },
     input: {
-      color: 'white',
+      color: 'black',
       borderColor: 'white',
     },
     label: {
-      color: 'white',
+      color: 'black',
     },
   };
 
@@ -93,7 +93,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color='primary'
           required
       />
       <TextField
@@ -108,7 +108,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color='secondary'
+          color='primary'
           required
       />
       <PasswordInput
@@ -124,7 +124,7 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color="secondary"
+          color="primary"
           required
         />
       <TextField
@@ -140,12 +140,12 @@ export default function SignUp({ onSignInClick }) {
           InputLabelProps={{
             style: textFieldStyles.label,
           }}
-          color="secondary"
+          color="primary"
           required
         />
       <Button variant="contained" onClick={handleSignUp}
           // style={{outline: "white solid 2px",}}
-          color="secondary"
+          color="primary"
         >Sign Up</Button>
       <Typography component={"span"} type="body3" margin="8px 0">
         Already signed up? <Link 

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import SignIn from './SignIn.js';
@@ -19,7 +19,22 @@ export default function Home({ user }) {
   };
 
   return (
-    <Box
+  <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      display: 'flex',
+      flexDirection: 'column', // Stack contents vertically
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'auto',
+    }}
+  >
+    <Paper
       sx={{
         width: '100vw',
         height: '100vh',
@@ -89,7 +104,7 @@ export default function Home({ user }) {
               )}
           </Box>
         </Box>
-      </Box>
+      </Paper>
     </Box>
   );
 }
