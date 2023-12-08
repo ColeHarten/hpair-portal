@@ -66,7 +66,6 @@ export default function JoinConf ({ user }) {
   const handleJoinConf = async (joinCode) => {
     // add conference code to user doc
     const isValid = await validateJoinCode(joinCode, user.email)
-    console.log(isValid);
     if(isValid){
       if(joinCode.split('-')[1] === "F"){
         await addConferenceCode(user, joinCode, "N/A");
