@@ -4,6 +4,7 @@ const MENU_ITEMS = {
     SETTINGS: 2,
     LOGOUT: 3,
     STORE: 4,
+    PROFILE: 5,
 }
 
 export default MENU_ITEMS;

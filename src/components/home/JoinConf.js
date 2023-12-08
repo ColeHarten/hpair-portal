@@ -7,17 +7,22 @@ import React, { useState } from 'react';
 import { auth } from '../../utils/firebase';
 import { addConferenceCode, getConferenceData, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
 import PaymentWidget from './PaymentWidget';
+import Checkbox from '@mui/material/Checkbox';
+import { useEffect } from 'react';
 
 export default function JoinConf ({ user }) {
   const [showPayment, setShowPayment] = useState(false);
   const [joinCode, setJoinCode] = useState('');
   const [price, setPrice] = useState(null);
-  
+  const [isShowTerms, setIsShowTerms] = useState(false)
+  const [isVerified, setIsVerified] = useState(false);
+
   const textFieldStyles = {
     container: {
       margin: '8px 0',
       backgroundColor: 'transparent',
       color: 'white',
+      width: '100%',
     },
     input: {
       color: 'black',
@@ -26,6 +31,17 @@ export default function JoinConf ({ user }) {
       color: 'black',
     },
   };
+
+  // Only show terms for HCONF
+  useEffect(() => {
+    // if first 7 chars are HCONF24
+    if(joinCode.slice(0,7) === "HCONF24"){
+      setIsShowTerms(true);
+    } else{
+      setIsShowTerms(false);
+    }
+  }, [joinCode])
+
   // TODO: Move this validation into a firebase function to hide it from the client
   function isCorrectFormat(input) {
     // Check if input is in the format XXXXXX-X-XXXXXX
@@ -67,9 +83,13 @@ export default function JoinConf ({ user }) {
   }
 
   function handleClickJoin() {
-    if (isCorrectFormat(joinCode)) {
-      // Open the PaymentWidget
-      handleJoinConf(joinCode);
+    if(!isShowTerms || isVerified){
+      if (isCorrectFormat(joinCode)) {
+        // Open the PaymentWidget
+        handleJoinConf(joinCode);
+      }else{
+        alert("Invalid Join Code. Please verify the code is correct. If you are still having issues, please reach out to conference support.")
+      }
     }
   }
 
@@ -120,7 +140,11 @@ export default function JoinConf ({ user }) {
           color="primary"
           onChange={(e) => setJoinCode(e.target.value)}
         />
-        <Button variant="contained" color="primary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
+        {isShowTerms && <Box sx={{display: 'flex'}}>
+        <Checkbox size="small" color="secondary" onChange={(e) => setIsVerified(e.target.checked)} />
+        <Typography variant="body2">By checking this box, you are confirming that you have read and understood the <a style={{ textDecoration: 'none', color: '#6e8eb8' }} href="/documents/terms_and_conditions.html" target="_blank">Terms and Conditions.</a></Typography>
+        </Box> }
+        <Button variant="contained" color="secondary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
           To Payment
         </Button>
         <Button

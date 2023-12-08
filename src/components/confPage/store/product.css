@@ -1,9 +1,10 @@
 .product {
-    margin: 1%;
+    margin: 3%;
     padding: 15px;
     border: 1px solid lightgray;
     width: 25%;
     border-radius: 5px;
+    min-width: 250px;
 }
 
 .product:hover {
@@ -35,6 +36,5 @@
 }
 
 .product .image-product {
-    /*height: 100%;*/
     width: 100%;
 }

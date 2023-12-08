@@ -1,12 +1,14 @@
 import { Box, Paper } from "@mui/material";
 import { useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
 import JoinConf from "./JoinConf.js";
 import Planet from './planet/Planet.tsx';
 
-export default function Home({user}) {
+export default function Home({ user }) {
   const [isSignUp, setIsSignUp] = useState(false);
+  const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const handleSignUpClick = () => {
     setIsSignUp(true);
@@ -34,33 +36,73 @@ export default function Home({user}) {
   >
     <Paper
       sx={{
-        width: '30%',      // Take up 1/3 of the width
-        minWidth: '350px', // But at least 300px
-        p: 2,              // Add some padding
-        display: 'flex',   // Use Flexbox to center content
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-      }}>
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: "url('art/home-background.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        color: 'white',
+        maxHeight: '100vh',
+        overflow: 'auto',
+      }}
+    >
       <Box
-        style={{
+        sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width="100%" style={{ minWidth: '291px', marginBottom: '10px' }} />
-          {!user ?
-           ( isSignUp ? (
-              <SignUp onSignInClick={handleSignInClick} />
-            ) : (
-              <SignIn onSignUpClick={handleSignUpClick} />
-            )) : (
-            <Box sx={{overflow: "auto"}}>
-              <JoinConf user={user} />
-            </Box>
-          )}
+          justifyContent: 'space-between',
+          padding: '2%',
+          gap: 8,
+          '@media (max-width:850px)': {
+            justifyContent: 'center',
+          },
+        }}
+      >
+        {!isSmallScreen && (
+          <Box sx={{
+            width: '40%',
+          }}>
+            <Planet />
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '60%',
+          }}
+        >
+          <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="70%" style={{ minWidth: '291px' }} />
+          <Box
+            sx={{
+              p: 4,
+              borderRadius: '0.5rem',
+              backgroundColor: 'rgba(220, 20, 60, 0.6)',
+              border: '4px solid #fff',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxHeight: '80vh',
+              minWidth: '350px',
+              padding: '2rem 3rem 2rem 3rem',
+              width: '60%',
+            }}
+          >
+            {!user ?
+              (isSignUp ? (
+                <SignUp onSignInClick={handleSignInClick} />
+              ) : (
+                <SignIn onSignUpClick={handleSignUpClick} />
+              )) : (
+                <Box sx={{ overflow: "auto" }}>
+                  <JoinConf user={user} />
+                </Box>
+              )}
+          </Box>
         </Box>
       </Paper>
     </Box>

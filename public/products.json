@@ -1,26 +1,50 @@
 [
     {
-      "id": "t-shirt",
-      "name": "T-Shirt",
-      "price": 35.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338865-shirt.jpg",
-      "description": "A white t-shirt",
+      "id": "exec-seminar",
+      "name": "Executive Seminar",
+      "price": 75.0,
+      "imageUrl": "/product-photos/hpair-logo.png",
+      "description": "",
       "url": "/products.json"
     },
     {
-      "id": "wallet",
-      "name": "Wallet",
+      "id": "mug",
+      "name": "Mug",
+      "price": 15.0,
+      "imageUrl": "/product-photos/mug.png",
+      "description": "",
+      "url": "/products.json"
+    },
+    {
+      "id": "white-water-bottle",
+      "name": "Water Bottle (white)",
       "price": 20.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338869-fancy-wallet.jpg",
-      "description": "A fancy wallet",
+      "imageUrl": "/product-photos/white-waterbottle.png",
+      "description": "",
       "url": "/products.json"
     },
     {
-      "id": "cup",
-      "name": "Cup",
-      "price": 5.0,
-      "imageUrl": "https://www.datocms-assets.com/56262/1633338802-cup.jpg",
-      "description": "A tea cup",
+      "id": "black-water-bottle",
+      "name": "Water Bottle (black)",
+      "price": 20.0,
+      "imageUrl": "/product-photos/black-waterbottle.png",
+      "description": "",
+      "url": "/products.json"
+    },
+    {
+      "id": "hat",
+      "name": "Bucket Hat",
+      "price": 20.0,
+      "imageUrl": "/product-photos/hat.png",
+      "description": "",
+      "url": "/products.json"
+    },
+    {
+      "id": "t-shirt",
+      "name": "T Shirt",
+      "price": 25.0,
+      "imageUrl": "/product-photos/shirt.png",
+      "description": "",
       "url": "/products.json"
     }
   ]

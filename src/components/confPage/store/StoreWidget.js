@@ -33,38 +33,44 @@ const StoreWidget = () => {
         }
       }, [setItemsCount]);
 
-    return (
-    <Box sx={{overflow: 'auto', zIndex: 0}}>   
-        <Button
-          startIcon={<ShoppingCartIcon />}
-          href="#"
-          className="snipcart-checkout"
-          sx={{ ml: 'auto', width: '100%', color: 'black' }}
-        >
-        <div className="snipcart-summary">
-         {/* checkout with number of items */}
-            Checkout (<span className='snipcart-items-count'>{itemsCount}</span>)
-        </div>
-        </Button>
-        <Box
+      return (
+        <Box sx={{ overflow: 'auto', zIndex: 0, display: 'flex', flexDirection: 'column', justifyContent: "center" }}>
+          {/* Cart */}
+          <Button
+            startIcon={<ShoppingCartIcon />}
+            href="#"
+            className="snipcart-checkout"
+            sx={{ ml: 'auto', width: '100%', color: 'black' }}
+          >
+            <div className="snipcart-summary">
+              Checkout (<span className='snipcart-items-count'>{itemsCount}</span>)
+            </div>
+          </Button>
+      
+          {/* Products Grid */}
+          <Box
             sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between', // You can use 'space-around' or 'space-evenly' as well
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around', // Center the items
+              '@media screen and (max-width: 600px)': {
+                justifyContent: 'center', // Center for small screens
+              },
             }}
-        >
-            {
-              products.map((product, i) => <Product {...product} key={i}/>)
-            }
-        </Box>
-
-        <div
+          >
+            {products.map((product, i) => <Product {...product} key={i} />)}
+          </Box>
+      
+          {/* Snipcart */}
+          <div
             id="snipcart"
-            data-api-key="NWMwZWNkZGMtZjU2ZS00YzM3LWFlZjYtMmM5Zjk0MWViZDcxNjM3Njg0OTY0ODg5NTk4MTM3" hidden
-        >
-        </div>
-    </Box>
-    );
+            data-api-key="NWMwZWNkZGMtZjU2ZS00YzM3LWFlZjYtMmM5Zjk0MWViZDcxNjM3Njg0OTY0ODg5NTk4MTM3"
+            hidden
+          >
+          </div>
+        </Box>
+      );
+      
 };
 
 export default StoreWidget;

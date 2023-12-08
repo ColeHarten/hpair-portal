@@ -4,16 +4,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from "react";
 import './App.css';
-import MenuBar from './components/menuBar/MenuBar';
-import SupportModal from './components/supportModal/SupportModal';
+import MenuBar from './components/confPage/menuBar/MenuBar';
+import SupportModal from './components/confPage/supportModal/SupportModal';
 import MENU_ITEMS from './constants';
 import ConfPage from './components/confPage/ConfPage';
 import Store from './components/confPage/store/Store';
+import Social from './components/confPage/social/Social';
+import FAQs from './components/confPage/faqs/FAQs';
+import Profile from './components/confPage/profile/Profile';
 import Home from './components/home/Home'
-import SettingsPage from './components/settings/Settings';
+import SettingsPage from './components/confPage/settings/Settings';
 import { Route, Routes, useNavigate } from "react-router-dom";
-import SuccessPage from './components/confPage/SuccessPage';
-
+import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
@@ -36,7 +38,7 @@ const mdTheme = createTheme({
     },
   },
   shape: {
-    borderRadius: 10, // Adjust the global border radius
+    borderRadius: 8, // Adjust the global border radius
   },
   overrides: {
     MuiButton: {
@@ -88,8 +90,8 @@ export default function App() {
   useEffect(() => {
     const imgs = ["/art/HPAIR Logo Banner (Black).png",
                   "/art/HPAIR Logo Banner (White).png",
-                  "/art/hpair-logo-white.png",
-                  "/art/shanghai.jpg",]
+                  "/art/home-background.png",
+                ]
     
     // only preload images if we haven't already
     if(isCaching){
@@ -142,6 +144,9 @@ export default function App() {
       case MENU_ITEMS.LOGOUT:
         auth.signOut();
         break;
+      case MENU_ITEMS.PROFILE:
+        navigate(`/${conferenceID}/profile`);
+        break;
       default:
         break;
     }
@@ -176,6 +181,9 @@ export default function App() {
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
+            <Route path="/:confCode/social" element={withMenu(<Social user={currentUser} />)} />
+            <Route path="/:confCode/faqs" element={withMenu(<FAQs user={currentUser} />)} />
+            <Route path="/:confCode/profile" element={withMenu(<Profile user={currentUser} />)} />
             {/* add default route that shows no routes found */}
             <Route path="*" element={<Typography>404: Not Found</Typography>} />
           </Routes>
