@@ -151,9 +151,8 @@ export default function SignUp({ onSignInClick }) {
         Already signed up? <Link 
             component="button" 
             onClick={onSignInClick} 
-            style={{ textDecoration: 'none', color: '#6e8eb8' }}
-          >
-            <strong>Sign in instead</strong>
+            style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold' }}
+          > Sign in
           </Link>
       </Typography>
     </Box>
