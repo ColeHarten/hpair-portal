@@ -147,12 +147,13 @@ export default function SignIn({ onSignUpClick }) {
             height: '2px',
             backgroundColor: 'white',
             margin: '8px 0',
-          }} />
+          }} 
+        />
         <TextField
           label="Email"
           variant="standard"
           value={email}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           style={textFieldStyles.container}
           InputProps={{
             style: textFieldStyles.input,
