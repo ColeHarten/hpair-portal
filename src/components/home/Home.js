@@ -72,7 +72,7 @@ export default function Home({ user }) {
               flexDirection: 'column',
               alignItems: 'center',
               maxHeight: '80vh',
-              minWidth: '350px',
+              minWidth: '375px',
               padding: '2rem 3rem 2rem 3rem',
               width: '60%',
             }}

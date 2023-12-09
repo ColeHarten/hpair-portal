@@ -107,28 +107,27 @@ export default function SignIn({ onSignUpClick }) {
         </Button>
         <Typography component={"span"} margin="8px 0">
         <Box>
-        <Typography component={"span"}>
-          Don't have an account?  <Link 
-            component="button" 
-            variant="body2" 
-            onClick={onSignUpClick} 
-            style={{ textDecoration: 'none', color: '#6e8eb8' }}
-          >
-            <strong>Sign up instead</strong>
-          </Link>
-          <br />
-          <center>
+          <Typography component="span">
+            Don't have an account?  
+            <Link 
+              component="button" 
+              variant="body2" 
+              onClick={onSignUpClick} 
+              style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold' }}
+            > Sign up
+            </Link>
+            <br />
             <Link 
               component="button" 
               variant="body2" 
               onClick={handleForgotPassword} 
-              style={{ textDecoration: 'none', color: '#6e8eb8' }}
+              style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold' }}
             >
-              <strong>Forgot Password?</strong>
+              Forgot Password?
             </Link>
-          </center>
-          </Typography>
-        </Box>
+            </Typography>
+          </Box>
+
         </Typography>
       </Box>
     );
