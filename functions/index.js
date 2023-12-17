@@ -10,12 +10,14 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
+import AWS_ACCESS_KEY_ID from './aws-config';
+import AWS_SECRET_ACCESS_KEY from './aws-config';
+
 // Create and deploy your first functions
 const functions = require('firebase-functions');
 const AWS = require('aws-sdk');
 
-AWS_ACCESS_KEY_ID = 'AKIARULTVF2EURLCY2KZ'
-AWS_SECRET_ACCESS_KEY = 'rVgOu2c+/NMShCKpohi/VfzuzpTseE0tgm6V1SES'
+
 AWS_REGION = "us-east-2"
 SENDER = "Harvard Project for Asian and International Relations <help@hpair.org>"
 
