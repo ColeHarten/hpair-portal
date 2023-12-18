@@ -178,6 +178,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home user={currentUser} />} />
             <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
+            <Route path="/VHYLS24/*" element={<SuccessPage user={currentUser} />} />
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
