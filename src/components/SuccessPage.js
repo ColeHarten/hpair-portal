@@ -47,7 +47,7 @@ export default function SuccessPage({ user }) {
           }}>
             <a href="https://www.hpair.org"><img src="/art/HPAIR Logo Banner (Black).png" alt="HPAIR Logo" width={300} /></a>
             <Typography variant="body" sx={{textAlign: 'left', margin: '10px 0'}} component="span">
-            You have been succcessfully registered for the Harvard Youth Leaders Conference. Your payment id is
+            You have been succcessfully registered for the Harvard Youth Leadership Conference. Your payment id is
             <strong><center>{paymentID}</center></strong>
             We will be sending out all further details via email soon. Thank you!
             </Typography>
