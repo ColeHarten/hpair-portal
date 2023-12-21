@@ -2,6 +2,7 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from 'react';
 import { CLIENT_ID } from '../../config/Config';
 import { addConferenceCode, addPaymentInfo } from '../../utils/mutations';
+import axios from 'axios';
 
 export default function PaymentWidget({user, joinCode, price}){
 
@@ -46,7 +47,7 @@ export default function PaymentWidget({user, joinCode, price}){
                 name: 'Cole Harten',
                 email: 'charten@college.harvard.edu',
                 amount: `${details.purchase_units[0].amount.value}`,
-                id: `${detais.id}`,
+                id: `${details.id}`,
             };
             await axios.post(firebaseFunctionUrl, postData);
                 // .then(response => {

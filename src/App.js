@@ -14,10 +14,16 @@ import FAQs from './components/confPage/faqs/FAQs';
 import Profile from './components/confPage/profile/Profile';
 import Home from './components/home/Home'
 import SettingsPage from './components/confPage/settings/Settings';
+import AdminPage from './components/adminPage/AdminPage'
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
+
+import AdminAdmins from './components/adminPage/adminPages/AdminAdmins';
+import AdminUsers from './components/adminPage/adminPages/AdminUsers';
+import AdminPayments from './components/adminPage/adminPages/AdminPayments';
+import AdminConferences from './components/adminPage/adminPages/AdminConferences';
 
 
 
@@ -123,7 +129,7 @@ export default function App() {
         // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
         setConferenceID(null);
-        navigate(`/`)
+        // navigate(`/`);
       }
       setIsLoading(false);
     });
@@ -174,11 +180,19 @@ export default function App() {
       {isCaching ? <Typography>Loading...</Typography> :  
       (<>
         {/* Don't show the main window if the window is loading (i.e. auth state is changine). Prevents flickering. */}
+        {/* TODO: MAKE THE NON-CONFPAGE CONFERENCE PATHS DYNAMIC */}
         {isLoading ? <Typography>Loading...</Typography> :
           <Routes>
             <Route path="/" element={<Home user={currentUser} />} />
             <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
             <Route path="/VHYLS24/*" element={<SuccessPage user={currentUser} />} />
+            
+            <Route path="ADMIN" element={<AdminPage />} />
+            <Route path="/ADMIN/users" element={<AdminUsers />} />
+            <Route path="ADMIN/admins" element={<AdminAdmins />} />
+            <Route path="ADMIN/payments" element={<AdminPayments />} />
+            <Route path="ADMIN/conferences" element={<AdminConferences />} />
+
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
             <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />

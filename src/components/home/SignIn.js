@@ -3,14 +3,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../utils/firebase';
 import PasswordInput from "./PasswordInput";
-
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn({ onSignUpClick }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-
+  
   const textFieldStyles = {
     container: {
       margin: '8px 0',
@@ -25,26 +24,20 @@ export default function SignIn({ onSignUpClick }) {
     },
   };
 
+  const navigate = useNavigate();
+
   const handleSignIn = async () => {
-    // Replace this URL with the actual URL of your deployed Firebase Function
-    const firebaseFunctionUrl = 'https://sendemail-2t5cbdn56q-uc.a.run.app';
-    const postData = {
-      name: 'Cole Harten',
-      email: 'charten@college.harvard.edu',
-    };
-    axios.post(firebaseFunctionUrl, postData)
-      .then(response => {
-        console.log('Response:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error.message);
-      });
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   // User is signed in. You can handle redirection or any other logic here.
-    // } catch {
-    //   alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
-    // }
+    try {
+      if(email === 'ADMIN' && password === 'ADMIN'){
+        // Redirect to admin dashboard
+        navigate('/ADMIN');
+      } else{
+        await auth.signInWithEmailAndPassword(email, password);
+      }
+      // User is signed in. You can handle redirection or any other logic here.
+    } catch {
+      alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
+    }
   };
 
   const handleForgotPassword = () => {

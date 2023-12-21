@@ -1,14 +1,14 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, Button, TextField, Typography } from "@mui/material";
+import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { sha256 } from 'crypto-hash';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebase';
 import { addConferenceCode, getConferenceData, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
 import PaymentWidget from './PaymentWidget';
-import Checkbox from '@mui/material/Checkbox';
-import { useEffect } from 'react';
+
 
 export default function JoinConf ({ user }) {
   const [showPayment, setShowPayment] = useState(false);
