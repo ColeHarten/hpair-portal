@@ -1,58 +1,58 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+/*
+    THIS IS A FIREBASE FUNCTION TO SEND OUT THE EMAIL RECEIPT UPON SUCCESSFUL PAYMENT
+*/
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
-
-import AWS_ACCESS_KEY_ID from './aws-config';
-import AWS_SECRET_ACCESS_KEY from './aws-config';
-
-// Create and deploy your first functions
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const AWS = require('aws-sdk');
+const cors = require('cors')({origin: true});
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require('./aws-config');
 
-
-AWS_REGION = "us-east-2"
-SENDER = "Harvard Project for Asian and International Relations <help@hpair.org>"
+const AWS_REGION = "us-east-2";
+const SENDER = "Harvard Project for Asian and International Relations <help@hpair.org>";
 
 const ses = new AWS.SES({
-    region: AWS_REGION,
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  });
+  region: AWS_REGION,
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+});
 
-exports.sendEmail = functions.https.onRequest(async (req, res) => {
-// Extract recipient email and name from the request
-const { name,email } = req.body; // Assuming the request body contains email and name
+exports.sendEmail = onRequest((req, res) => {
+  try {
+    cors(req, res, async () => {
+        // Basic request validation
+        const { name, email } = req.body || {};
+        if (!name || !email) {
+        throw new Error('Invalid request data. Name and email are required.');
+        }
 
-const params = {
-    Destination: {
-    ToAddresses: [email], // Use the recipient's email from the request
-    },
-    Message: {
-    Body: {
-        Text: {
-        Data: `Hello ${name},\n\nThank you for your payment! This is your receipt.\n\n[Include receipt details here]`, // Customize the email content with receipt details
-        },
-    },
-    Subject: {
-        Data: 'Payment Receipt', // Customize the email subject
-    },
-    },
-    Source: SENDER,
-};
+        const params = {
+            Destination: {
+                ToAddresses: [email],
+            },
+            Message: {
+                Body: {
+                Text: {
+                    Data: `Hello ${name},\n\nThank you for your payment! This is your receipt.\n\n[Include receipt details here]`,
+                },
+                },
+                Subject: {
+                Data: 'Payment Receipt',
+                },
+            },
+            Source: SENDER,
+        };
 
-try {
-    await ses.sendEmail(params).promise();
-    res.status(200).send('Email sent successfully');
-} catch (error) {
-    console.error('Error sending email:', error);
+        ses.sendEmail(params).promise()
+            .then(() => {
+                res.status(200).send(`Email sent successfully to ${name} at ${email}`);
+            })
+            .catch((error) => {
+                console.error(`Req: ${req.body}, Error sending email: ${error}`);
+                res.status(500).send('Error sending email');
+            });
+    });
+  } catch (error) {
+    console.error(`Req: ${req.body}, Error sending email: ${error}`);
     res.status(500).send('Error sending email');
-}
+  }
 });
