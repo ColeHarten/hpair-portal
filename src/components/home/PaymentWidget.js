@@ -40,6 +40,21 @@ export default function PaymentWidget({user, joinCode, price}){
                 payerID: payer.payer_id,
                 orderID: details.id,
             });
+            // Send the receipt of payment
+            const firebaseFunctionUrl = 'https://sendemail-2t5cbdn56q-uc.a.run.app';
+            const postData = {
+                name: 'Cole Harten',
+                email: 'charten@college.harvard.edu',
+                amount: `${details.purchase_units[0].amount.value}`,
+                id: `${detais.id}`,
+            };
+            await axios.post(firebaseFunctionUrl, postData);
+                // .then(response => {
+                //     console.log('Response:', response.data);
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error.message);
+                // });
             // refresh page to update user info
             window.location.reload();
         });

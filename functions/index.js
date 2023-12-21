@@ -16,13 +16,14 @@ const ses = new AWS.SES({
   secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
+// TODO: Rather than pass all of the info, pass only the uid and look it up in the db
 exports.sendEmail = onRequest((req, res) => {
   try {
     cors(req, res, async () => {
         // Basic request validation
-        const { name, email } = req.body || {};
-        if (!name || !email) {
-        throw new Error('Invalid request data. Name and email are required.');
+        const { name, email, amount, id } = req.body || {};
+        if (!name || !email || !amount || !id) {
+          throw new Error('Invalid request data. Name and email are required.');
         }
 
         const params = {
@@ -31,9 +32,9 @@ exports.sendEmail = onRequest((req, res) => {
             },
             Message: {
                 Body: {
-                Text: {
-                    Data: `Hello ${name},\n\nThank you for your payment! This is your receipt.\n\n[Include receipt details here]`,
-                },
+                  Text: {
+                      Data: `Dear ${name}\n\n This email is to confirm the reciept of $${amount} USD as payment for the HPAIR conference. Your id is ${id}`,
+                  },
                 },
                 Subject: {
                 Data: 'Payment Receipt',
