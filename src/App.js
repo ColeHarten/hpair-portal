@@ -19,9 +19,9 @@ import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
-import AdminUsers from './components/adminPage/adminUsers/AdminUsers';
-import AdminConference from './components/adminPage/adminConference/AdminConference';
-import AdminHome from './components/adminPage/adminConferenceHome/AdminHome'
+import AdminHome from './components/admin/adminHome/AdminHome';
+import AdminUsers from './components/admin/adminUsers/AdminUsers';
+import AdminConference from './components/admin/adminConference/AdminConference';
 
 // Create a theme instance for the entire app
 const mdTheme = createTheme({
@@ -113,7 +113,7 @@ export default function App() {
         // if the user is signed in, set the currentUser
         setCurrentUser(user);
         const data = await getUserData(user);
-        if(data.credential && data.credential === "ADMIN"){
+        if(data?.credential && data?.credential === "ADMIN"){
           if (!window.location.pathname.startsWith(`/ADMIN/`)) {
             navigate(`/ADMIN`);
           }

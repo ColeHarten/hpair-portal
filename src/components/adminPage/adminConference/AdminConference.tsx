@@ -1,26 +1,41 @@
-import { Box, Divider, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { subscribeToConference, subscribeToUsersInConf } from '../../../utils/mutations';
+import { Box, Divider, TextField, Typography } from '@mui/material';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AttendeeTable from './AdminConferenceAttendeeTable';
 import PaymentModal from './AdminConferencePaymentModal';
+import { Conference, User } from '../../../utils/types';
 
 export default function AdminConference() {
-  const { confCode } = useParams();
-  const [confData, setConfData] = useState(null);
-  const [attendees, setAttendees] = useState([]);
-  const [orderID, setOrderID] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { confCode } = useParams<{ confCode: string }>();
+
+  const [confData, setConfData] = useState<Conference | null>(null);
+  const [attendees, setAttendees] = useState<User[]>([]); 
+  const [orderID, setOrderID] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
+    // Check if confCode is defined, use a default value if not
+    const code = confCode || 'defaultConferenceCode';
+
     // Set up onSnapshot listeners
-    const unsubscribeConference = subscribeToConference(confCode, (data) => {
-      setConfData(data);
+    const unsubscribeConference = subscribeToConference(code, (data: Conference | null): void => {
+      if (data) {
+        setConfData(data);
+      } else {
+        // Handle case where conference data is not found
+        console.log(`Conference with code ${code} not found`);
+      }
     });
 
-    const unsubscribeUsersInConf = subscribeToUsersInConf(confCode, (data) => {
-      setAttendees(data);
+    const unsubscribeUsersInConf = subscribeToUsersInConf(code, (data: User[] | null): void => {
+      if (data) {
+        setAttendees(data);
+      } else {
+        // Handle case where user data is not found
+        console.log(`Users in conference with code ${code} not found`);
+      }
     });
 
     // Unsubscribe from both listeners when the component unmounts
@@ -29,6 +44,8 @@ export default function AdminConference() {
       unsubscribeUsersInConf();
     };
   }, [confCode]);
+
+  
 
   return (
     <>

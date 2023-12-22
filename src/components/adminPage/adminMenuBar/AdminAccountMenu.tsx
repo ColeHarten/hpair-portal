@@ -9,19 +9,17 @@ import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { auth } from '../../../utils/firebase';
 
-export default function AdminAccountMenu({}) {
+export default function AdminAccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = (event : any) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
 
   return (
     <>
@@ -74,11 +72,11 @@ export default function AdminAccountMenu({}) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem sx={{color: 'black', fontWeight: 'bold'}} onClick={(event)=>{
+        <MenuItem sx={{color: 'black', fontWeight: 'bold'}} onClick={(_)=>{
           handleClose();
         }}>Admin
         </MenuItem>
-        <MenuItem onClick={(event) => {
+        <MenuItem onClick={(_) => {
           handleClose();
           //  sign out
           auth.signOut();
