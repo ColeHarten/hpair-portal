@@ -19,9 +19,9 @@ import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
-import AdminUsers from './components/adminPage/adminPages/AdminUsers';
-import AdminConferences from './components/adminPage/adminPages/AdminConferences';
-import AdminHome from './components/adminPage/adminPages/AdminHome'
+import AdminUsers from './components/adminPage/adminUsers/AdminUsers';
+import AdminConference from './components/adminPage/adminConference/AdminConference';
+import AdminHome from './components/adminPage/adminConferenceHome/AdminHome'
 
 // Create a theme instance for the entire app
 const mdTheme = createTheme({
@@ -192,7 +192,7 @@ export default function App() {
             
             <Route path="/ADMIN/" element={<AdminHome />} />
             <Route path="/ADMIN/users" element={<AdminUsers />} />
-            <Route path="/ADMIN/:confCode/" element={<AdminConferences />} />
+            <Route path="/ADMIN/:confCode/" element={<AdminConference />} />
 
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />

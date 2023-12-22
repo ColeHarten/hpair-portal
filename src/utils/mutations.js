@@ -1,4 +1,5 @@
 import { arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { onSnapshot } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Synchronize users table upon login
@@ -104,6 +105,20 @@ export async function addPaymentInfo(user, paymentInfo) {
    }
 }
 
+export async function getPaymentInfo(orderID) {
+   try{
+      const paymentRef = doc(db, 'payments', orderID);
+      const paymentDoc = await getDoc(paymentRef);
+      if (paymentDoc.exists()) {
+         return paymentDoc.data();
+      } else {
+         return null;
+      }
+   } catch (error) {
+      console.error(error);
+   }
+}
+
 // Import necessary dependencies, assuming 'db' is already properly initialized
 
 export function getAllConferenceData() {
@@ -127,4 +142,47 @@ export function getAllConferenceData() {
      return unsubscribe;
    });
  }
+
+ // Function to create an onSnapshot listener for a specific conference
+export function subscribeToConference (confId, callback) {
+   const conferenceRef = doc(db, 'conferences', confId);
  
+   // Set up onSnapshot listener and provide the callback function
+   const unsubscribe = onSnapshot(conferenceRef, (docSnapshot) => {
+     if (docSnapshot.exists()) {
+       // Pass the document data to the callback
+       callback(docSnapshot.data());
+     } else {
+       // Handle document not found
+       console.log(`Conference with ID ${confId} not found`);
+     }
+   });
+ 
+   // Return the unsubscribe function to allow unsubscribing later
+   return unsubscribe;
+ };
+ 
+//  create a snapshot to listen for all users in the `users` collection with cofereceCode == confCode
+export function subscribeToUsersInConf(confCode, callback) {
+   const usersRef = db.collection('users');
+   const unsubscribe = usersRef.where('conferenceCode', '==', confCode).onSnapshot((snapshot) => {
+      const users = snapshot.docs.map((doc) => ({
+         id: doc.id,
+         ...doc.data(),
+      }));
+      callback(users);
+   });
+   return unsubscribe;
+}
+
+export function subscribeToUsers(callback) {
+   const usersRef = db.collection('users');
+   const unsubscribe = usersRef.onSnapshot((snapshot) => {
+      const users = snapshot.docs.map((doc) => ({
+         id: doc.id,
+         ...doc.data(),
+      }));
+      callback(users);
+   });
+   return unsubscribe;
+}
