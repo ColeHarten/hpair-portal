@@ -28,12 +28,7 @@ export default function SignIn({ onSignUpClick }) {
 
   const handleSignIn = async () => {
     try {
-      if(email === 'ADMIN' && password === 'ADMIN'){
-        // Redirect to admin dashboard
-        navigate('/ADMIN');
-      } else{
-        await auth.signInWithEmailAndPassword(email, password);
-      }
+      await auth.signInWithEmailAndPassword(email, password);
       // User is signed in. You can handle redirection or any other logic here.
     } catch {
       alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")

@@ -14,18 +14,14 @@ import FAQs from './components/confPage/faqs/FAQs';
 import Profile from './components/confPage/profile/Profile';
 import Home from './components/home/Home'
 import SettingsPage from './components/confPage/settings/Settings';
-import AdminPage from './components/adminPage/AdminPage'
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
-import AdminAdmins from './components/adminPage/adminPages/AdminAdmins';
 import AdminUsers from './components/adminPage/adminPages/AdminUsers';
-import AdminPayments from './components/adminPage/adminPages/AdminPayments';
 import AdminConferences from './components/adminPage/adminPages/AdminConferences';
-
-
+import AdminHome from './components/adminPage/adminPages/AdminHome'
 
 // Create a theme instance for the entire app
 const mdTheme = createTheme({
@@ -117,19 +113,26 @@ export default function App() {
         // if the user is signed in, set the currentUser
         setCurrentUser(user);
         const data = await getUserData(user);
-        // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
-        if (data?.conferenceCode) {
-          const conferenceCode = data.conferenceCode.slice(0, 7);
-          setConferenceID(conferenceCode);
-          if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
-            navigate(`/${conferenceCode}`);
+        if(data.credential && data.credential === "ADMIN"){
+          if (!window.location.pathname.startsWith(`/ADMIN/`)) {
+            navigate(`/ADMIN`);
           }
-        } 
+        }else{
+          // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
+          if (data?.conferenceCode) {
+            const conferenceCode = data.conferenceCode.slice(0, 7);
+            setConferenceID(conferenceCode);
+            if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
+              navigate(`/${conferenceCode}`);
+            }
+          }
+        }
       } else {
         // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
         setConferenceID(null);
-        // navigate(`/`);
+        navigate(`/`);
+
       }
       setIsLoading(false);
     });
@@ -187,11 +190,9 @@ export default function App() {
             <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
             <Route path="/VHYLS24/*" element={<SuccessPage user={currentUser} />} />
             
-            <Route path="ADMIN" element={<AdminPage />} />
+            <Route path="/ADMIN/" element={<AdminHome />} />
             <Route path="/ADMIN/users" element={<AdminUsers />} />
-            <Route path="ADMIN/admins" element={<AdminAdmins />} />
-            <Route path="ADMIN/payments" element={<AdminPayments />} />
-            <Route path="ADMIN/conferences" element={<AdminConferences />} />
+            <Route path="/ADMIN/:confCode/" element={<AdminConferences />} />
 
             <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
             <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
