@@ -10,6 +10,10 @@ export interface User {
 export interface Payment {
     amount: number;
     orderID: string;
+    currency: string;
+    payerID: string;
+    paymentTime: Date | undefined;
+    joinCode: string;
 };
 
 export interface Conference {
@@ -17,12 +21,4 @@ export interface Conference {
     conferenceName: string;
     attendees: string[]; 
     prices?: Record<string, number>;
-};
-
-export interface Payment {
-    amount: number;
-    paymentTime: Date;
-    joinCode: string;
-    payerID: string;
-    orderID: string;
 };
