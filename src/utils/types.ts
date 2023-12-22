@@ -2,9 +2,9 @@ export interface User {
     uid: string;
     displayName: string;
     email: string;
-    conferenceCode: string;
-    ticketClass: string;
-    paymentID: string;
+    conferenceCode: string | undefined;
+    ticketClass: string | undefined;
+    paymentID: string | undefined;
 };
 
 export interface Payment {

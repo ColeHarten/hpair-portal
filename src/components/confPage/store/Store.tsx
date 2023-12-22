@@ -2,38 +2,31 @@ import { Box, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import React, { useEffect, useState } from 'react';
 
-interface Product {
-  // Define the properties of your product
-  // Example:
-  id: number;
-  name: string;
-  price: number;
-  // ... other properties
+interface ProductClass {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
 }
 
-interface StoreProps {
-  user: any; // Change the type to match your user type
-}
-
-const Product: React.FC<Product> = ({ name, price }) => {
+const Product: React.FC<ProductClass> = ({ name, price }) => {
   // Implement your Product component
   return (
     <Box sx={{ padding: '10px', margin: '10px', border: '1px solid black' }}>
       <p>{name}</p>
       <p>{price}</p>
-      {/* Add more details as needed */}
     </Box>
   );
 };
 
-const Store: React.FC<StoreProps> = ({ user }) => {
-  const [products, setProducts] = React.useState<Product[]>([]);
+const Store = () => {
+  const [products, setProducts] = React.useState<ProductClass[]>([]);
   const [itemsCount, setItemsCount] = useState(0);
 
   useEffect(() => {
     fetch('/products.json')
       .then((response) => response.json())
-      .then((data: Product[]) => {
+      .then((data: ProductClass[]) => {
         setProducts(data);
       });
   }, []);

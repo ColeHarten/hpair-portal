@@ -6,13 +6,13 @@ import { User } from '../../../utils/types';
 
 interface Props {
   attendees: User[];
-  setOrderID: React.Dispatch<React.SetStateAction<string | null>>;
+  setOrderID: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchQuery: string;
 }
 
 const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, searchQuery }) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
 
   const handleChangePage = (_: any, newPage: number) => {
     setPage(newPage);
@@ -55,7 +55,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
               <TableCell>{attendee.ticketClass}</TableCell>
               <TableCell>{attendee.paymentID}</TableCell>
               <TableCell>
-                <IconButton onClick={() => setOrderID(attendee.paymentID)}>
+                attendee && <IconButton onClick={() => setOrderID(attendee.paymentID)}>
                   <LaunchIcon />
                 </IconButton>
               </TableCell>
