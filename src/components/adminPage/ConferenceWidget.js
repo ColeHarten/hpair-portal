@@ -1,6 +1,8 @@
-import { Typography, Paper, Box, Divider } from "@mui/material";
+import { Box, Divider, Paper, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function ConferenceWidget({ confData }) {
+    const navigate = useNavigate();
     return (
         <Paper elevation={3} sx={{ margin: '10px', height: '100%' }}>
           <Box
@@ -11,7 +13,17 @@ export default function ConferenceWidget({ confData }) {
               padding: '15px',
             }}
           >
-            <Typography variant="h6">{confData?.id}</Typography>
+            <Typography
+                component="div"
+                variant="h6"
+                onClick={() => {navigate(`/ADMIN/${confData?.id}`)}}
+                sx={{
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                }}
+            >
+                {confData?.id}
+            </Typography>
             <Divider sx={{ marginY: '10px' }} />
             <Typography variant="subtitle1">Conference Name: {confData?.conferenceName}</Typography>
             <Typography variant="subtitle1">{confData?.attendees.length} registrants</Typography>
