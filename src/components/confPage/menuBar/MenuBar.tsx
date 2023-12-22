@@ -4,14 +4,21 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AccountMenu from './AccountMenu';
 
-export default function MenuBar({ user, onMenuButtonClick }) {
+import type { User } from '../../../utils/types';
+
+interface menuBarProps {
+  user: User;
+  onMenuButtonClick: (code : number) => void;
+}
+
+export default function MenuBar({ user, onMenuButtonClick } : menuBarProps) {
   const navigate = useNavigate();
   const { confCode } = useParams();
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
 
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery((theme : any) => theme.breakpoints.down('sm'));
 
-  const handleMobileMenuClick = (event) => {
+  const handleMobileMenuClick = (event: any) => {
     setMobileMenuAnchor(event.currentTarget);
   };
 
@@ -19,7 +26,7 @@ export default function MenuBar({ user, onMenuButtonClick }) {
     setMobileMenuAnchor(null);
   };
 
-  const handleMenuItemClick = (path) => {
+  const handleMenuItemClick = (path : string) => {
     navigate(`/${confCode}/${path}`);
     handleMobileMenuClose();
   };

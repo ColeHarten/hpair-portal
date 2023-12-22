@@ -17,9 +17,9 @@ import SuccessPage from './components/SuccessPage';
 import { auth } from './utils/firebase';
 import { getUserData } from "./utils/mutations";
 
-import AdminHome from './components/admin/adminHome/AdminHome';
-import AdminUsers from './components/admin/adminUsers/AdminUsers';
-import AdminConference from './components/admin/adminConference/AdminConference';
+import AdminHome from './components/adminPage/adminHome/AdminHome';
+import AdminUsers from './components/adminPage/adminUsers/AdminUsers';
+import AdminConference from './components/adminPage/adminConference/AdminConference';
 
 import type { User } from './utils/types';
 
@@ -144,7 +144,7 @@ export default function App() {
   const withMenu = (children : any) => {
     return (
       <Box>
-        <MenuBar user={currentUser} conferenceID={conferenceID} onMenuButtonClick={handleMenuButtonClick} />
+        {currentUser && <MenuBar user={currentUser} onMenuButtonClick={handleMenuButtonClick} />}
         {/* lower the children by 64 px to accommodate menubar */}
         <Box sx={{ marginTop: '64px' }}>
           {children}
@@ -176,8 +176,8 @@ export default function App() {
               <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
               <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
               <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
-              <Route path="/:confCode/social" element={withMenu(<Social user={currentUser} />)} />
-              <Route path="/:confCode/faqs" element={withMenu(<FAQs user={currentUser} />)} />
+              <Route path="/:confCode/social" element={withMenu(<Social />)} />
+              <Route path="/:confCode/faqs" element={withMenu(<FAQs />)} />
               <Route path="/:confCode/profile" element={withMenu(<Profile user={currentUser} />)} />
               {/* add default route that shows no routes found */}
               <Route path="*" element={<Typography>404: Not Found</Typography>} />

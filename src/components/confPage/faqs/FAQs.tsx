@@ -2,7 +2,12 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const FAQSection = ({ title, content }) => (
+interface FAQSectionProps {
+  title: string;
+  content: string;
+}
+
+const FAQSection = ({ title, content } : FAQSectionProps) => (
   <Box mb={3} boxShadow={2} p={4} borderRadius={3} bgcolor="white">
     <Typography variant="h6" fontWeight="bold" color="primary">
       {title}
@@ -13,7 +18,7 @@ const FAQSection = ({ title, content }) => (
   </Box>
 );
 
-export default function FAQs(user) {
+export default function FAQs() {
   return (
     <Box sx={{
       display: 'flex',

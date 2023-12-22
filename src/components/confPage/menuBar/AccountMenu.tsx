@@ -8,15 +8,21 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import * as React from 'react';
 import MENU_ITEMS from '../../../constants';
+import React, { useState } from 'react';
 
-export default function AccountMenu({user, onMenuButtonClick}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+import type { User } from '../../../utils/types';
+
+interface AccountMenuProps {
+  user: User;
+  onMenuButtonClick: (menuItem: number) => void;
+}
+
+export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProps) {
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -26,17 +32,20 @@ export default function AccountMenu({user, onMenuButtonClick}) {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton
-            onClick={handleClick}
+            onClick={(_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              // Your click event handler logic
+            }}
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            {!user?.displayName ? 
-              <Avatar sx={{ width: 32, height: 32 }}></Avatar> :
-              <Avatar sx={{ width: 32, height: 32 }}>{user?.displayName.slice(0,1).toUpperCase()}</Avatar>
-            }
+            {!user?.displayName ? (
+              <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+            ) : (
+              <Avatar sx={{ width: 32, height: 32 }}>{user?.displayName.slice(0, 1).toUpperCase()}</Avatar>
+            )}
           </IconButton>
         </Tooltip>
       </Box>
@@ -76,34 +85,45 @@ export default function AccountMenu({user, onMenuButtonClick}) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {/* add menu item for user name that does not change color on hover*/}
-        <MenuItem sx={{color: 'black', fontWeight: 'bold'}} onClick={(event)=>{
-          handleClose();
-          onMenuButtonClick(MENU_ITEMS.PROFILE);
-        }}>{(user?.displayName?.length > 20) ? 
-                                                            `${user?.displayName.slice(0, 20)}...`
-                                                           :`${user?.displayName}`}
+        <MenuItem
+          sx={{ color: 'black', fontWeight: 'bold' }}
+          onClick={(_) => {
+            handleClose();
+            onMenuButtonClick(MENU_ITEMS.PROFILE);
+          }}
+        >
+          {user?.displayName?.length > 20
+            ? `${user?.displayName.slice(0, 20)}...`
+            : `${user?.displayName}`}
         </MenuItem>
-        <MenuItem onClick={(event) => {
-          handleClose();
-          onMenuButtonClick(MENU_ITEMS.SUPPORT); // Pass the event to the callback
-        }}>
+        <MenuItem
+          onClick={(_) => {
+            handleClose();
+            onMenuButtonClick(MENU_ITEMS.SUPPORT); // Pass the event to the callback
+          }}
+        >
           <ListItemIcon>
             <SupportAgentIcon />
-          </ListItemIcon> Support
+          </ListItemIcon>{' '}
+          Support
         </MenuItem>
-        <MenuItem onClick={(event) => {
-          handleClose();
-          onMenuButtonClick(MENU_ITEMS.SETTINGS); // Pass the event to the callback
-        }}>
+        <MenuItem
+          onClick={(_) => {
+            handleClose();
+            onMenuButtonClick(MENU_ITEMS.SETTINGS); // Pass the event to the callback
+          }}
+        >
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={(event) => {
-          handleClose();
-          onMenuButtonClick(MENU_ITEMS.LOGOUT); // Pass the event to the callback
-        }}>
+        <MenuItem
+          onClick={(_) => {
+            handleClose();
+            onMenuButtonClick(MENU_ITEMS.LOGOUT); // Pass the event to the callback
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -112,5 +132,4 @@ export default function AccountMenu({user, onMenuButtonClick}) {
       </Menu>
     </>
   );
-  
 }
