@@ -103,3 +103,28 @@ export async function addPaymentInfo(user, paymentInfo) {
       console.error(error);
    }
 }
+
+// Import necessary dependencies, assuming 'db' is already properly initialized
+
+export function getAllConferenceData() {
+   return new Promise((resolve, reject) => {
+     const conferencesRef = db.collection('conferences');
+ 
+     const unsubscribe = conferencesRef.onSnapshot(
+       (snapshot) => {
+         const conferences = snapshot.docs.map((doc) => ({
+           id: doc.id,
+           ...doc.data(),
+         }));
+         resolve(conferences);
+       },
+       (error) => {
+         reject(error);
+       }
+     );
+ 
+     // Return a cleanup function to unsubscribe from the snapshot listener
+     return unsubscribe;
+   });
+ }
+ 
