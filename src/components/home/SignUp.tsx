@@ -59,9 +59,9 @@ export default function SignUp({ onSignInClick }: SignUpProps) {
         displayName: name,
         email: email,
         uid: userCredential.user.uid,
-        conferenceCode: undefined,
-        paymentID: undefined,
-        ticketClass: undefined,
+        conferenceCode: null,
+        paymentID: null,
+        ticketClass: null,
       }
 
       await syncUsers(user);

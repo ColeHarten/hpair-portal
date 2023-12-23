@@ -6,7 +6,7 @@ import { User } from '../../../utils/types';
 
 interface Props {
   attendees: User[];
-  setOrderID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setOrderID: React.Dispatch<React.SetStateAction<string | null>>;
   searchQuery: string;
 }
 

@@ -17,7 +17,7 @@ interface JoinConfProps {
 export default function JoinConf({ user }: JoinConfProps): JSX.Element {
   const [showPayment, setShowPayment] = useState<boolean>(false);
   const [joinCode, setJoinCode] = useState<string>('');
-  const [price, setPrice] = useState<number | undefined>(); // Assuming price is a number, change it accordingly
+  const [price, setPrice] = useState<number | null>(null); // Assuming price is a number, change it accordingly
   const [isShowTerms, setIsShowTerms] = useState<boolean>(false);
   const [isVerified, setIsVerified] = useState<boolean>(false);
   
@@ -90,7 +90,7 @@ const handleJoinConf = async (joinCode: string): Promise<void> => {
 };
 
 
-  function handleClickJoin() {
+  function handleClickJoin() : void {
     if(!isShowTerms || isVerified){
       if (isCorrectFormat(joinCode)) {
         // Open the PaymentWidget

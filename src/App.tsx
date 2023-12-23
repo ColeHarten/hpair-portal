@@ -85,33 +85,28 @@ export default function App() {
 
   const navigate = useNavigate();
 
-  // Listen to the Firebase Auth state and set the local state.
+// Listen to the Firebase Auth state and set the local state.
   // This is called on sign in and sign out.
   useEffect(() => {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
         // if the user is signed in, set the currentUser
-        setCurrentUser(await getUserData(user.uid));
-        // if (currentUser?.credential && currentUser?.credential === "ADMIN") {
-        //   if (!window.location.pathname.startsWith(`/ADMIN/`)) {
-        //     navigate(`/ADMIN`);
-        //   }
-        // } else {
-          // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
-          if (currentUser?.conferenceCode) {
-            const conferenceCode = currentUser.conferenceCode.slice(0, 7);
-            setConferenceID(conferenceCode);
-            if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
-              navigate(`/${conferenceCode}`);
-            }
+        const userData = await getUserData(user.uid);
+        setCurrentUser(userData);
+        // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
+        if (userData?.conferenceCode) {
+          const conferenceCode = userData.conferenceCode.slice(0, 7);
+          setConferenceID(conferenceCode);
+          if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
+            navigate(`/${conferenceCode}`);
           }
-        // }
+        } 
       } else {
         // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
         setConferenceID(null);
-        navigate(`/`);
+        navigate(`/`)
       }
       setIsLoading(false);
     });
@@ -175,7 +170,7 @@ export default function App() {
 
               <Route path="/:confCode/" element={withMenu(<ConfPage user={currentUser} />)} />
               <Route path="/:confCode/settings" element={withMenu(<SettingsPage user={currentUser} />)} />
-              <Route path="/:confCode/store" element={withMenu(<Store user={currentUser} />)} />
+              <Route path="/:confCode/store" element={withMenu(<Store />)} />
               <Route path="/:confCode/social" element={withMenu(<Social />)} />
               <Route path="/:confCode/faqs" element={withMenu(<FAQs />)} />
               <Route path="/:confCode/profile" element={withMenu(<Profile user={currentUser} />)} />

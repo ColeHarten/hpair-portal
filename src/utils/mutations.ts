@@ -56,21 +56,30 @@ export async function isValidTicketClass(conferenceCode : string, ticketClass : 
 // mutation to get user data
 export async function getUserData(uid: string): Promise<User | null> {
    try {
-     const userRef = doc(db, 'users', uid);
-     const userDoc = await getDoc(userRef);
- 
-     if (userDoc.exists()) {
-       // Use 'as' to assert the type of the data
-       return userDoc.data() as User;
-     } else {
-       return null;
-     }
+       const userRef = doc(db, 'users', uid);
+       const userDoc = await getDoc(userRef);
+
+       if (userDoc.exists()) {
+           // Use 'as' to assert the type of the data
+           const user: User = {
+               uid: userDoc.id,
+               displayName: userDoc.data().displayName,
+               email: userDoc.data().email,
+               conferenceCode: userDoc.data().conferenceCode ?? null,
+               ticketClass: userDoc.data().ticketClass ?? null,
+               paymentID: userDoc.data().paymentID ?? null,
+           };
+           return user;
+       } else {
+           return null;
+       }
    } catch (error) {
-     console.error(error);
-     // Handle the error or rethrow it if needed
-     throw error;
+       console.error(error);
+       // Handle the error or rethrow it if needed
+       throw error;
    }
- }
+}
+
 
 // mutation to get conference data
 export async function getConferenceData(conferenceCode: string): Promise<Conference | null> {
@@ -110,11 +119,14 @@ export async function addConferenceCode(uid : string, joinCode : string, payment
 }
 
 // mutation to add payment info to new payments collection 
-export async function addPaymentInfo(uid : string, paymentInfo : Payment) : Promise<void> {
+export async function addPaymentInfo(paymentInfo : Payment) : Promise<void> {
    try{
       await setDoc(doc(db, 'payments', paymentInfo.orderID), {
-         uid: uid,
-         ...paymentInfo,
+         uid: paymentInfo.uid,
+         amount: paymentInfo.amount,
+         orderID: paymentInfo.orderID,
+         currency: paymentInfo.currency,
+         payerID: paymentInfo.payerID,
          paymentTime: serverTimestamp(),
       });
    } catch (error) {

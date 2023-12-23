@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { getUserData } from "../../utils/mutations";
+import { getConferenceData } from "../../utils/mutations";
 import Confetti from 'react-dom-confetti';
 
 interface ConfPageProps {
@@ -15,8 +15,10 @@ export default function ConfPage({ user }: ConfPageProps) {
 
   useEffect(() => {
     const getConfData = async () => {
-      const confData = await getUserData(user);
-      setName(confData?.displayName || '');
+      if(user){
+        const confData = await getConferenceData(user.conferenceCode);
+        setName(confData?.conferenceName ?? '');
+      }
     };
 
     getConfData();
@@ -37,7 +39,7 @@ export default function ConfPage({ user }: ConfPageProps) {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px', overflow: 'hidden' }}>
       <Confetti active={confetti} config={confettiConfig} />
       <Typography variant="h4" sx={{ mb: 2 }}>Congratulations, {name?.split(' ')[0]}!</Typography>
       <Typography variant="body1" sx={{ mb: 2 }}>We can't wait to see you in February!</Typography>

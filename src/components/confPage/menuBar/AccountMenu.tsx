@@ -19,12 +19,21 @@ interface AccountMenuProps {
 }
 
 export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProps) {
-  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
 
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (menuItem: number) => {
+    handleClose();
+    onMenuButtonClick(menuItem);
   };
 
   return (
@@ -32,9 +41,7 @@ export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProp
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton
-            onClick={(_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-              // Your click event handler logic
-            }}
+            onClick={handleOpen}
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
@@ -44,7 +51,7 @@ export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProp
             {!user?.displayName ? (
               <Avatar sx={{ width: 32, height: 32 }}></Avatar>
             ) : (
-              <Avatar sx={{ width: 32, height: 32 }}>{user?.displayName.slice(0, 1).toUpperCase()}</Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}>{user.displayName.slice(0, 1).toUpperCase()}</Avatar>
             )}
           </IconButton>
         </Tooltip>
@@ -84,49 +91,22 @@ export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProp
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {/* add menu item for user name that does not change color on hover*/}
         <MenuItem
           sx={{ color: 'black', fontWeight: 'bold' }}
-          onClick={(_) => {
-            handleClose();
-            onMenuButtonClick(MENU_ITEMS.PROFILE);
-          }}
+          onClick={() => handleMenuItemClick(MENU_ITEMS.PROFILE)}
         >
-          {user?.displayName?.length > 20
-            ? `${user?.displayName.slice(0, 20)}...`
-            : `${user?.displayName}`}
+          {user?.displayName?.length > 20 ? `${user.displayName.slice(0, 20)}...` : `${user.displayName}`}
         </MenuItem>
-        <MenuItem
-          onClick={(_) => {
-            handleClose();
-            onMenuButtonClick(MENU_ITEMS.SUPPORT); // Pass the event to the callback
-          }}
-        >
-          <ListItemIcon>
-            <SupportAgentIcon />
-          </ListItemIcon>{' '}
+        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.SUPPORT)}>
+          <ListItemIcon><SupportAgentIcon /></ListItemIcon>{' '}
           Support
         </MenuItem>
-        <MenuItem
-          onClick={(_) => {
-            handleClose();
-            onMenuButtonClick(MENU_ITEMS.SETTINGS); // Pass the event to the callback
-          }}
-        >
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
+        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.SETTINGS)}>
+          <ListItemIcon><Settings fontSize="small" /></ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem
-          onClick={(_) => {
-            handleClose();
-            onMenuButtonClick(MENU_ITEMS.LOGOUT); // Pass the event to the callback
-          }}
-        >
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
+        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.LOGOUT)}>
+          <ListItemIcon><Logout fontSize="small" /></ListItemIcon>
           Logout
         </MenuItem>
       </Menu>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { subscribeToConference, subscribeToUsersInConf } from '../../../utils/mutations';
 import { Box, Divider, TextField, Typography } from '@mui/material';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
-import AttendeeTable from './AdminConferenceAttendeeTable';
+import AdminConferenceAttendeeTable from './AdminConferenceAttendeeTable';
 import PaymentModal from './AdminConferencePaymentModal';
 import { Conference, User } from '../../../utils/types';
 
@@ -77,7 +77,7 @@ export default function AdminConference() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <AttendeeTable attendees={attendees} setOrderID={setOrderID} searchQuery={searchQuery} />
+        <AdminConferenceAttendeeTable attendees={attendees} setOrderID={setOrderID} searchQuery={searchQuery} />
       </Box>
     </>
   );

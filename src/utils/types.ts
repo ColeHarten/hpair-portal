@@ -2,9 +2,9 @@ export interface User {
     uid: string;
     displayName: string;
     email: string;
-    conferenceCode: string | undefined;
-    ticketClass: string | undefined;
-    paymentID: string | undefined;
+    conferenceCode: string | null;
+    ticketClass: string | null;
+    paymentID: string | null;
 };
 
 export interface Payment {
@@ -12,8 +12,9 @@ export interface Payment {
     orderID: string;
     currency: string;
     payerID: string;
-    paymentTime: Date | undefined;
+    paymentTime: Date | null;
     joinCode: string;
+    uid: string;
 };
 
 export interface Conference {

@@ -9,13 +9,13 @@ interface SuccessPageProps {
 
 export default function SuccessPage({ user }: SuccessPageProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
-  const [paymentID, setPaymentID] = useState<string | undefined>(undefined);
+  const [paymentID, setPaymentID] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       if(!user) throw new Error("User is null");
       const userData = await getUserData(user.uid);
-      setPaymentID(userData?.paymentID);
+      setPaymentID(userData?.paymentID ?? '');
     };
 
     fetchData();

@@ -1,35 +1,35 @@
-import { PayPalButtons, PayPalScriptProvider, FUNDING } from "@paypal/react-paypal-js";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios from 'axios';
 import React from 'react';
 import { CLIENT_ID } from '../../config/Config';
 import { addConferenceCode, addPaymentInfo } from '../../utils/mutations';
-import axios from 'axios';
-import type { User, Payment } from '../../utils/types';
+import type { Payment, User } from '../../utils/types';
 
 interface PaymentWidgetProps {
   user: User;
   joinCode: string;
-  price: number | undefined;
+  price: number | null;
 }
 
 const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: PaymentWidgetProps) => {
     // creates a paypal order
     const createOrder = async (_: any, actions: any) => {
         if(!price) throw new Error("Price is undefined");
-        return actions.order.create({
-        purchase_units: [
-            {
-            description: `Conference Code: ${joinCode}`,
-            amount: {
-                currency_code: "USD",
-                value: price,
+            return actions.order.create({
+            purchase_units: [
+                {
+                description: `Conference Code: ${joinCode}`,
+                amount: {
+                    currency_code: "USD",
+                    value: price,
+                },
+                },
+            ],
+            application_context: {
+                shipping_preference: "NO_SHIPPING",
             },
-            },
-        ],
-        application_context: {
-            shipping_preference: "NO_SHIPPING",
-        },
-        }).then((orderID: string) => {
-        return orderID;
+            }).then((orderID: string) => {
+            return orderID;
         });
     };
 
@@ -47,11 +47,12 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
             joinCode: joinCode,
             payerID: payer.payer_id,
             orderID: details.id,
-            paymentTime: undefined,
+            paymentTime: null,
+            uid: user.uid,
         }
             
         // add payment info to payments collection
-        await addPaymentInfo(user.uid, payment);
+        await addPaymentInfo(payment);
 
         // Send the receipt of payment
         const firebaseFunctionUrl = 'https://sendemail-2t5cbdn56q-uc.a.run.app';
@@ -62,13 +63,12 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
 
         try {
             await axios.post(firebaseFunctionUrl, postData);
-            console.log('Post successful');
         } catch (error : any) {
             console.error('Error:', error.message);
         }
 
         // refresh page to update user info
-        window.location.reload();
+        // window.location.reload();
         });
     };
 
@@ -80,14 +80,13 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
 
     return (
         // add a price amount
-        <PayPalScriptProvider options={{ "client-id": CLIENT_ID, components: "buttons,funding-eligibility" }}>
-        <PayPalButtons
-            style={{ layout: "vertical" }}
-            createOrder={createOrder}
-            onApprove={onApprove}
-            onError={onError}
-            fundingSource={FUNDING.PAYPAL}
-        />
+        <PayPalScriptProvider options={{ "client-id": CLIENT_ID}}>
+            <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={createOrder}
+                onApprove={onApprove}
+                onError={onError}
+            />
         </PayPalScriptProvider>
     );
 };
