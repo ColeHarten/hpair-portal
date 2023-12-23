@@ -60,7 +60,6 @@ export async function getUserData(uid: string): Promise<User | null> {
        const userDoc = await getDoc(userRef);
 
        if (userDoc.exists()) {
-           // Use 'as' to assert the type of the data
            const user: User = {
                uid: userDoc.id,
                displayName: userDoc.data().displayName,
@@ -79,7 +78,6 @@ export async function getUserData(uid: string): Promise<User | null> {
        throw error;
    }
 }
-
 
 // mutation to get conference data
 export async function getConferenceData(conferenceCode: string): Promise<Conference | null> {

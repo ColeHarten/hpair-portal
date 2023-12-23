@@ -87,6 +87,7 @@ export default function App() {
       setIsLoading(true);
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
+        console.log(idTokenResult);
         if(idTokenResult.claims.admin){
           navigate('/ADMIN');
         } else{

@@ -2,9 +2,8 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from '../../../utils/firebase';
-import MenuBar from '../menuBar/MenuBar';
-
 import type { User } from '../../../utils/types';
+import MenuBar from '../menuBar/MenuBar';
 
 interface SettingsPageProps {
   user: User | null; // Adjust the type of user as needed
