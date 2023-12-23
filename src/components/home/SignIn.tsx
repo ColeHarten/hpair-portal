@@ -6,10 +6,10 @@ import PasswordInput from "./PasswordInput";
 // import axios from 'axios';
 
 interface SignInProps {
-  onSignUpClick: () => void;
+  setIsSignUp: (isSignUp: boolean) => void;
 }
 
-export default function SignIn({ onSignUpClick }: SignInProps) {
+export default function SignIn({ setIsSignUp }: SignInProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
@@ -112,7 +112,7 @@ export default function SignIn({ onSignUpClick }: SignInProps) {
           Don't have an account?
           <Button
             variant="text"
-            onClick={onSignUpClick}
+            onClick={() => setIsSignUp(true)}
             sx={{
               textDecoration: 'none',
               color: '#6e8eb8',

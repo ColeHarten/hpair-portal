@@ -6,11 +6,11 @@ import type { User } from '../../utils/types';
 import PasswordInput from "./PasswordInput";
 
 interface SignUpProps {
-  onSignInClick: () => void;
+  setIsSignUp: (isSignUp : boolean) => void;
   setUser: (user: User) => void;
 }
 
-export default function SignUp({ onSignInClick, setUser }: SignUpProps) {
+export default function SignUp({ setIsSignUp, setUser }: SignUpProps) {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -168,7 +168,7 @@ export default function SignUp({ onSignInClick, setUser }: SignUpProps) {
       <Typography sx={{ margin: '8px 0', display: 'flex', alignItems: 'center', fontSize: 'inherit' }}>
       Already signed up? 
       <Button
-        onClick={onSignInClick}
+        onClick={()=>setIsSignUp(false)}
         sx={{
           textDecoration: 'none',
           color: '#6e8eb8',

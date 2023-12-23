@@ -17,14 +17,6 @@ export default function Home( {user, setUser} : HomeProps) : JSX.Element {
   const [isSignUp, setIsSignUp] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
-  const handleSignUpClick = () => {
-    setIsSignUp(true);
-  };
-
-  const handleSignInClick = () => {
-    setIsSignUp(false);
-  };
-
   return (
     <Box
       sx={{
@@ -85,9 +77,9 @@ export default function Home( {user, setUser} : HomeProps) : JSX.Element {
           >
             {!user ?
               (isSignUp ? (
-                <SignUp onSignInClick={handleSignInClick} setUser={setUser} />
+                <SignUp setIsSignUp={setIsSignUp} setUser={setUser} />
               ) : (
-                <SignIn onSignUpClick={handleSignUpClick} />
+                <SignIn setIsSignUp={setIsSignUp} />
               )) : (
                 <Box sx={{ overflow: "auto" }}>
                   <JoinConf user={user} />
