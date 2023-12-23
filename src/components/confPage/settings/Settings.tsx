@@ -2,6 +2,7 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from '../../../utils/firebase';
+import MenuBar from '../menuBar/MenuBar';
 
 import type { User } from '../../../utils/types';
 
@@ -40,6 +41,8 @@ export default function SettingsPage({ user }: SettingsPageProps) {
   };
 
   return (
+  <>
+    <MenuBar user={user} />
     <Box
       component="main"
       sx={{
@@ -53,6 +56,7 @@ export default function SettingsPage({ user }: SettingsPageProps) {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'auto',
+        marginTop: '64px'
       }}
     >
       <Paper
@@ -125,5 +129,6 @@ export default function SettingsPage({ user }: SettingsPageProps) {
         </Box>
       </Paper>
     </Box>
+  </>
   );
 }

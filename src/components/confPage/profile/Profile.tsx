@@ -3,6 +3,7 @@ import { Box, Typography, Paper } from '@mui/material';
 import QRCode from 'qrcode.react';
 
 import type { User } from '../../../utils/types';
+import MenuBar from '../menuBar/MenuBar';
 
 interface ProfileProps {
   user: User | null;
@@ -20,6 +21,8 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
   }, [user]);
 
   return (
+    <>
+    <MenuBar user={user} />
     <Box
       component="main"
       sx={{
@@ -33,6 +36,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'auto',
+        marginTop: '64px',
       }}
     >
       <Paper
@@ -62,6 +66,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
         </Box>
       </Paper>
     </Box>
+    </>
   );
 };
 

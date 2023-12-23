@@ -1,28 +1,22 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
-import { getConferenceData } from "../../utils/mutations";
+import React, { useEffect, useState } from 'react';
 import Confetti from 'react-dom-confetti';
+import { useParams } from "react-router-dom";
+import type { User } from "../../utils/types";
+import MenuBar from "./menuBar/MenuBar";
 
 interface ConfPageProps {
-  user: any; // Change the type of user to match your actual user type
+  user: User | null; // Change the type of user to match your actual user type
 }
 
 export default function ConfPage({ user }: ConfPageProps) {
   const { confCode } = useParams();
-  const [name, setName] = useState<string>('');
   const [confetti, setConfetti] = useState<boolean>(false);
 
   useEffect(() => {
-    const getConfData = async () => {
-      if(user){
-        const confData = await getConferenceData(user.conferenceCode);
-        setName(confData?.conferenceName ?? '');
-      }
-    };
 
-    getConfData();
     setConfetti(true);
+
   }, [user, confCode]);
 
   const confettiConfig = {
@@ -39,12 +33,15 @@ export default function ConfPage({ user }: ConfPageProps) {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px', overflow: 'hidden' }}>
+    <>
+    <MenuBar user={user} />
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px', overflow: 'hidden', marginTop: '64px' }}>
       <Confetti active={confetti} config={confettiConfig} />
-      <Typography variant="h4" sx={{ mb: 2 }}>Congratulations, {name?.split(' ')[0]}!</Typography>
+      <Typography variant="h4" sx={{ mb: 2 }}>Congratulations, {user?.displayName?.split(' ')[0]}!</Typography>
       <Typography variant="body1" sx={{ mb: 2 }}>We can't wait to see you in February!</Typography>
       <iframe title="welcome video" style={{ width: '50vw', height: '60vh' }} src="https://www.youtube.com/embed/omH9elhUtKI?autoplay=1&mute=0">
       </iframe>
     </Box>
+    </>
   );
 }

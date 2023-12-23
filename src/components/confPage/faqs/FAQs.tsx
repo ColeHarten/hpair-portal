@@ -1,6 +1,8 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import MenuBar from '../menuBar/MenuBar';
+import { User } from '../../../utils/types';
 
 interface FAQSectionProps {
   title: string;
@@ -18,14 +20,21 @@ const FAQSection = ({ title, content } : FAQSectionProps) => (
   </Box>
 );
 
-export default function FAQs() {
+interface FAQsProps {
+  user: User | null;
+}
+
+export default function FAQs({user} : FAQsProps) {
   return (
+    <>
+    <MenuBar user={user} />
     <Box sx={{
       display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center', // Align items in the center horizontally
-            justifyContent: 'center', // Center content vertically
-            padding: '20px',
+      flexDirection: 'column',
+      alignItems: 'center', // Align items in the center horizontally
+      justifyContent: 'center', // Center content vertically
+      padding: '20px',
+      marginTop: '64px',
     }}>
     <Typography variant="h4">FAQs</Typography>
     <Box
@@ -81,5 +90,6 @@ export default function FAQs() {
       />
     </Box>
     </Box>
+    </>
   );
 };

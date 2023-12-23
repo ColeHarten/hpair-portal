@@ -12,18 +12,19 @@ import {
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AccountMenu from './AccountMenu';
+import SupportModal from '../supportModal/SupportModal';
 
 import type { User } from '../../../utils/types';
 
 interface MenuBarProps {
-  user: User;
-  onMenuButtonClick: (code: number) => void;
+  user: User | null;
 }
 
-export default function MenuBar({ user, onMenuButtonClick }: MenuBarProps) {
+export default function MenuBar({ user }: MenuBarProps) {
   const navigate = useNavigate();
-  const { confCode } = useParams();
+  const { confCode } = useParams() ?? null;
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null);
+  const [supportOpen, setSupportOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
 
@@ -35,12 +36,10 @@ export default function MenuBar({ user, onMenuButtonClick }: MenuBarProps) {
     setMobileMenuAnchor(null);
   };
 
-  const handleMenuItemClick = (path: string) => {
-    navigate(`/${confCode}/${path}`);
-    handleMobileMenuClose();
-  };
-
   return (
+    <>
+    <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)}  />
+
     <AppBar position="fixed" sx={{ height: '64px', zIndex: 1 }}>
       <Toolbar sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
         {isSmallScreen ? (
@@ -51,7 +50,7 @@ export default function MenuBar({ user, onMenuButtonClick }: MenuBarProps) {
             <Button onClick={() => navigate(`/${confCode}`)}>
               <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
             </Button>
-            <AccountMenu user={user} onMenuButtonClick={onMenuButtonClick} />
+            <AccountMenu user={user} confCode={confCode ?? null} supportOpen={setSupportOpen} />
           </>
         ) : (
           <>
@@ -68,7 +67,7 @@ export default function MenuBar({ user, onMenuButtonClick }: MenuBarProps) {
               <Button color="inherit" onClick={() => navigate(`/${confCode}/store`)}>
                 Store
               </Button>
-              <AccountMenu user={user} onMenuButtonClick={onMenuButtonClick} />
+              <AccountMenu user={user} confCode={confCode ?? null} supportOpen={setSupportOpen} />
             </Box>
           </>
         )}
@@ -77,12 +76,13 @@ export default function MenuBar({ user, onMenuButtonClick }: MenuBarProps) {
       {/* Mobile menu */}
       {mobileMenuAnchor && (
         <Menu anchorEl={mobileMenuAnchor} open={Boolean(mobileMenuAnchor)} onClose={handleMobileMenuClose}>
-          <MenuItem onClick={() => handleMenuItemClick('faqs')}>FAQs</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('social')}>Social</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('store')}>Store</MenuItem>
+          <MenuItem onClick={() => navigate(`/${confCode}/faqs`)}>FAQs</MenuItem>
+          <MenuItem onClick={() => navigate(`/${confCode}/social`)}>Social</MenuItem>
+          <MenuItem onClick={() => navigate(`/${confCode}/store`)}>Store</MenuItem>
           {/* Add more menu items as needed */}
         </Menu>
       )}
     </AppBar>
+    </>
   );
 }

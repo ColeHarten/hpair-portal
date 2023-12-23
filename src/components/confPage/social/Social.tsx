@@ -1,9 +1,17 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { User } from '../../../utils/types';
+import MenuBar from '../menuBar/MenuBar';
 
-export default function Social() {
+interface SocialProps {
+    user : User | null;
+}
+
+export default function Social({user} : SocialProps) {
 
     return(
+    <>
+    <MenuBar user={user} />
     <Box
         sx={{
             display: 'flex',
@@ -11,6 +19,7 @@ export default function Social() {
             alignItems: 'center', // Align items in the center horizontally
             justifyContent: 'center', // Center content vertically
             padding: '20px',
+            marginTop: '64px',
         }}
     >
         <Typography variant="h4">Connect with other delegates!</Typography>
@@ -35,5 +44,6 @@ export default function Social() {
             </a>
         </Box>
     </Box>
+    </>
     )
 }

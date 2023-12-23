@@ -8,17 +8,19 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import MENU_ITEMS from '../../../constants';
 import React, { useState } from 'react';
 
 import type { User } from '../../../utils/types';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../../utils/firebase';
 
 interface AccountMenuProps {
-  user: User;
-  onMenuButtonClick: (menuItem: number) => void;
+  user: User | null;
+  confCode : string | null;
+  supportOpen: (open: boolean) => void;
 }
 
-export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProps) {
+export default function AccountMenu({ user, confCode, supportOpen }: AccountMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -31,10 +33,7 @@ export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProp
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (menuItem: number) => {
-    handleClose();
-    onMenuButtonClick(menuItem);
-  };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -93,19 +92,19 @@ export default function AccountMenu({ user, onMenuButtonClick }: AccountMenuProp
       >
         <MenuItem
           sx={{ color: 'black', fontWeight: 'bold' }}
-          onClick={() => handleMenuItemClick(MENU_ITEMS.PROFILE)}
+          onClick={() => navigate(`/${confCode}/profile`)}
         >
-          {user?.displayName?.length > 20 ? `${user.displayName.slice(0, 20)}...` : `${user.displayName}`}
+          {user && user?.displayName?.length > 20 ? `${user.displayName.slice(0, 20)}...` : `${user?.displayName}`}
         </MenuItem>
-        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.SUPPORT)}>
+        <MenuItem onClick={() => supportOpen(true)}>
           <ListItemIcon><SupportAgentIcon /></ListItemIcon>{' '}
           Support
         </MenuItem>
-        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.SETTINGS)}>
+        <MenuItem onClick={() => navigate(`/${confCode}/settings`)}>
           <ListItemIcon><Settings fontSize="small" /></ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={() => handleMenuItemClick(MENU_ITEMS.LOGOUT)}>
+        <MenuItem onClick={() => auth.signOut()}>
           <ListItemIcon><Logout fontSize="small" /></ListItemIcon>
           Logout
         </MenuItem>

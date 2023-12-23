@@ -2,6 +2,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Box, Button } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import Product from './Product';
+import { User } from '../../../utils/types';
+import MenuBar from '../menuBar/MenuBar';
 
 interface ProductInfo {
     id: string;
@@ -11,7 +13,11 @@ interface ProductInfo {
     url: string;
 };
 
-const Store = () => {
+interface StoreProps {
+    user : User | null;
+}
+
+const Store = ({user} : StoreProps) => {
     // fetch the products from the public directory file products.json
     const [products, setProducts] = React.useState([]);
     useEffect(() => {
@@ -41,7 +47,9 @@ const Store = () => {
       }, [setItemsCount]);
 
       return (
-        <Box sx={{ overflow: 'auto', zIndex: 0, display: 'flex', flexDirection: 'column', justifyContent: "center" }}>
+        <>
+        <MenuBar user={user} />
+        <Box sx={{ overflow: 'auto', zIndex: 0, display: 'flex', flexDirection: 'column', justifyContent: "center", marginTop: '64px' }}>
           {/* Cart */}
           <Button
             startIcon={<ShoppingCartIcon />}
@@ -76,6 +84,7 @@ const Store = () => {
           >
           </div>
         </Box>
+        </>
       );
       
 };
