@@ -10,11 +10,10 @@ import type { User } from '../../utils/types';
 
 interface HomeProps {
   user: User | null;
+  setUser: (user: User) => void;
 }
 
-//! The page does not change to the join conference page when the user is signed in
-
-export default function Home( {user} : HomeProps) : JSX.Element {
+export default function Home( {user, setUser} : HomeProps) : JSX.Element {
   const [isSignUp, setIsSignUp] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
@@ -86,7 +85,7 @@ export default function Home( {user} : HomeProps) : JSX.Element {
           >
             {!user ?
               (isSignUp ? (
-                <SignUp onSignInClick={handleSignInClick} />
+                <SignUp onSignInClick={handleSignInClick} setUser={setUser} />
               ) : (
                 <SignIn onSignUpClick={handleSignUpClick} />
               )) : (

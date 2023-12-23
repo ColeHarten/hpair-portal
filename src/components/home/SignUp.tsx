@@ -7,9 +7,10 @@ import PasswordInput from "./PasswordInput";
 
 interface SignUpProps {
   onSignInClick: () => void;
+  setUser: (user: User) => void;
 }
 
-export default function SignUp({ onSignInClick }: SignUpProps) {
+export default function SignUp({ onSignInClick, setUser }: SignUpProps) {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -65,7 +66,8 @@ export default function SignUp({ onSignInClick }: SignUpProps) {
       }
 
       await syncUsers(user);
-
+      setUser(user);
+      
       // User is signed up with the name added to their profile and Firestore document.
       // You can handle redirection or any other logic here.
     } catch (error : any) {

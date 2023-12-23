@@ -81,19 +81,20 @@ export default function App() {
   const navigate = useNavigate();
 
 // Listen to the Firebase Auth state and set the local state.
-  // This is called on sign in and sign out.
-  useEffect(() => {
-    const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
-      setIsLoading(true);
-      if (user) {
-        const idTokenResult = await user.getIdTokenResult();
-        if(idTokenResult.claims.admin){
-          if(!window.location.pathname.startsWith(`/ADMIN`)){
-            navigate('/ADMIN');
-          }
-        } else{
-          // if the user is signed in, set the currentUser
-          const userData = await getUserData(user.uid);
+// This is called on sign in and sign out.
+useEffect(() => {
+  const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
+    setIsLoading(true);
+    if (user) {
+      const idTokenResult = await user.getIdTokenResult();
+      if(idTokenResult.claims.admin){
+        if(!window.location.pathname.startsWith(`/ADMIN`)){
+          navigate('/ADMIN');
+        }
+      } else{
+        // if the user is signed in, set the currentUser
+        const userData = await getUserData(user.uid);
+        if(userData !== null){
           setCurrentUser(userData);
           // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
           if (userData?.conferenceCode) {
@@ -103,16 +104,17 @@ export default function App() {
             }
           } 
         }
-      } else {
-        // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
-        setCurrentUser(null);
-        navigate(`/`)
       }
-      setIsLoading(false);
-    });
-    // Un-register Firebase observers when the component unmounts.
-    return () => unregisterAuthObserver();
-  }, [navigate]);
+    } else {
+      // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
+      setCurrentUser(null);
+      navigate(`/`);
+    }
+    setIsLoading(false);
+  });
+  // Un-register Firebase observers when the component unmounts.
+  return () => unregisterAuthObserver();
+}, [navigate]);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -125,7 +127,7 @@ export default function App() {
           {/* TODO: MAKE THE NON-CONFPAGE CONFERENCE PATHS DYNAMIC */}
           {isLoading ? <Typography>Loading...</Typography> :
             <Routes>
-              <Route path="/" element={<Home user={currentUser} />} />
+              <Route path="/" element={<Home user={currentUser} setUser={setCurrentUser} />} />
               <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
               <Route path="/VHYLS24/*" element={<SuccessPage user={currentUser} />} />
 
