@@ -12,6 +12,8 @@ interface HomeProps {
   user: User | null;
 }
 
+//!: The page does not change to the join conference page when the user is signed in
+
 export default function Home( {user} : HomeProps) : JSX.Element {
   const [isSignUp, setIsSignUp] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width:850px)');

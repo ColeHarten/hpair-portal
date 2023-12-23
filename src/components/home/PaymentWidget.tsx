@@ -55,7 +55,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
         await addPaymentInfo(payment);
 
         // Send the receipt of payment
-        const firebaseFunctionUrl = 'https://sendemail-2t5cbdn56q-uc.a.run.app';
+        const firebaseFunctionUrl = 'https://sendreceipt-2t5cbdn56q-uc.a.run.app';
         const postData = {
             uid: user.uid,
             paymentID: details.id,
@@ -68,7 +68,7 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
         }
 
         // refresh page to update user info
-        // window.location.reload();
+        window.location.reload();
         });
     };
 

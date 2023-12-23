@@ -86,16 +86,21 @@ export default function App() {
     const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
       setIsLoading(true);
       if (user) {
-        // if the user is signed in, set the currentUser
-        const userData = await getUserData(user.uid);
-        setCurrentUser(userData);
-        // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
-        if (userData?.conferenceCode) {
-          const conferenceCode = userData.conferenceCode.slice(0, 7);
-          if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
-            navigate(`/${conferenceCode}`);
-          }
-        } 
+        const idTokenResult = await user.getIdTokenResult();
+        if(idTokenResult.claims.admin){
+          navigate('/ADMIN');
+        } else{
+          // if the user is signed in, set the currentUser
+          const userData = await getUserData(user.uid);
+          setCurrentUser(userData);
+          // if the user has a conferenceCode, set the conferenceID and navigate to the conference page
+          if (userData?.conferenceCode) {
+            const conferenceCode = userData.conferenceCode.slice(0, 7);
+            if (!window.location.pathname.startsWith(`/${conferenceCode}/`)) {
+              navigate(`/${conferenceCode}`);
+            }
+          } 
+        }
       } else {
         // if the user is signed out, clear the conferenceID and currentUser and navigate to the home page
         setCurrentUser(null);
