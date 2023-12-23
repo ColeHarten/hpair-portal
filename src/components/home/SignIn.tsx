@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { auth } from '../../utils/firebase';
 import PasswordInput from "./PasswordInput";
 
-import axios from 'axios';
+// import axios from 'axios';
 
 interface SignInProps {
   onSignUpClick: () => void;
@@ -29,24 +29,12 @@ export default function SignIn({ onSignUpClick }: SignInProps) {
   };
 
   const handleSignIn = async () => {
-    console.log('Sending email');
     try {
-      const postData = {
-        uid: 'sUiE8elvMZOfY7hHYEnBXKplbGD3',
-        paymentID: '7DS5972196074405A',
-      }
-      const firebaseFunctionUrl = 'https://sendreceipt-2t5cbdn56q-uc.a.run.app';
-      await axios.post(firebaseFunctionUrl, postData);
-      console.log('Email sent');
-    } catch (error : any) {
-        console.error('Error:', error.message);
+      await auth.signInWithEmailAndPassword(email, password);
+      // User is signed in. You can handle redirection or any other logic here.
+    } catch {
+      alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
     }
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   // User is signed in. You can handle redirection or any other logic here.
-    // } catch {
-    //   alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
-    // }
   };
 
   const handleForgotPassword = () => {
