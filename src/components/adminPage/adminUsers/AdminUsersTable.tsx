@@ -54,7 +54,7 @@ export default function AdminUsersTable({ users, searchQuery }: AdminUsersTableP
         </TableBody>
       </Table>
       <TablePagination
-        rowsPerPageOptions={[50, 100, 150]}
+        rowsPerPageOptions={[25, 50, 100]}
         component="div"
         count={filteredUsers.length}
         rowsPerPage={rowsPerPage}

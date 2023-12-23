@@ -199,7 +199,7 @@ export function subscribeToUsersInConf(confCode : string, callback : (data: User
    const unsubscribe = usersRef.where('conferenceCode', '==', confCode).onSnapshot((snapshot : any) => {
       const users = snapshot.docs.map((doc : any) => ({
          uid: doc.id,
-         displayNmame: doc.data().displayName,
+         displayName: doc.data().displayName,
          email: doc.data().email,
          conferenceCode: doc.data().conferenceCode,
          ticketClass: doc.data().ticketClass,
@@ -215,7 +215,7 @@ export function subscribeToUsers(callback : (data: User[]) => void) {
    const unsubscribe = usersRef.onSnapshot((snapshot : any) => {
       const users = snapshot.docs.map((doc : any) => ({
          uid: doc.id,
-         displayNmame: doc.data().displayName,
+         displayName: doc.data().displayName,
          email: doc.data().email,
          conferenceCode: doc.data().conferenceCode,
          ticketClass: doc.data().ticketClass,

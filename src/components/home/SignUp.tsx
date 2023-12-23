@@ -161,18 +161,25 @@ export default function SignUp({ onSignInClick }: SignUpProps) {
         required
       />
       <Button variant="contained" onClick={handleSignUp}
-        // style={{outline: "white solid 2px",}}
         color="secondary"
       >Sign Up</Button>
-      <Typography variant="body2" sx={{ margin: '8px 0' }}>
-        Already signed up? 
-        <Button
-          onClick={onSignInClick}
-          style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold', backgroundColor: 'transparent' }}
-        >
-          Sign in
-        </Button>
-      </Typography>
+      <Typography sx={{ margin: '8px 0', display: 'flex', alignItems: 'center', fontSize: 'inherit' }}>
+      Already signed up? 
+      <Button
+        onClick={onSignInClick}
+        sx={{
+          textDecoration: 'none',
+          color: '#6e8eb8',
+          fontWeight: 'bold',
+          textTransform: 'none',
+          fontSize: 'inherit', 
+          p: '0px',
+          marginLeft: '5px',
+        }}
+      >
+        Sign in
+      </Button>
+    </Typography>
     </Box>
 
   );

@@ -64,7 +64,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
         </TableBody>
       </Table>
       <TablePagination
-        rowsPerPageOptions={[50, 100, 150]}
+        rowsPerPageOptions={[25, 50, 100]}
         component="div"
         count={filteredAttendees.length}
         rowsPerPage={rowsPerPage}

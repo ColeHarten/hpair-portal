@@ -108,30 +108,39 @@ export default function SignIn({ onSignUpClick }: SignInProps) {
         >
           Sign In
         </Button>
-        <Typography component={"span"} margin="8px 0">
-          <Box>
-            <Typography component="span">
-              Don't have an account?
-              <Button
-                variant="text"
-                onClick={onSignUpClick}
-                style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold', textTransform: 'none' }}
-              >
-                Sign up
-              </Button>
-              <br />
-              <Button
-                variant="text"
-                onClick={handleForgotPassword}
-                style={{ textDecoration: 'none', color: '#6e8eb8', fontWeight: 'bold', textTransform: 'none' }}
-              >
-                Forgot Password?
-              </Button>
-
-            </Typography>
-          </Box>
-
+        <Typography component="div" sx={{p: '10px'}}>
+          Don't have an account?
+          <Button
+            variant="text"
+            onClick={onSignUpClick}
+            sx={{
+              textDecoration: 'none',
+              color: '#6e8eb8',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              fontSize: 'inherit', 
+              p: '0px',
+              marginLeft: '5px',
+            }}
+          >
+            Sign up
+          </Button> <br />
+          <Button
+            variant="text"
+            onClick={handleForgotPassword}
+            sx={{
+              textDecoration: 'none',
+              p: '0px',
+              color: '#6e8eb8',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              fontSize: 'inherit', 
+            }}
+          >
+            Forgot Password?
+          </Button>
         </Typography>
+
       </Box>
     );
   } else {

@@ -87,9 +87,10 @@ export default function App() {
       setIsLoading(true);
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
-        console.log(idTokenResult);
         if(idTokenResult.claims.admin){
-          navigate('/ADMIN');
+          if(!window.location.pathname.startsWith(`/ADMIN`)){
+            navigate('/ADMIN');
+          }
         } else{
           // if the user is signed in, set the currentUser
           const userData = await getUserData(user.uid);

@@ -12,7 +12,7 @@ interface HomeProps {
   user: User | null;
 }
 
-//!: The page does not change to the join conference page when the user is signed in
+//! The page does not change to the join conference page when the user is signed in
 
 export default function Home( {user} : HomeProps) : JSX.Element {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -71,7 +71,6 @@ export default function Home( {user} : HomeProps) : JSX.Element {
           <img src="art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width="70%" style={{ minWidth: '291px' }} />
           <Box
             sx={{
-              p: 4,
               borderRadius: '0.5rem',
               backgroundColor: 'rgba(220, 20, 60, 0.6)',
               border: '4px solid #fff',
@@ -80,7 +79,7 @@ export default function Home( {user} : HomeProps) : JSX.Element {
               flexDirection: 'column',
               alignItems: 'center',
               maxHeight: '80vh',
-              minWidth: '375px',
+              minWidth: '400px',
               padding: '2rem 3rem 2rem 3rem',
               width: '60%',
             }}
