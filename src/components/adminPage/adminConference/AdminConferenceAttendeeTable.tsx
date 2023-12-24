@@ -55,7 +55,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
               <TableCell>{attendee.ticketClass}</TableCell>
               <TableCell>{attendee.paymentID}</TableCell>
               <TableCell>
-                attendee && <IconButton onClick={() => setOrderID(attendee.paymentID)}>
+                  <IconButton onClick={() => setOrderID(attendee.paymentID)}>
                   <LaunchIcon />
                 </IconButton>
               </TableCell>
