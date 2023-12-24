@@ -138,7 +138,16 @@ export async function getPaymentInfo(orderID: string): Promise<Payment | null> {
       const paymentDoc = await getDoc(paymentRef);
 
       if (paymentDoc.exists()) {
-         return paymentDoc.data() as Payment;
+         const payment : Payment = {
+            uid: paymentDoc.data().uid,
+            amount: paymentDoc.data().amount,
+            orderID: paymentDoc.data().orderID,
+            currency: paymentDoc.data().currency,
+            payerID: paymentDoc.data().payerID,
+            paymentTime: new Date(paymentDoc.data().paymentTime.seconds * 1000),
+            joinCode: paymentDoc.data().joinCode,
+         };
+         return payment;
       } else {
          return null;
       }

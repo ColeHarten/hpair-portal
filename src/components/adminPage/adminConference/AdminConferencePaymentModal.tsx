@@ -28,7 +28,6 @@ const AdminConferencePaymentModal: React.FC<Props> = ({ orderID, open, onClose }
     }
   }, [open, orderID]);
   
-
   return (
     <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
       <Box style={{ padding: '20px' }}>
@@ -42,7 +41,7 @@ const AdminConferencePaymentModal: React.FC<Props> = ({ orderID, open, onClose }
         <DialogContent>
           <Typography>Amount: ${paymentInfo?.amount}</Typography>
           <Typography>
-            Time: {paymentInfo? paymentInfo.paymentTime?.toLocaleString() : ''}
+            Time: { paymentInfo?.paymentTime?.toLocaleString() ??  '' }
           </Typography>
           <Typography>Join Code: {paymentInfo?.joinCode}</Typography>
           <Typography>Payer Id: {paymentInfo?.payerID}</Typography>
