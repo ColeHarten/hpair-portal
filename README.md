@@ -7,7 +7,7 @@ This is the Harvard College Project for Asian and International Relations Delega
 
 **Project**
 
-- Primary language: Javascript
+- Primary language: Typescript
 - Package manager: Node Package Manager (npm)
 
 **Frontend**
