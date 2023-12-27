@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { auth } from '../../utils/firebase';
 import PasswordInput from "./PasswordInput";
 
-import axios from 'axios';
-
 interface SignInProps {
   setIsSignUp: (isSignUp: boolean) => void;
 }
