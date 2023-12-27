@@ -25,3 +25,4 @@ yarn-error.log*
 
 /functions/node_modules
 /functions/aws-config.json
+./firebase/
