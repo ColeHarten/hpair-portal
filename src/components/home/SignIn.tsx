@@ -29,20 +29,12 @@ export default function SignIn({ setIsSignUp }: SignInProps) {
   };
 
   const handleSignIn = async () => {
-    // trigger the backend to send the email
-    const res = await axios.post('https://sendreceipt-2t5cbdn56q-uc.a.run.app', {
-      uid: 'q6b7WRCwajdf7bkfYFV2BhQFpgg1',
-      paymentID: '9FS24843G1609991W',
-    });
-
-    console.log(res);
-
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   // User is signed in. You can handle redirection or any other logic here.
-    // } catch {
-    //   alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
-    // }
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      // User is signed in. You can handle redirection or any other logic here.
+    } catch {
+      alert("Invalid email or password. Please try again or reset your password. If you are still having issues, please reach out to conference support.")
+    }
   };
 
   const handleForgotPassword = () => {

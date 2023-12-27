@@ -54,15 +54,13 @@ const PaymentWidget: React.FC<PaymentWidgetProps> = ({ user, joinCode, price }: 
         // add payment info to payments collection
         await addPaymentInfo(payment);
 
-        // Send the receipt of payment
-        const firebaseFunctionUrl = 'https://sendreceipt-2t5cbdn56q-uc.a.run.app';
-        const postData = {
-            uid: user.uid,
-            paymentID: details.id,
-        };
-
+        // Send the receipt of payment to the user with the firebase function
         try {
-            await axios.post(firebaseFunctionUrl, postData);
+            // trigger the backend to send the email
+            await axios.post('https://sendreceipt-2t5cbdn56q-uc.a.run.app', {
+                uid: user.uid,
+                paymentID: details.id,
+            });
         } catch (error : any) {
             console.error('Error:', error.message);
         }
