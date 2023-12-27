@@ -60,6 +60,7 @@ exports.sendReceipt = onRequest((req, res) => {
       const params = {
         Destination: {
           ToAddresses: [email],
+          BccAddresses: ['receipts@hpair.org'],
         },
         Message: {
           Body: {
