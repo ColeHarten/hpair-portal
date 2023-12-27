@@ -1,6 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const AWS = require('aws-sdk');
 const cors = require('cors')({origin: true});
+const { emailTemplate } = require('./emailTemplate');
 
 const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require('./aws-config');
 const admin = require('firebase-admin');
@@ -50,7 +51,11 @@ exports.sendReceipt = onRequest((req, res) => {
         throw new Error('Invalid request data. Uid and paymentID are required.');
       }
 
-      const {  displayName, email, amount, orderID, conferenceCode } = await getData(uid, paymentID);
+      const { displayName, email, amount, orderID, conferenceCode } = await getData(uid, paymentID);
+
+      const date = new Date();
+
+      const htmlBody = emailTemplate(displayName, amount, orderID, conferenceCode, date.toLocaleDateString());
 
       const params = {
         Destination: {
@@ -58,8 +63,8 @@ exports.sendReceipt = onRequest((req, res) => {
         },
         Message: {
           Body: {
-            Text: {
-              Data: `Dear ${displayName},\n\nThank you for your payment of $${amount} for the ${conferenceCode} conference. Your order ID is ${orderID}.\n\nBest`,
+            Html: {
+              Data: htmlBody,
             },
           },
           Subject: {
@@ -69,7 +74,8 @@ exports.sendReceipt = onRequest((req, res) => {
         Source: SENDER,
       };
 
-      ses.sendEmail(params).promise()
+      ses.sendEmail(params)
+        .promise()
         .then(() => {
           res.status(200).send(`Email sent successfully to ${uid} at ${uid}`);
         })
