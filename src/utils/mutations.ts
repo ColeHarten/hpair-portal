@@ -1,4 +1,4 @@
-import { Unsubscribe, arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { Unsubscribe, arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc, increment } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -67,6 +67,7 @@ export async function getUserData(uid: string): Promise<User | null> {
                conferenceCode: userDoc.data().conferenceCode ?? null,
                ticketClass: userDoc.data().ticketClass ?? null,
                paymentID: userDoc.data().paymentID ?? null,
+               paymentTime: userDoc.data().paymentTime ? new Date(userDoc.data().paymentTime.seconds * 1000) : null,
            };
            return user;
        } else {
@@ -110,6 +111,9 @@ export async function addConferenceCode(uid : string, joinCode : string, payment
       });
       await updateDoc(doc(db, 'conferences', conferenceCode), {
          attendees: arrayUnion(uid),
+         // increment registrants by 1
+         registrants: increment(1),
+         
       });
    } catch (error) {
       console.error(error);
@@ -168,6 +172,7 @@ export function subscribeToConferences(callback: (data: Conference[]) => void): 
          conferenceName: doc.data().conferenceName,
          attendees: doc.data().attendees,
          prices: doc.data().prices,
+         registrants: doc.data().registrants,
      }));
      // Pass the document data to the callback
      callback(conferences);
@@ -190,6 +195,7 @@ export function subscribeToConference(confId: string, callback: (data: Conferenc
          conferenceName: docSnapshot.data().conferenceName,
          attendees: docSnapshot.data().attendees,
          prices: docSnapshot.data().prices,
+         registrants: docSnapshot.data().registrants,
        };
        callback(conferenceData);
      } else {

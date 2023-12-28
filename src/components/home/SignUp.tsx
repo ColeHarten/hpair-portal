@@ -63,6 +63,7 @@ export default function SignUp({ setIsSignUp, setUser }: SignUpProps) {
         conferenceCode: null,
         paymentID: null,
         ticketClass: null,
+        paymentTime: null,
       }
 
       await syncUsers(user);

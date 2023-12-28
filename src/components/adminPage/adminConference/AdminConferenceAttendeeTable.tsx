@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import LaunchIcon from '@mui/icons-material/Launch';
+import React, { useState } from 'react';
 import { User } from '../../../utils/types';
 
 interface Props {
@@ -23,11 +23,25 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
     setPage(0);
   };
 
-  const filteredAttendees = attendees.filter((attendee) => {
+  const filteredAttendees = attendees
+  .filter((attendee) => {
     const { displayName, email, uid } = attendee;
     const searchTerms = [displayName, email, uid].map((term) => term.toLowerCase());
     return searchTerms.some((term) => term.includes(searchQuery.toLowerCase()));
+  })
+  .slice() // Create a shallow copy of the array
+  .sort((a, b) => {
+    if (!a || !b || !a.paymentTime || !b.paymentTime) {
+      return 0;
+    }
+
+    // Assuming paymentTime is a Date object
+    const timeA = a.paymentTime.getTime();
+    const timeB = b.paymentTime.getTime();
+
+    return timeA - timeB;
   });
+
 
   const displayedAttendees = filteredAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 

@@ -60,7 +60,7 @@ export default function AdminConference() {
         <Divider sx={{ margin: '20px 0' }} />
         <Box sx={{ textAlign: 'left' }}>
           <Typography variant="subtitle1">
-            {confData?.attendees.length} registrants
+            {confData?.registrants} registrants
           </Typography>
           <Typography variant="subtitle1">Prices:</Typography>
           {Object.entries(confData?.prices || {}).map(([category, price]) => (
