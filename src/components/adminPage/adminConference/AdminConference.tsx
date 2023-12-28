@@ -45,8 +45,6 @@ export default function AdminConference() {
     };
   }, [confCode]);
 
-  
-
   return (
     <>
       <PaymentModal orderID={orderID} open={!!orderID} onClose={() => setOrderID(null)} />
