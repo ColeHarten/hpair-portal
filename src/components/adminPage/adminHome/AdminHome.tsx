@@ -21,9 +21,7 @@ const AdminHome: React.FC = () => {
     return () => unsubscribe();
   }, []);
   
-  // Now, 'confs' state will be updated in real-time when conferences change
   
-
   return (
     <Box>
       <MenuBar />

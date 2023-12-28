@@ -1,8 +1,7 @@
-import { Unsubscribe, arrayUnion, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
-import { onSnapshot } from 'firebase/firestore';
+import { Unsubscribe, doc, getDoc, increment, onSnapshot, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
-import {User, Payment, Conference} from './types';
+import { Conference, Payment, User } from './types';
 
 // Synchronize users table upon login
 export async function syncUsers(user: User): Promise<void> {
@@ -67,6 +66,7 @@ export async function getUserData(uid: string): Promise<User | null> {
                conferenceCode: userDoc.data().conferenceCode ?? null,
                ticketClass: userDoc.data().ticketClass ?? null,
                paymentID: userDoc.data().paymentID ?? null,
+               paymentTime: userDoc.data().paymentTime ? new Date(userDoc.data().paymentTime.seconds * 1000) : null,
            };
            return user;
        } else {
@@ -109,7 +109,9 @@ export async function addConferenceCode(uid : string, joinCode : string, payment
          paymentID: paymentID,
       });
       await updateDoc(doc(db, 'conferences', conferenceCode), {
-         attendees: arrayUnion(uid),
+         // increment registrants by 1
+         registrants: increment(1),
+         
       });
    } catch (error) {
       console.error(error);
@@ -166,8 +168,8 @@ export function subscribeToConferences(callback: (data: Conference[]) => void): 
      const conferences: Conference[] = snapshot.docs.map((doc: any) => ({
          conferenceCode: doc.id,
          conferenceName: doc.data().conferenceName,
-         attendees: doc.data().attendees,
          prices: doc.data().prices,
+         registrants: doc.data().registrants,
      }));
      // Pass the document data to the callback
      callback(conferences);
@@ -184,18 +186,18 @@ export function subscribeToConference(confId: string, callback: (data: Conferenc
    // Set up onSnapshot listener and provide the callback function
    const unsubscribe = onSnapshot(conferenceRef, (docSnapshot: any) => {
      if (docSnapshot.exists()) {
-       // Pass the document data to the callback
-       const conferenceData: Conference = {
-         conferenceCode: docSnapshot.id,
-         conferenceName: docSnapshot.data().conferenceName,
-         attendees: docSnapshot.data().attendees,
-         prices: docSnapshot.data().prices,
-       };
-       callback(conferenceData);
-     } else {
-       // Handle document not found
-       console.log(`Conference with ID ${confId} not found`);
-     }
+         // Pass the document data to the callback
+         const conferenceData: Conference = {
+            conferenceCode: docSnapshot.id,
+            conferenceName: docSnapshot.data().conferenceName,
+            prices: docSnapshot.data().prices,
+            registrants: docSnapshot.data().registrants,
+         };
+         callback(conferenceData);
+      } else {
+         // Handle document not found
+         console.log(`Conference with ID ${confId} not found`);
+      }
    });
  
    // Return the unsubscribe function to allow unsubscribing later

@@ -5,6 +5,7 @@ export interface User {
     conferenceCode: string | null;
     ticketClass: string | null;
     paymentID: string | null;
+    paymentTime: Date | null;
 };
 
 export interface Payment {
@@ -20,6 +21,6 @@ export interface Payment {
 export interface Conference {
     conferenceCode: string;
     conferenceName: string;
-    attendees: string[]; 
     prices?: Record<string, number>;
+    registrants: number;
 };
