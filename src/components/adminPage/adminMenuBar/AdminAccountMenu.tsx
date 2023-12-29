@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { auth } from '../../../utils/firebase';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 export default function AdminAccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +34,7 @@ export default function AdminAccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-              <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> 
+              <Avatar sx={{ width: 32, height: 32 }}><SupervisorAccountIcon /></Avatar> 
           </IconButton>
         </Tooltip>
       </Box>
