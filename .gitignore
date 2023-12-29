@@ -26,4 +26,7 @@ yarn-error.log*
 /functions/node_modules
 /functions/aws-config.json
 
-/.firebase/
+.firebase/
+
+ui-debug.log
+.firebaserc
