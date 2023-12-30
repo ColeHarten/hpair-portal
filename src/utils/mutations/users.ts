@@ -132,4 +132,26 @@ export function subscribeToUsersInConf(confCode : string, callback : (data: User
        callback(users);
     });
     return unsubscribe;
+}
+
+// mutation to remove user from the conference, the payment document is saved for record keeping
+export async function removeUser(uid : string, conferenceCode : string) : Promise <boolean> {
+    try {
+        const userRef = doc(db, 'users', uid);
+        // remove this user from the conference
+        await updateDoc(userRef, {
+            conferenceCode: null,
+            ticketClass: null,
+            paymentID: null,
+            paymentTime: null,
+        });
+        // decrement the conference counter
+        await updateDoc(doc(db, 'conferences', conferenceCode), {
+            registrants: increment(-1),
+        });
+        return true;
+    } catch (error) {
+       console.error(error);
+       return false;
+    }
  }

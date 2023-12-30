@@ -3,16 +3,18 @@ import { Box, Dialog, DialogContent, DialogTitle, Divider, Typography } from '@m
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { getPaymentInfo } from '../../../utils/mutations/payments';
-import { Payment } from '../../../utils/types';
+import { Payment, User } from '../../../utils/types';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 interface Props {
-  orderID: string | null;
-  open: boolean;
-  onClose: () => void;
+  user : User | null;
 }
 
-const AdminConferencePaymentModal: React.FC<Props> = ({ orderID, open, onClose }) => {
+const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
   const [paymentInfo, setPaymentInfo] = useState<Payment | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const orderID : string | null = user?.paymentID ?? null;
 
   useEffect(() => {
     if (open && orderID) {
@@ -29,11 +31,15 @@ const AdminConferencePaymentModal: React.FC<Props> = ({ orderID, open, onClose }
   }, [open, orderID]);
   
   return (
-    <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
+    <>
+    <IconButton onClick={() => setOpen(true)}>
+                  <LaunchIcon />
+                </IconButton>
+    <Dialog onClose={()=>setOpen(false)} open={open} maxWidth="md" fullWidth>
       <Box style={{ padding: '20px' }}>
         <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h5">Payment</Typography>
-          <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close">
+          <Typography variant="h5">{user?.displayName}</Typography>
+          <IconButton edge="end" color="inherit" onClick={()=>setOpen(false)} aria-label="close">
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -49,7 +55,8 @@ const AdminConferencePaymentModal: React.FC<Props> = ({ orderID, open, onClose }
         </DialogContent>
       </Box>
     </Dialog>
+  </>
   );
 };
 
-export default AdminConferencePaymentModal;
+export default AdminConferenceUserModal;

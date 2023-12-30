@@ -1,16 +1,14 @@
-import LaunchIcon from '@mui/icons-material/Launch';
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 import { User } from '../../../utils/types';
+import AdminConferenceUserModal from './AdminConferenceUserModal';
 
 interface Props {
   attendees: User[];
-  setOrderID: React.Dispatch<React.SetStateAction<string | null>>;
   searchQuery: string;
 }
 
-const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, searchQuery }) => {
+const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees,  searchQuery }) => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
 
@@ -67,9 +65,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
               <TableCell>{attendee.ticketClass}</TableCell>
               <TableCell>{attendee.paymentID}</TableCell>
               <TableCell>
-                  <IconButton onClick={() => setOrderID(attendee.paymentID)}>
-                  <LaunchIcon />
-                </IconButton>
+                  <AdminConferenceUserModal user={attendee} />
               </TableCell>
             </TableRow>
           ))}
