@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from 'react';
 import { auth } from '../../utils/firebase';
-import { syncUsers } from '../../utils/mutations';
+import { syncUsers } from '../../utils/mutations/users';
 import type { User } from '../../utils/types';
 import PasswordInput from "./PasswordInput";
 

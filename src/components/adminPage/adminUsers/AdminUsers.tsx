@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
-import { subscribeToUsers } from '../../../utils/mutations';
+import { subscribeToUsers } from '../../../utils/mutations/users';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminUsersTable from './AdminUsersTable';
 import { User } from '../../../utils/types';

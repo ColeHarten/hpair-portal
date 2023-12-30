@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { subscribeToConference, subscribeToUsersInConf } from '../../../utils/mutations';
+import { subscribeToConference } from '../../../utils/mutations/conferences';
+import { subscribeToUsersInConf } from '../../../utils/mutations/users';
 import { Box, Divider, TextField, Typography } from '@mui/material';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceAttendeeTable from './AdminConferenceAttendeeTable';
-import PaymentModal from './AdminConferencePaymentModal';
 import { Conference, User } from '../../../utils/types';
 
 export default function AdminConference() {
@@ -12,7 +12,6 @@ export default function AdminConference() {
 
   const [confData, setConfData] = useState<Conference | null>(null);
   const [attendees, setAttendees] = useState<User[]>([]); 
-  const [orderID, setOrderID] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
@@ -47,7 +46,6 @@ export default function AdminConference() {
 
   return (
     <>
-      <PaymentModal orderID={orderID} open={!!orderID} onClose={() => setOrderID(null)} />
       <MenuBar />
       <Box sx={{ marginTop: '64px', padding: '10px' }}>
         <Box sx={{ textAlign: 'center' }}>
@@ -75,7 +73,7 @@ export default function AdminConference() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <AdminConferenceAttendeeTable attendees={attendees} setOrderID={setOrderID} searchQuery={searchQuery} />
+        <AdminConferenceAttendeeTable attendees={attendees} searchQuery={searchQuery} />
       </Box>
     </>
   );

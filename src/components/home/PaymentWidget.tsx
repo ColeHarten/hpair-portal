@@ -2,7 +2,8 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios from 'axios';
 import React from 'react';
 import { CLIENT_ID } from '../../config/Config';
-import { addConferenceCode, addPaymentInfo } from '../../utils/mutations';
+import { addConferenceCode } from '../../utils/mutations/users';
+import { addPaymentInfo } from '../../utils/mutations/payments';
 import type { Payment, User } from '../../utils/types';
 
 interface PaymentWidgetProps {

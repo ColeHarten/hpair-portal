@@ -10,7 +10,6 @@ interface AdminConferenceCardProps {
 const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({ conf }) => {
   const navigate = useNavigate();
 
-  console.log(conf)
   return (
     <Paper elevation={3} sx={{ margin: '10px', height: '100%' }}>
       <Box

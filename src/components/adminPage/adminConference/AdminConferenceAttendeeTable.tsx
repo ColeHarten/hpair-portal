@@ -1,16 +1,14 @@
-import LaunchIcon from '@mui/icons-material/Launch';
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 import { User } from '../../../utils/types';
+import AdminConferenceUserModal from './AdminConferenceUserModal';
 
 interface Props {
   attendees: User[];
-  setOrderID: React.Dispatch<React.SetStateAction<string | null>>;
   searchQuery: string;
 }
 
-const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, searchQuery }) => {
+const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees,  searchQuery }) => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
 
@@ -31,19 +29,17 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
   })
   .slice() // Create a shallow copy of the array
   .sort((a, b) => {
-    if (!a || !b || !a.paymentTime || !b.paymentTime) {
-      return 0;
-    }
-
     // Assuming paymentTime is a Date object
-    const timeA = a.paymentTime.getTime();
-    const timeB = b.paymentTime.getTime();
+    const timeA = a.paymentTime?.getTime() ?? 0;
+    const timeB = b.paymentTime?.getTime() ?? 0;
 
-    return timeA - timeB;
+    return timeB - timeA ;
   });
 
 
+
   const displayedAttendees = filteredAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
 
   return (
     <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -69,9 +65,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
               <TableCell>{attendee.ticketClass}</TableCell>
               <TableCell>{attendee.paymentID}</TableCell>
               <TableCell>
-                  <IconButton onClick={() => setOrderID(attendee.paymentID)}>
-                  <LaunchIcon />
-                </IconButton>
+                  <AdminConferenceUserModal user={attendee} />
               </TableCell>
             </TableRow>
           ))}
