@@ -6,7 +6,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { sha256 } from 'crypto-hash';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebase';
-import { addConferenceCode, getConferenceData, isValidConfCode, isValidTicketClass } from '../../utils/mutations';
+import { getConferenceData} from '../../utils/mutations/conferences';
+import { addConferenceCode, isValidConfCode, isValidTicketClass } from '../../utils/mutations/users';
 import PaymentWidget from './PaymentWidget';
 import type { Conference, User } from '../../utils/types';
 

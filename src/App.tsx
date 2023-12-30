@@ -12,7 +12,7 @@ import Social from './components/confPage/social/Social';
 import Store from './components/confPage/store/Store';
 import Home from './components/home/Home';
 import { auth } from './utils/firebase';
-import { getUserData } from "./utils/mutations";
+import { getUserData } from "./utils/mutations/users";
 
 import AdminConference from './components/adminPage/adminConference/AdminConference';
 import AdminHome from './components/adminPage/adminHome/AdminHome';

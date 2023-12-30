@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceCardProps from './AdminConferenceCard';
-import { subscribeToConferences } from '../../../utils/mutations';
+import { subscribeToConferences } from '../../../utils/mutations/conferences';
 import MuiAlert from '@mui/material/Alert';
 import { Conference } from '../../../utils/types';
 

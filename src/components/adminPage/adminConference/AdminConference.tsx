@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { subscribeToConference, subscribeToUsersInConf } from '../../../utils/mutations';
+import { subscribeToConference } from '../../../utils/mutations/conferences';
+import { subscribeToUsersInConf } from '../../../utils/mutations/users';
 import { Box, Divider, TextField, Typography } from '@mui/material';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceAttendeeTable from './AdminConferenceAttendeeTable';

@@ -31,19 +31,17 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees, setOrderID, 
   })
   .slice() // Create a shallow copy of the array
   .sort((a, b) => {
-    if (!a || !b || !a.paymentTime || !b.paymentTime) {
-      return 0;
-    }
-
     // Assuming paymentTime is a Date object
-    const timeA = a.paymentTime.getTime();
-    const timeB = b.paymentTime.getTime();
+    const timeA = a.paymentTime?.getTime() ?? 0;
+    const timeB = b.paymentTime?.getTime() ?? 0;
 
-    return timeA - timeB;
+    return timeB - timeA ;
   });
 
 
+
   const displayedAttendees = filteredAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
 
   return (
     <Box sx={{ width: '100%', overflow: 'auto' }}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import { getUserData } from '../utils/mutations';
+import { getUserData } from '../utils/mutations/users';
 import type { User } from '../utils/types';
 
 interface SuccessPageProps {

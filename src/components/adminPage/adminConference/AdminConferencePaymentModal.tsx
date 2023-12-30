@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Dialog, DialogContent, DialogTitle, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { getPaymentInfo } from '../../../utils/mutations';
+import { getPaymentInfo } from '../../../utils/mutations/payments';
 import { Payment } from '../../../utils/types';
 
 interface Props {
