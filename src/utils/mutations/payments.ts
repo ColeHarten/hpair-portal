@@ -24,7 +24,6 @@ export async function addPaymentInfo(paymentInfo : Payment) : Promise<void> {
     try {
        const paymentRef = doc(db, 'payments', orderID);
        const paymentDoc = await getDoc(paymentRef);
-       console.log(paymentDoc.data());
        if (paymentDoc.exists()) {
           const payment : Payment = {
              uid: paymentDoc.data().uid,

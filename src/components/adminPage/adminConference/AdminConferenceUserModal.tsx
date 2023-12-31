@@ -6,6 +6,7 @@ import { getPaymentInfo } from '../../../utils/mutations/payments';
 import { Payment, User } from '../../../utils/types';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { removeUser } from '../../../utils/mutations/users';
+import { Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 
 interface Props {
   user : User | null;
@@ -23,7 +24,6 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
       getPaymentInfo(orderID).then((data: Payment | null) => {
         if (data) {
           setPaymentInfo(data);
-          console.log(data);
         } else {
           // Handle case where payment information is not found
           console.error(`Payment information for orderID ${orderID} not found`);
@@ -49,43 +49,72 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
       alert("Incorrect password. User removal cancelled.");
     }
   }
-  
   return (
     <>
-    <IconButton onClick={() => setOpen(true)}>
-      <MoreHorizIcon />
-    </IconButton>
-    <Dialog onClose={() => setOpen(false)} open={open} maxWidth="md" fullWidth>
-    <Box style={{ padding: '20px' }}>
-      <DialogTitle
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingRight: '16px', // Add some right padding for the close button
-        }}
-      >
-        <Typography variant="h5">{user?.displayName}</Typography>
-        <IconButton edge="end" color="inherit" onClick={() => setOpen(false)} aria-label="close">
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <Divider />
-      <DialogContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-        <Typography>Amount: ${paymentInfo?.amount}</Typography>
-        <Typography>
-          Time: {paymentInfo?.paymentTime?.toLocaleString() ?? ''}
-        </Typography>
-        <Typography>Join Code: {paymentInfo?.joinCode}</Typography>
-        <Typography>Payer Id: {paymentInfo?.payerID}</Typography>
-        <Typography>Order Id: {paymentInfo?.orderID}</Typography>
-        <Button onClick={handleRemoveUser} style={{ alignSelf: 'flex-end', marginTop: '16px' }}>
-          Remove User
-        </Button>
-      </DialogContent>
-    </Box>
-  </Dialog>
-  </>
+      <IconButton onClick={() => setOpen(true)}>
+        <MoreHorizIcon />
+      </IconButton>
+      <Dialog onClose={() => setOpen(false)} open={open} maxWidth="md" fullWidth>
+        <Box style={{ padding: '20px' }}>
+          <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h5">{user?.displayName}</Typography>
+            <IconButton edge="end" color="inherit" onClick={() => setOpen(false)} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <Divider />
+          <DialogContent>
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      UID:
+                    </TableCell>
+                    <TableCell>{user?.uid}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Amount:
+                    </TableCell>
+                    <TableCell>${paymentInfo?.amount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Time:
+                    </TableCell>
+                    <TableCell>{paymentInfo?.paymentTime?.toLocaleString() ?? ''}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Join Code:
+                    </TableCell>
+                    <TableCell>{paymentInfo?.joinCode ?? 'N/A'}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Payer Id:
+                    </TableCell>
+                    <TableCell>{paymentInfo?.payerID}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Order Id:
+                    </TableCell>
+                    <TableCell>{paymentInfo?.orderID}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Box style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <Button onClick={handleRemoveUser}>
+                Remove User
+              </Button>
+            </Box>
+          </DialogContent>
+        </Box>
+      </Dialog>
+    </>
   );
 };
 
