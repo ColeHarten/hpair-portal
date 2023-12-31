@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { getPaymentInfo } from '../../../utils/mutations/payments';
 import { Payment, User } from '../../../utils/types';
-import LaunchIcon from '@mui/icons-material/Launch';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { removeUser } from '../../../utils/mutations/users';
 
 interface Props {
@@ -23,13 +23,15 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
       getPaymentInfo(orderID).then((data: Payment | null) => {
         if (data) {
           setPaymentInfo(data);
+          console.log(data);
         } else {
           // Handle case where payment information is not found
-          console.log(`Payment information for orderID ${orderID} not found`);
+          console.error(`Payment information for orderID ${orderID} not found`);
         }
       });
     }
   }, [open, orderID]);
+
 
   async function handleRemoveUser() {
     // Ask the user for a password
@@ -51,7 +53,7 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
   return (
     <>
     <IconButton onClick={() => setOpen(true)}>
-      <LaunchIcon />
+      <MoreHorizIcon />
     </IconButton>
     <Dialog onClose={() => setOpen(false)} open={open} maxWidth="md" fullWidth>
     <Box style={{ padding: '20px' }}>

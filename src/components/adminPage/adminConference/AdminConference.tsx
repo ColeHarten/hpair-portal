@@ -1,18 +1,17 @@
+import { Box, Divider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { subscribeToConference } from '../../../utils/mutations/conferences';
 import { subscribeToUsersInConf } from '../../../utils/mutations/users';
-import { Box, Divider, TextField, Typography } from '@mui/material';
+import { Conference, User } from '../../../utils/types';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceAttendeeTable from './AdminConferenceAttendeeTable';
-import { Conference, User } from '../../../utils/types';
 
 export default function AdminConference() {
   const { confCode } = useParams<{ confCode: string }>();
 
   const [confData, setConfData] = useState<Conference | null>(null);
   const [attendees, setAttendees] = useState<User[]>([]); 
-  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     // Check if confCode is defined, use a default value if not
@@ -65,15 +64,8 @@ export default function AdminConference() {
             </Typography>
           ))}
         </Box>
-        <TextField
-            label="Search"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <AdminConferenceAttendeeTable attendees={attendees} searchQuery={searchQuery} />
+  
+        <AdminConferenceAttendeeTable attendees={attendees} />
       </Box>
     </>
   );
