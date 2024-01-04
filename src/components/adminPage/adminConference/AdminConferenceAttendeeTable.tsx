@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Button,
   MenuItem,
   Select,
   Table,
@@ -16,6 +17,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import React, { useEffect, useState } from 'react';
 import { User } from '../../../utils/types';
 import AdminConferenceUserModal from './AdminConferenceUserModal';
+import DownloadIcon from '@mui/icons-material/Download';
+import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 
 interface Props {
   attendees: User[];
@@ -27,6 +30,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterTicketClass, setFilterTicketClass] = useState<string>('');
   const [uniqueTicketClasses, setUniqueTicketClasses] = useState<string[]>([]);
+  const [downloaded, setDownloaded] = useState<boolean>(false);
 
   useEffect(() => {
     // Extract unique ticket classes from attendees
@@ -61,11 +65,44 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
 
   const displayedAttendees = filteredAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+  /**
+   * Downloads a CSV file containing registrant information.
+   * Registrant information includes displayName, email, uid, ticketClass, and paymentTime.
+   * If paymentTime is not available, an empty string is used.
+   * The downloaded file is named 'registrants.csv'.
+  */
+  const handleDownload = async () => {
+    const csv = displayedAttendees.map((attendee) => {
+      const { displayName, email, uid, ticketClass } = attendee;
+      return `${displayName},${email},${uid},${ticketClass}, ${attendee.paymentTime?.getTime() ?? ''}`;
+    });
+    const csvString = csv.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+  
+    // Create an anchor element
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'registrants.csv';
+  
+    // Append the anchor element to the document
+    document.body.appendChild(a);
+  
+    // Programmatically trigger a click on the anchor element
+    a.click();
+  
+    // Remove the anchor element from the document
+    document.body.removeChild(a);
+  
+    setDownloaded(true);
+  }
+  
   return (
   <Box sx={{ width: '100%', overflow: 'auto', marginBottom: '20px' }}>
 
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%' }}>
-    <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+  <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', width: '100%' }}>
+  <Box sx={{display: "flex", gap:'20px'}}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
       <Typography variant="body2">Search for user</Typography>
       <TextField
         variant="outlined"
@@ -83,7 +120,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
       />
     </Box>
 
-    <Box sx={{ display: 'flex', flexDirection: 'column', minWidth:'200px'}}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minWidth:'200px', marginRight: 'auto' }}>
       <Typography variant="body2">Filter by class</Typography>
       <Select
         id="ticket-class-filter"
@@ -99,9 +136,19 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
           </MenuItem>
         ))}
       </Select>
-
     </Box>
   </Box>
+
+  <Button
+    variant="text"
+    startIcon={downloaded ? <FileDownloadDoneIcon /> : <DownloadIcon />}
+    onClick={handleDownload}
+    sx={{ color: 'black' }}
+  >
+    Download
+  </Button>
+</Box>
+
 
   <Table
     sx={{
