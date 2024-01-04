@@ -72,12 +72,22 @@ const AdminConferenceregistrantTable: React.FC<Props> = ({ registrants }) => {
    * The downloaded file is named 'registrants.csv'.
   */
   const handleDownload = async () => {
-    const csv = registrants.map((registrant) => {
+    // Add column names as the first row
+    const columnNames = 'DisplayName,Email,UID,TicketClass,PaymentTime';
+    
+    // Map the registrants data to CSV format
+    const csvData = registrants.map((registrant) => {
       const { displayName, email, uid, ticketClass } = registrant;
-      return `${displayName},${email},${uid},${ticketClass}, ${registrant.paymentTime?.getTime() ?? ''}`;
+      return `${displayName},${email},${uid},${ticketClass},${registrant.paymentTime?.getTime() ?? ''}`;
     });
-    const csvString = csv.join('\n');
+  
+    // Combine column names and registrants data
+    const csvString = `${columnNames}\n${csvData.join('\n')}`;
+    
+    // Create a Blob with the CSV data
     const blob = new Blob([csvString], { type: 'text/csv' });
+  
+    // Create a download URL for the Blob
     const url = window.URL.createObjectURL(blob);
   
     // Create an anchor element
@@ -96,6 +106,7 @@ const AdminConferenceregistrantTable: React.FC<Props> = ({ registrants }) => {
   
     setDownloaded(true);
   }
+  
   
   return (
   <Box sx={{ width: '100%', overflow: 'auto', marginBottom: '20px' }}>
