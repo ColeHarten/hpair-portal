@@ -5,6 +5,7 @@ import AdminConferenceCardProps from './AdminConferenceCard';
 import { subscribeToConferences } from '../../../utils/mutations/conferences';
 import MuiAlert from '@mui/material/Alert';
 import { Conference } from '../../../utils/types';
+import AdminConferenceCreateConferenceModal from './AdminConferenceCreateConferenceModal';
 
 // ADMIN HOMEPAGE
 
@@ -30,7 +31,9 @@ const AdminHome: React.FC = () => {
           Attention! You are irreversibly editing the database directly with administrator privileges.
           Any changes can be highly destructive!
         </MuiAlert>
-
+        <Box sx={{display: 'flex', justifyContent:'center', margin:'10px'}}>
+          <AdminConferenceCreateConferenceModal />
+        </Box>
         <Grid container item spacing={3} justifyContent="center">
         {confs?.map((conf: Conference) => (
           <Grid item key={conf.conferenceCode} xs={12} sm={6} md={4} lg={3}>
