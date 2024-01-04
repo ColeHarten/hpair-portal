@@ -21,10 +21,10 @@ import DownloadIcon from '@mui/icons-material/Download';
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 
 interface Props {
-  attendees: User[];
+  registrants: User[];
 }
 
-const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
+const AdminConferenceregistrantTable: React.FC<Props> = ({ registrants }) => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -33,10 +33,10 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
   const [downloaded, setDownloaded] = useState<boolean>(false);
 
   useEffect(() => {
-    // Extract unique ticket classes from attendees
-    const uniqueClasses = new Set(attendees.map((attendee) => attendee.ticketClass));
+    // Extract unique ticket classes from registrants
+    const uniqueClasses = new Set(registrants.map((registrant) => registrant.ticketClass));
     setUniqueTicketClasses(Array.from(uniqueClasses) as string[]);
-  }, [attendees]);
+  }, [registrants]);
 
   const handleChangePage = (_: any, newPage: number) => {
     setPage(newPage);
@@ -47,9 +47,9 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
     setPage(0);
   };
 
-  const filteredAttendees = attendees
-    .filter((attendee) => {
-      const { displayName, email, uid, ticketClass } = attendee;
+  const filteredregistrants = registrants
+    .filter((registrant) => {
+      const { displayName, email, uid, ticketClass } = registrant;
       const searchTerms = [displayName, email, uid, ticketClass].map((term) => term?.toLowerCase());
       return (
         searchTerms.some((term) => term?.includes(searchQuery.toLowerCase())) &&
@@ -63,7 +63,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
       return timeB - timeA;
     });
 
-  const displayedAttendees = filteredAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const displayedregistrants = filteredregistrants.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   /**
    * Downloads a CSV file containing registrant information.
@@ -72,9 +72,9 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
    * The downloaded file is named 'registrants.csv'.
   */
   const handleDownload = async () => {
-    const csv = displayedAttendees.map((attendee) => {
-      const { displayName, email, uid, ticketClass } = attendee;
-      return `${displayName},${email},${uid},${ticketClass}, ${attendee.paymentTime?.getTime() ?? ''}`;
+    const csv = registrants.map((registrant) => {
+      const { displayName, email, uid, ticketClass } = registrant;
+      return `${displayName},${email},${uid},${ticketClass}, ${registrant.paymentTime?.getTime() ?? ''}`;
     });
     const csvString = csv.join('\n');
     const blob = new Blob([csvString], { type: 'text/csv' });
@@ -168,21 +168,21 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
     </TableRow>
   </TableHead>
   <TableBody>
-    {displayedAttendees.map((attendee, index) => (
-      <TableRow key={attendee.uid} sx={{ height: '40px' }}>
+    {displayedregistrants.map((registrant, index) => (
+      <TableRow key={registrant.uid} sx={{ height: '40px' }}>
         <TableCell sx={{ padding: '8px' }}>{index + 1 + page * rowsPerPage}</TableCell>
-        <TableCell sx={{ padding: '8px' }}>{attendee.displayName}</TableCell>
+        <TableCell sx={{ padding: '8px' }}>{registrant.displayName}</TableCell>
         <TableCell sx={{ padding: '8px' }}>
-          {attendee.paymentTime?.toLocaleDateString('en-US', {
+          {registrant.paymentTime?.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric',
           }) ?? ''}
         </TableCell>
-        <TableCell sx={{ padding: '8px' }}>{attendee.email}</TableCell>
-        <TableCell sx={{ padding: '8px' }}>{attendee.ticketClass}</TableCell>
+        <TableCell sx={{ padding: '8px' }}>{registrant.email}</TableCell>
+        <TableCell sx={{ padding: '8px' }}>{registrant.ticketClass}</TableCell>
         <TableCell sx={{ padding: '8px' }}>
-          <AdminConferenceUserModal user={attendee} />
+          <AdminConferenceUserModal user={registrant} />
         </TableCell>
       </TableRow>
     ))}
@@ -192,7 +192,7 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
     <TablePagination
       rowsPerPageOptions={[25, 50, 100]}
       component="div"
-      count={filteredAttendees.length}
+      count={filteredregistrants.length}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}
@@ -202,4 +202,4 @@ const AdminConferenceAttendeeTable: React.FC<Props> = ({ attendees }) => {
   );
 };
 
-export default AdminConferenceAttendeeTable;
+export default AdminConferenceregistrantTable;

@@ -5,13 +5,13 @@ import { subscribeToConference } from '../../../utils/mutations/conferences';
 import { subscribeToUsersInConf } from '../../../utils/mutations/users';
 import { Conference, User } from '../../../utils/types';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
-import AdminConferenceAttendeeTable from './AdminConferenceAttendeeTable';
+import AdminConferenceregistrantTable from './AdminConferenceRegistrantTable';
 
 export default function AdminConference() {
   const { confCode } = useParams<{ confCode: string }>();
 
   const [confData, setConfData] = useState<Conference | null>(null);
-  const [attendees, setAttendees] = useState<User[]>([]); 
+  const [registrants, setregistrants] = useState<User[]>([]); 
 
   useEffect(() => {
     // Check if confCode is defined, use a default value if not
@@ -31,7 +31,7 @@ export default function AdminConference() {
 
     const unsubscribeUsersInConf = subscribeToUsersInConf(code, (data: User[] | null): void => {
       if (data) {
-        setAttendees(data);
+        setregistrants(data);
       } else {
         // Handle case where user data is not found
         console.log(`Users in conference with code ${code} not found`);
@@ -67,7 +67,7 @@ export default function AdminConference() {
           ))}
         </Box>
   
-        <AdminConferenceAttendeeTable attendees={attendees} />
+        <AdminConferenceregistrantTable registrants={registrants} />
       </Box>
     </>
   );
