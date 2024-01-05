@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { updateConference } from '../../../utils/mutations/conferences';
 import React, { useState } from 'react';
 import { Conference } from '../../../utils/types';
 
@@ -25,22 +26,56 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
   const [editing, setEditing] = useState<{ [key: string]: boolean }>({});
 
   const [conferenceName, setConferenceName] = useState<string>(conference?.conferenceName || '');
-  const [conferenceCode, setConferenceCode] = useState<string>(conference?.conferenceCode || '');
 
   const [editedLabels, setEditedLabels] = useState<string[]>(Object.keys(conference?.prices || []));
   const [editedValues, setEditedValues] = useState<number[]>(Object.values(conference?.prices || []));
 
-  const handleUpdateConference = () => {
-    // Your implementation here
+  const resetState = async () => {
+    setEditing({});
+    setConferenceName(conference?.conferenceName || '');
+    setEditedLabels(Object.keys(conference?.prices || []));
+    setEditedValues(Object.values(conference?.prices || []));
+  };
 
+  const handleUpdateConference = () => {
+    if(conferenceName === ''){
+      alert("Conference name cannot be empty!");
+      return;
+    }
+
+    if(editedLabels.includes("")){
+      alert("Price labels cannot be empty!");
+      return;
+    }
+
+    // stitch together the edited labels and values into a single Record
+    const editedPrices = editedLabels.reduce((obj, label, index) => {
+      obj[label] = editedValues[index];
+      return obj;
+    }, {} as Record<string, number>);
+
+    const updatedConference = {
+      conferenceCode : conference.conferenceCode,
+      registrants : conference.registrants ?? 0,
+      conferenceName : conferenceName,
+      prices: editedPrices,
+    }; 
+
+    console.log(updatedConference);
+    
+    // update the conference in the database
+    updateConference(updatedConference);
+
+    // close the modal
     setOpen(false);
+    resetState();
   };
 
   const handleAddPrice = () => {
-    const newLabel = '';
-    setEditedLabels((prevLabels) => [...prevLabels, newLabel]);
+    const count = editedLabels.length;
+    setEditedLabels((prevLabels) => [...prevLabels, '']);
     setEditedValues((prevValues) => [...prevValues, 0]);
-    setEditing((prevEditing) => ({ ...prevEditing, [newLabel + 'label']: true, [newLabel + 'value']: true }));
+    setEditing((prevEditing) => ({ ...prevEditing, ['label'+count]: true, ['value'+count]: true }));
   };
 
   const handleRemovePrice = (index: number) => {
@@ -57,14 +92,14 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
 
     // Optionally, you can also update the editing state
     const updatedEditing = { ...editing };
-    delete updatedEditing[index + 'label'];
-    delete updatedEditing[index + 'value'];
+    delete updatedEditing['label'+index];
+    delete updatedEditing['value'+index];
     setEditing(updatedEditing);
   };
 
   const handlePriceChange = (index: number, type: string, value: string) => {
     if (type === 'label') {
-      if (!value.match(/[A-Z]/)) { return; }
+      if (!value.match(/[A-Z]/) && value !== "") { return; }
 
       setEditedLabels((prevLabels: string[]) => {
         const updatedLabels = [...prevLabels];
@@ -82,7 +117,6 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
       });
 
     }
-    setEditing((prevEditing) => ({ ...prevEditing, [index + type]: true }));
   };
 
   const handleToggleEditing = (key: string) => {
@@ -94,11 +128,18 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
       <IconButton onClick={() => setOpen(true)}>
         <EditIcon />
       </IconButton>
-      <Dialog onClose={() => setOpen(false)} open={open} maxWidth="md" fullWidth>
+      <Dialog onClose={() => {
+                setOpen(false);
+                resetState();
+              }} 
+              open={open} 
+              maxWidth="md" 
+              fullWidth
+      >
         <Box style={{ padding: '20px' }}>
-          <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h5">Edit Conference</Typography>
-            <IconButton edge="end" color="inherit" onClick={() => setOpen(false)} aria-label="close">
+          <DialogTitle component="span" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h5">{conference.conferenceCode}</Typography>
+            <IconButton edge="end" color="inherit" onClick={() => {setOpen(false); resetState();}} aria-label="close">
               <CloseIcon />
             </IconButton>
           </DialogTitle>
@@ -123,31 +164,9 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
                 ),
               }}
             />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Conference Code"
-              variant="outlined"
-              value={editing['conferenceCode'] ? conferenceCode : conference?.conferenceCode || ''}
-              required
-              onChange={(e) => setConferenceCode(e.target.value)}
-              inputProps={{
-                maxLength: 7,
-              }}
-              disabled={!editing['conferenceCode']}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => handleToggleEditing('conferenceCode')}>
-                      <EditIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
 
             {editedLabels.map((label, index) => (
-              <Box key={label} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <Box key={index} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                 <TextField
                   fullWidth
                   margin="normal"
@@ -159,11 +178,11 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
                   inputProps={{
                     maxLength: 1,
                   }}
-                  disabled={!editing[index + 'label']}
+                  disabled={!editing['label'+index]}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={() => handleToggleEditing(index + 'label')}>
+                        <IconButton onClick={() => handleToggleEditing('label'+index)}>
                           <EditIcon />
                         </IconButton>
                       </InputAdornment>
@@ -178,11 +197,11 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
                   value={editedValues[index]}
                   required
                   onChange={(e) => handlePriceChange(index, 'value', e.target.value)}
-                  disabled={!editing[index + 'value']}
+                  disabled={!editing['value'+index]}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={() => handleToggleEditing(index + 'value')} sx={{ borderRadius: '50%' }}>
+                        <IconButton onClick={() => handleToggleEditing('value'+index)} sx={{ borderRadius: '50%' }}>
                           <EditIcon />
                         </IconButton>
                       </InputAdornment>

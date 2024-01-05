@@ -68,16 +68,18 @@ export function subscribeToConferences(callback: (data: Conference[]) => void): 
 }
 
 // Function to add a new conference
-export async function addConference(conference: Conference): Promise<void> {
+export async function updateConference(conference: Conference): Promise<void> {
    try {
+      // Get a reference to the conference document
       const confRef = doc(db, 'conferences', conference.conferenceCode);
   
-      // If the user does not have an existing entry in the users table, then create it
-      const confDoc = await getDoc(confRef);
-  
-      if (!confDoc.exists()) {
-        await setDoc(confRef, conference);
-      }
+      // update the conference
+      await setDoc(confRef, {
+         conferenceName: conference.conferenceName,
+         prices: conference.prices,
+         registrants: conference.registrants,
+      });
+
     } catch (error) {
       console.error(error);
       throw error; // Rethrow the error to indicate that the synchronization failed
