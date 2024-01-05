@@ -6,6 +6,7 @@ import { subscribeToUsersInConf } from '../../../utils/mutations/users';
 import { Conference, User } from '../../../utils/types';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceregistrantTable from './AdminConferenceRegistrantTable';
+import AdminConferenceEditConferenceModal from './AdminConferenceEditConferenceModal';
 
 export default function AdminConference() {
   const { confCode } = useParams<{ confCode: string }>();
@@ -27,8 +28,6 @@ export default function AdminConference() {
       }
     });
     
-    console.log(confData)
-
     const unsubscribeUsersInConf = subscribeToUsersInConf(code, (data: User[] | null): void => {
       if (data) {
         setregistrants(data);
@@ -51,7 +50,7 @@ export default function AdminConference() {
       <Box sx={{ marginTop: '64px', padding: '10px' }}>
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h4" sx={{ marginBottom: '20px' }}>
-            {confData?.conferenceName} ({confCode})
+            {confData?.conferenceName} ({confCode}) {confData && <AdminConferenceEditConferenceModal conference={confData} />}
           </Typography>
         </Box>
         <Divider sx={{ margin: '20px 0' }} />

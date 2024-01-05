@@ -1,4 +1,4 @@
-import { Unsubscribe, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { Unsubscribe, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
 import { Conference } from '../types';
@@ -65,4 +65,21 @@ export function subscribeToConferences(callback: (data: Conference[]) => void): 
   
     // Return the unsubscribe function to allow unsubscribing later
     return unsubscribe;
-  }
+}
+
+// Function to add a new conference
+export async function addConference(conference: Conference): Promise<void> {
+   try {
+      const confRef = doc(db, 'conferences', conference.conferenceCode);
+  
+      // If the user does not have an existing entry in the users table, then create it
+      const confDoc = await getDoc(confRef);
+  
+      if (!confDoc.exists()) {
+        await setDoc(confRef, conference);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow the error to indicate that the synchronization failed
+    }
+}
