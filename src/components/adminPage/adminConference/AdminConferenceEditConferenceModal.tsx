@@ -21,51 +21,68 @@ interface Props {
 
 export default function AdminConferenceEditConferenceModal({ conference }: Props) {
   const [open, setOpen] = useState<boolean>(false);
+
   const [editing, setEditing] = useState<{ [key: string]: boolean }>({});
+
   const [conferenceName, setConferenceName] = useState<string>(conference?.conferenceName || '');
   const [conferenceCode, setConferenceCode] = useState<string>(conference?.conferenceCode || '');
-  const [prices, setPrices] = useState<Record<string, number>>(conference?.prices || {});
+
+  const [editedLabels, setEditedLabels] = useState<string[]>(Object.keys(conference?.prices || []));
+  const [editedValues, setEditedValues] = useState<number[]>(Object.values(conference?.prices || []));
 
   const handleUpdateConference = () => {
-    console.log('Conference Name:', conferenceName);
-    console.log('Conference Code:', conferenceCode);
-    console.log('Prices:', prices);
-
-    if (conferenceCode.length !== 7) {
-      alert('Conference code must be 7 characters long.');
-      return;
-    }
-    if (conferenceName.length === 0) {
-      alert('Conference name cannot be empty.');
-      return;
-    }
-    // Check if any price is undefined
-    if (Object.values(prices).some((price) => price === undefined)) {
-      alert('Prices cannot be empty.');
-      return;
-    }
+    // Your implementation here
 
     setOpen(false);
   };
 
   const handleAddPrice = () => {
-    const updatedPrices = { ...prices, [`label${Object.keys(prices).length + 1}`]: 0 };
-    setPrices(updatedPrices);
+    const newLabel = '';
+    setEditedLabels((prevLabels) => [...prevLabels, newLabel]);
+    setEditedValues((prevValues) => [...prevValues, 0]);
+    setEditing((prevEditing) => ({ ...prevEditing, [newLabel + 'label']: true, [newLabel + 'value']: true }));
   };
 
-  const handlePriceChange = (key: string, value: string) => {
-    // If the key is not an uppercase letter, throw an error
-    if (key.startsWith('label') && !value.match(/[A-Z]/) && value.length !== 0) {
-      return;
+  const handleRemovePrice = (index: number) => {
+    if(editedLabels.length === 1) {return;}
+
+    const updatedLabels = [...editedLabels];
+    const updatedValues = [...editedValues];
+
+    updatedLabels.splice(index, 1);
+    updatedValues.splice(index, 1);
+
+    setEditedLabels(updatedLabels);
+    setEditedValues(updatedValues);
+
+    // Optionally, you can also update the editing state
+    const updatedEditing = { ...editing };
+    delete updatedEditing[index + 'label'];
+    delete updatedEditing[index + 'value'];
+    setEditing(updatedEditing);
+  };
+
+  const handlePriceChange = (index: number, type: string, value: string) => {
+    if (type === 'label') {
+      if (!value.match(/[A-Z]/)) { return; }
+
+      setEditedLabels((prevLabels: string[]) => {
+        const updatedLabels = [...prevLabels];
+        updatedLabels[index] = value;
+        return updatedLabels;
+      });
+
+    } else if (type === 'value'){
+      if(isNaN(Number(value))) { return; }
+
+      setEditedValues((prevValues: number[]) => {
+        const updatedValues = [...prevValues];
+        updatedValues[index] = Number(value);
+        return updatedValues;
+      });
+
     }
-
-    const updatedPrices = { ...prices, [key]: Number(value) };
-    setPrices(updatedPrices);
-  };
-
-  const handleRemovePrice = (key: string) => {
-    const { [key]: removedPrice, ...updatedPrices } = prices;
-    setPrices(updatedPrices);
+    setEditing((prevEditing) => ({ ...prevEditing, [index + type]: true }));
   };
 
   const handleToggleEditing = (key: string) => {
@@ -92,7 +109,7 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
               margin="normal"
               label="Conference Name"
               variant="outlined"
-              value={conferenceName}
+              value={editing['conferenceName'] ? conferenceName : conference?.conferenceName || ''}
               required
               onChange={(e) => setConferenceName(e.target.value)}
               disabled={!editing['conferenceName']}
@@ -111,7 +128,7 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
               margin="normal"
               label="Conference Code"
               variant="outlined"
-              value={conferenceCode}
+              value={editing['conferenceCode'] ? conferenceCode : conference?.conferenceCode || ''}
               required
               onChange={(e) => setConferenceCode(e.target.value)}
               inputProps={{
@@ -129,24 +146,24 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
               }}
             />
 
-            {Object.entries(prices).map(([key, value]) => (
-              <Box key={key} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            {editedLabels.map((label, index) => (
+              <Box key={label} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                 <TextField
                   fullWidth
                   margin="normal"
-                  label={`Price Label ${key.slice(-1)}`}
+                  label={`Price Label ${index+1}`}
                   variant="outlined"
-                  value={key}
+                  value={label}
                   required
-                  onChange={(e) => handlePriceChange(key, e.target.value)}
+                  onChange={(e) => handlePriceChange(index, 'label', e.target.value)}
                   inputProps={{
                     maxLength: 1,
                   }}
-                  disabled={!editing[key]}
+                  disabled={!editing[index + 'label']}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={() => handleToggleEditing(key)}>
+                        <IconButton onClick={() => handleToggleEditing(index + 'label')}>
                           <EditIcon />
                         </IconButton>
                       </InputAdornment>
@@ -156,17 +173,30 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
                 <TextField
                   fullWidth
                   margin="normal"
-                  label={`Price Value ${key.slice(-1)}`}
+                  label={`Price Value ${index+1}`}
                   variant="outlined"
-                  value={value}
-                  type="number"
+                  value={editedValues[index]}
                   required
-                  onChange={(e) => handlePriceChange(key, e.target.value)}
-                  disabled={!editing[key]}
+                  onChange={(e) => handlePriceChange(index, 'value', e.target.value)}
+                  disabled={!editing[index + 'value']}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={() => handleToggleEditing(index + 'value')} sx={{ borderRadius: '50%' }}>
+                          <EditIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Typography>$</Typography>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-                {editing[key] && <IconButton onClick={() => handleRemovePrice(key)} sx={{ borderRadius: '50%' }}>
+                <IconButton onClick={() => handleRemovePrice(index)}>
                   <CloseIcon />
-                </IconButton>}
+                </IconButton>
               </Box>
             ))}
             <Button variant="outlined" onClick={handleAddPrice}>
