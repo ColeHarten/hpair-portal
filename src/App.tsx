@@ -130,6 +130,7 @@ useEffect(() => {
               <Route path="/" element={<Home user={currentUser} setUser={setCurrentUser} />} />
               <Route path="/TASHYLS/*" element={<SuccessPage user={currentUser} />} />
               <Route path="/VHYLS24/*" element={<SuccessPage user={currentUser} />} />
+              <Route path="/XCLHYLS/*" element={<SuccessPage user={currentUser} />} />
 
               <Route path="/ADMIN/" element={<AdminHome />} />
               <Route path="/ADMIN/users" element={<AdminUsers />} />
