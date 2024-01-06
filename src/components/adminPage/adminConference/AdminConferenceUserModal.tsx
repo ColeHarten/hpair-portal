@@ -19,7 +19,7 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
   const orderID : string | null = user?.paymentID ?? null;
 
   useEffect(() => {
-    if (open && orderID) {
+    if (open && orderID && orderID !== 'N/A') {
       // Fetch payment information when the modal is opened and orderID is available
       getPaymentInfo(orderID).then((data: Payment | null) => {
         if (data) {
@@ -56,7 +56,7 @@ const AdminConferenceUserModal: React.FC<Props> = ({ user } : Props) => {
       </IconButton>
       <Dialog onClose={() => setOpen(false)} open={open} maxWidth="md" fullWidth>
         <Box style={{ padding: '20px' }}>
-          <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <DialogTitle component="span" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="h5">{user?.displayName}</Typography>
             <IconButton edge="end" color="inherit" onClick={() => setOpen(false)} aria-label="close">
               <CloseIcon />
