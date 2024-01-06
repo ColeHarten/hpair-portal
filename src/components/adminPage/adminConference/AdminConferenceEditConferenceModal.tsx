@@ -48,6 +48,10 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
       return;
     }
 
+    // prompt user for password
+    const password = prompt("Please enter your password to confirm changes:");
+    if(password !== "admin123") {alert("Incorrect password!"); return;}
+
     // stitch together the edited labels and values into a single Record
     const editedPrices = editedLabels.reduce((obj, label, index) => {
       obj[label] = editedValues[index];
@@ -60,8 +64,6 @@ export default function AdminConferenceEditConferenceModal({ conference }: Props
       conferenceName : conferenceName,
       prices: editedPrices,
     }; 
-
-    console.log(updatedConference);
     
     // update the conference in the database
     updateConference(updatedConference);
