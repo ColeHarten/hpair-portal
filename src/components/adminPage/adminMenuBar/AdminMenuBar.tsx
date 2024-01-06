@@ -14,6 +14,10 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminAccountMenu from './AdminAccountMenu';
 
+const menuItems = [
+  { name: 'Users', path: 'users' },
+];
+
 export default function MenuBar() {
   const navigate = useNavigate();
   const { confCode } = useParams();
@@ -53,7 +57,16 @@ export default function MenuBar() {
               <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
             </Button>
             <Box sx={{ display: 'flex', gap: '10px' }}>
-              <Button color="inherit" style={{ textDecoration: 'none' }} onClick={() => { navigate(`/ADMIN/users`); }}>Users</Button>
+              {menuItems.map((menuItem) => (
+                <Button
+                  key={menuItem.path}
+                  color="inherit"
+                  style={{ textDecoration: 'none' }}
+                  onClick={() => { navigate(`/ADMIN/${menuItem.path}`); }}
+                >
+                  {menuItem.name}
+                </Button>
+              ))}
               <AdminAccountMenu />
             </Box>
           </>
@@ -67,7 +80,14 @@ export default function MenuBar() {
           open={Boolean(mobileMenuAnchor)}
           onClose={handleMobileMenuClose}
         >
-          <MenuItem onClick={() => handleMenuItemClick('users')}>Users</MenuItem>
+          {menuItems.map((menuItem) => (
+            <MenuItem
+              key={menuItem.path}
+              onClick={() => handleMenuItemClick(menuItem.path)}
+            >
+              {menuItem.name}
+            </MenuItem>
+          ))}
         </Menu>
       )}
     </AppBar>

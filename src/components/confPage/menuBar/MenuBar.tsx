@@ -16,9 +16,16 @@ import SupportModal from '../supportModal/SupportModal';
 
 import type { User } from '../../../utils/types';
 
+
 interface MenuBarProps {
   user: User | null;
 }
+
+const menuItems = [
+  { name: 'FAQs', path: 'faqs' },
+  { name: 'Social', path: 'social' },
+  { name: 'Store', path: 'store' },
+];
 
 export default function MenuBar({ user }: MenuBarProps) {
   const navigate = useNavigate();
@@ -38,51 +45,55 @@ export default function MenuBar({ user }: MenuBarProps) {
 
   return (
     <>
-    <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)}  />
+      <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
 
-    <AppBar position="fixed" sx={{ height: '64px', zIndex: 1 }}>
-      <Toolbar sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-        {isSmallScreen ? (
-          <>
-            <IconButton color="inherit" onClick={handleMobileMenuClick}>
-              <MenuIcon />
-            </IconButton>
-            <Button onClick={() => navigate(`/${confCode}`)}>
-              <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
-            </Button>
-            <AccountMenu user={user} confCode={confCode ?? null} supportOpen={setSupportOpen} />
-          </>
-        ) : (
-          <>
-            <Button onClick={() => navigate(`/${confCode}`)}>
-              <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
-            </Button>
-            <Box sx={{ display: 'flex', gap: '10px' }}>
-              <Button color="inherit" onClick={() => navigate(`/${confCode}/faqs`)}>
-                FAQs
-              </Button>
-              <Button color="inherit" onClick={() => navigate(`/${confCode}/social`)}>
-                Social
-              </Button>
-              <Button color="inherit" onClick={() => navigate(`/${confCode}/store`)}>
-                Store
+      <AppBar position="fixed" sx={{ height: '64px', zIndex: 1 }}>
+        <Toolbar sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+          {isSmallScreen ? (
+            <>
+              <IconButton color="inherit" onClick={handleMobileMenuClick}>
+                <MenuIcon />
+              </IconButton>
+              <Button onClick={() => navigate(`/${confCode}`)}>
+                <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
               </Button>
               <AccountMenu user={user} confCode={confCode ?? null} supportOpen={setSupportOpen} />
-            </Box>
-          </>
-        )}
-      </Toolbar>
+            </>
+          ) : (
+            <>
+              <Button onClick={() => navigate(`/${confCode}`)}>
+                <img src="/art/HPAIR Logo Banner (White).png" alt="HPAIR Logo" width={300} />
+              </Button>
+              <Box sx={{ display: 'flex', gap: '10px' }}>
+                {menuItems.map((menuItem) => (
+                  <Button
+                    key={menuItem.path}
+                    color="inherit"
+                    onClick={() => navigate(`/${confCode}/${menuItem.path}`)}
+                  >
+                    {menuItem.name}
+                  </Button>
+                ))}
+                <AccountMenu user={user} confCode={confCode ?? null} supportOpen={setSupportOpen} />
+              </Box>
+            </>
+          )}
+        </Toolbar>
 
-      {/* Mobile menu */}
-      {mobileMenuAnchor && (
-        <Menu anchorEl={mobileMenuAnchor} open={Boolean(mobileMenuAnchor)} onClose={handleMobileMenuClose}>
-          <MenuItem onClick={() => navigate(`/${confCode}/faqs`)}>FAQs</MenuItem>
-          <MenuItem onClick={() => navigate(`/${confCode}/social`)}>Social</MenuItem>
-          <MenuItem onClick={() => navigate(`/${confCode}/store`)}>Store</MenuItem>
-          {/* Add more menu items as needed */}
-        </Menu>
-      )}
-    </AppBar>
+        {/* Mobile menu */}
+        {mobileMenuAnchor && (
+          <Menu anchorEl={mobileMenuAnchor} open={Boolean(mobileMenuAnchor)} onClose={handleMobileMenuClose}>
+            {menuItems.map((menuItem) => (
+              <MenuItem
+                key={menuItem.path}
+                onClick={() => navigate(`/${confCode}/${menuItem.path}`)}
+              >
+                {menuItem.name}
+              </MenuItem>
+            ))}
+          </Menu>
+        )}
+      </AppBar>
     </>
   );
 }

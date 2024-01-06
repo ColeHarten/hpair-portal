@@ -17,11 +17,6 @@ export async function syncUsers(user: User): Promise<void> {
           displayName: user.displayName,
         });
       }
-  
-      // Return an updated list of users (modify based on your data structure)
-      // For example, you might want to fetch and return the updated user list after synchronization
-      // const updatedUsers = await getAllUsers();
-      // return updatedUsers;
     } catch (error) {
       console.error(error);
       throw error; // Rethrow the error to indicate that the synchronization failed

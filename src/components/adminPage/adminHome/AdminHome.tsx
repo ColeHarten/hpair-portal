@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import React, { useEffect, useState } from 'react';
+import { subscribeToConferences } from '../../../utils/mutations/conferences';
+import { Conference } from '../../../utils/types';
 import MenuBar from '../adminMenuBar/AdminMenuBar';
 import AdminConferenceCardProps from './AdminConferenceCard';
-import { subscribeToConferences } from '../../../utils/mutations/conferences';
-import MuiAlert from '@mui/material/Alert';
-import { Conference } from '../../../utils/types';
 
 // ADMIN HOMEPAGE
 
@@ -30,15 +30,15 @@ const AdminHome: React.FC = () => {
           Attention! You are irreversibly editing the database directly with administrator privileges.
           Any changes can be highly destructive!
         </MuiAlert>
-
-        <Grid container item spacing={3} justifyContent="center">
-        {confs?.map((conf: Conference) => (
-          <Grid item key={conf.conferenceCode} xs={12} sm={6} md={4} lg={3}>
-            <AdminConferenceCardProps conf={conf} />
+        <Box sx={{ paddingX: '50px'}}>
+          <Grid container spacing={3} justifyContent="center">
+            {confs?.map((conf: Conference) => (
+              <Grid item key={conf.conferenceCode} xs={8} sm={6} md={4} lg={4}>
+                <AdminConferenceCardProps conf={conf} />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-
+        </Box>
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Unsubscribe, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { Unsubscribe, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
 import { Conference } from '../types';
@@ -65,4 +65,23 @@ export function subscribeToConferences(callback: (data: Conference[]) => void): 
   
     // Return the unsubscribe function to allow unsubscribing later
     return unsubscribe;
-  }
+}
+
+// Function to add a new conference
+export async function updateConference(conference: Conference): Promise<void> {
+   try {
+      // Get a reference to the conference document
+      const confRef = doc(db, 'conferences', conference.conferenceCode);
+  
+      // update the conference
+      await setDoc(confRef, {
+         conferenceName: conference.conferenceName,
+         prices: conference.prices,
+         registrants: conference.registrants,
+      });
+
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow the error to indicate that the synchronization failed
+    }
+}

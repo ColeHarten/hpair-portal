@@ -33,7 +33,7 @@ const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({ conf }) => {
         </Typography>
         <Divider sx={{ marginY: '10px' }} />
         <Typography variant="subtitle1">{conf?.conferenceName}</Typography>
-        <Typography variant="subtitle1">{conf?.registrants} Registrants</Typography>
+        <Typography variant="subtitle1">{conf?.registrants ?? 0} Registrants</Typography>
         <Typography variant="subtitle1">Prices:</Typography>
         {Object.entries(conf?.prices || {}).map(([category, price]) => (
           <Typography key={category} variant="subtitle2" sx={{ marginLeft: '20px' }}>
