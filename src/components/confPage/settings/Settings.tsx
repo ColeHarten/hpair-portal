@@ -21,14 +21,16 @@ export default function SettingsPage({ user }: SettingsPageProps) {
 
   const handleChangePassword = async () => {
     try {
-      if (newPassword === confirmPassword) {
-        await reauthenticateWithPassword(user, oldPassword);
-        await updatePassword(user, newPassword);
-        alert("Password successfully changed.");
-      } else {
+      if (newPassword !== confirmPassword) {
         alert("New passwords do not match.");
+        return;
       }
+      await reauthenticateWithPassword(oldPassword);
+      await updatePassword(newPassword);
+      alert("Password successfully changed.");
+
     } catch (error) {
+      console.error(error);
       alert("Please verify your old password is correct.");
       setError("Please verify your old password is correct.");
     }
