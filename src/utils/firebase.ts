@@ -21,15 +21,20 @@ export const db = app.firestore();
 export const auth = app.auth();
 
 // Reauthentication function
-async function reauthenticateWithPassword(user : any, oldPassword : string) : Promise<any> {
-  const credentials = EmailAuthProvider.credential(user.email, oldPassword); 
-  await user.reauthenticateWithCredential(credentials);
-  return credentials;
+async function reauthenticateWithPassword(oldPassword: string): Promise<any> {
+  if(auth.currentUser && auth.currentUser.email){
+    const credentials = EmailAuthProvider.credential(auth.currentUser.email, oldPassword); 
+    await auth.currentUser.reauthenticateWithCredential(credentials);
+    return credentials;
+  }
 }
 
+
 // Password update function
-async function updatePassword(user : any, newPassword : string) : Promise<void> {
-  await user.updatePassword(newPassword);
+async function updatePassword(newPassword : string) : Promise<void> {
+  if(auth.currentUser){
+    await auth.currentUser.updatePassword(newPassword);
+  }
 }
 
 export const useAuth = () => {
