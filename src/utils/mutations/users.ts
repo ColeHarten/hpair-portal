@@ -10,7 +10,8 @@ export async function syncUsers(user: User): Promise<void> {
   
       // If the user does not have an existing entry in the users table, then create it
       const userDoc = await getDoc(userRef);
-  
+      
+      // since we are never using setDoc when the user already exists, we won't ever overwrite defined values with null
       if (!userDoc.exists()) {
         await setDoc(userRef, {
           email: user.email,

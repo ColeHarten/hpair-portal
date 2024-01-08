@@ -12,7 +12,7 @@ import Social from './components/confPage/social/Social';
 import Store from './components/confPage/store/Store';
 import Home from './components/home/Home';
 import { auth } from './utils/firebase';
-import { getUserData } from "./utils/mutations/users";
+import { getUserData, syncUsers } from "./utils/mutations/users";
 
 import AdminConference from './components/adminPage/adminConference/AdminConference';
 import AdminHome from './components/adminPage/adminHome/AdminHome';
@@ -86,6 +86,20 @@ useEffect(() => {
   const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
     setIsLoading(true);
     if (user) {
+      // if the user is signed in, sync the user data with the database
+      if(user.displayName){
+        // if the displayName hasn't been added yet, don't sync the user
+        syncUsers({
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          conferenceCode: null,
+          paymentTime: null,
+          paymentID: null,
+          ticketClass: null,
+        } as User);
+      }
+      
       const idTokenResult = await user.getIdTokenResult();
       if(idTokenResult.claims.admin){
         if(!window.location.pathname.startsWith(`/ADMIN`)){
