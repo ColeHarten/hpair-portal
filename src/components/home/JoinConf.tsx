@@ -150,7 +150,7 @@ const handleJoinConf = async (joinCode: string): Promise<void> => {
           onChange={(e) => setJoinCode(e.target.value)}
         />
         {isShowTerms && <Box sx={{display: 'flex'}}>
-        <Checkbox size="small" color="secondary" onChange={(e) => setIsVerified(e.target.checked)} />
+        <Checkbox size="small" color="secondary" onChange={(e) => setIsVerified(e.target.checked)} sx={{borderRadius: '50%'}} />
         <Typography variant="body2">By checking this box, you are confirming that you have read and understood the <a style={{ textDecoration: 'none', color: '#6e8eb8' }} href="/documents/terms_and_conditions.html" target="_blank">Terms and Conditions.</a></Typography>
         </Box> }
         <Button variant="contained" color="secondary" onClick={handleClickJoin} style={{ marginTop: '8px' }}>
